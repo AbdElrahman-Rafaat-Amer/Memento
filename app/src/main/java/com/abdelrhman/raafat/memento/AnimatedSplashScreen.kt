@@ -2,7 +2,9 @@ package com.abdelrhman.raafat.memento
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -28,7 +30,7 @@ fun AnimatedSplashScreen(onFinished: () -> Unit) {
     val progress by animateLottieCompositionAsState(
         composition = composition,
         iterations = 1,
-        speed = 1.4f
+        speed = 1f
     )
 
     LaunchedEffect(key1 = progress) {
@@ -48,7 +50,7 @@ fun AnimatedSplashScreen(onFinished: () -> Unit) {
         LottieAnimation(
             composition = composition,
             progress = { progress },
-            modifier = Modifier.size(230.dp)
+            modifier = Modifier.fillMaxSize(0.8f)
         )
     }
 }
