@@ -56,4 +56,4 @@ It will be provided later.
 # 📦 Installation
 
 Clone the repository:
-  - git clone https://github.com/your-username/memento.git
+  - git clone https://github.com/AbdElrahman-Rafaat-Amer/Memento.git
