@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
@@ -30,18 +32,26 @@ fun OnboardingContent(
     onboardingItem: OnboardingItem,
     modifier: Modifier = Modifier
 ) {
+    val windowInfo = LocalWindowInfo.current
+    val screenHeight = with(LocalDensity.current) {
+        windowInfo.containerSize.height.toDp()
+    }
+
     Column(
         modifier = modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
+        
+        Spacer(Modifier.height(screenHeight * 0.3f))
+
         Image(
             painter = painterResource(onboardingItem.imageResId),
             contentDescription = null,
             modifier = Modifier.size(260.dp)
         )
 
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(24.dp))
 
         Text(
             text = onboardingItem.title,
@@ -49,10 +59,10 @@ fun OnboardingContent(
                 lineHeight = TextUnit.Unspecified,
             ),
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(horizontal = 24.dp)
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
 
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(12.dp))
 
         Text(
             text = onboardingItem.subtitle,
@@ -60,7 +70,7 @@ fun OnboardingContent(
                 lineHeight = 22.sp,
             ),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 24.dp)
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
     }
 }

@@ -162,7 +162,6 @@ private fun OnboardingScreenPreview() {
                 .background(MaterialTheme.colorScheme.background)
         ) {
             OnboardingScreen(onFinished = {})
-
         }
     }
 }
