@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Memento</string>
+    <string name="boost_your_productivity_with_smart_reminders">Boost your productivity with smart reminders.</string>
+    <string name="never_miss_anything_important_again">Never miss anything important again.</string>
+    <string name="here_s_your_digital_personal_assistant_making_sure_your_day_is_well_panned_and_organized_giving_you_real_time_reminders_of_day_to_day_task_and_keeping_you_ahead_get_started_to_get_reminded">Here’s your digital personal assistant, making sure your day is well panned and organized, giving you real time reminders of Day to Day task and keeping you ahead. Get started to get reminded.</string>
+    <string name="create_reminders_and_stay_ahead_of_your_tasks">Create reminders and stay ahead of your tasks.</string>
+    <string name="stay_organized">Stay Organized</string>
+    <string name="smart_alerts">Smart Alerts</string>
+    <string name="focus_better">Focus Better</string>
+    <string name="unlock_a_world_of_possibilities">Unlock a world of possibilities</string>
+    <string name="get_started">Get Started</string>
+    <string name="next">Next</string>
+    <string name="start">Start</string>
+    <string name="show_onboarding">Show Onboarding</string>
+    <string name="skip">Skip</string>
 </resources>
