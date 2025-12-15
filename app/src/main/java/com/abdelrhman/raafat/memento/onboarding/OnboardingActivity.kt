@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.abdelrhman.raafat.memento.MainActivity
+import com.abdelrhman.raafat.memento.core.theme.MementoTheme
 import com.abdelrhman.raafat.memento.onboarding.ui.OnboardingScreen
-import com.abdelrhman.raafat.memento.ui.theme.MementoTheme
 
 class OnboardingActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

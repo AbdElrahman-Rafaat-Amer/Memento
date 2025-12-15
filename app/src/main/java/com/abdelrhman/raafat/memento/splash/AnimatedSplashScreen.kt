@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.abdelrhman.raafat.memento.R
-import com.abdelrhman.raafat.memento.ui.theme.MementoTheme
+import com.abdelrhman.raafat.memento.core.theme.MementoTheme
 import com.abdelrhman.raafat.memento.core.theme.ThemesPreviews
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -54,7 +54,7 @@ fun AnimatedSplashScreen(onFinished: () -> Unit) {
 
 @ThemesPreviews
 @Composable
-fun AnimatedSplashScreenPreview() {
+private fun AnimatedSplashScreenPreview() {
     MementoTheme {
         AnimatedSplashScreen {}
     }
