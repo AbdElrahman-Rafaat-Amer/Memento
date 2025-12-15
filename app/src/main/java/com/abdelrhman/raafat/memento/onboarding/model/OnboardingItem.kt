@@ -1,9 +1,10 @@
 package com.abdelrhman.raafat.memento.onboarding.model
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
 data class OnboardingItem(
-    val title: String,
-    val subtitle: String,
+    @StringRes val titleResId: Int,
+    @StringRes val subtitleResId: Int,
     @DrawableRes val imageResId: Int
 )

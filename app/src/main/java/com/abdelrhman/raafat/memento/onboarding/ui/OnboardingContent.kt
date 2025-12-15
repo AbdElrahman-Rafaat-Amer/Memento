@@ -42,7 +42,7 @@ fun OnboardingContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        
+
         Spacer(Modifier.height(screenHeight * 0.3f))
 
         Image(
@@ -54,7 +54,7 @@ fun OnboardingContent(
         Spacer(Modifier.height(24.dp))
 
         Text(
-            text = onboardingItem.title,
+            text = stringResource(onboardingItem.titleResId),
             style = AppTextStyles.textStyle24SPBold.copy(
                 lineHeight = TextUnit.Unspecified,
             ),
@@ -65,7 +65,7 @@ fun OnboardingContent(
         Spacer(Modifier.height(12.dp))
 
         Text(
-            text = onboardingItem.subtitle,
+            text = stringResource(onboardingItem.subtitleResId),
             style = AppTextStyles.textStyle16SPMedium.copy(
                 lineHeight = 22.sp,
             ),
@@ -82,8 +82,8 @@ private fun OnboardingContentPreview() {
         OnboardingContent(
             onboardingItem =
                 OnboardingItem(
-                    title = stringResource(R.string.onboard_title_4),
-                    subtitle = stringResource(R.string.onboard_subtitle_4),
+                    titleResId = R.string.onboard_title_4,
+                    subtitleResId = R.string.onboard_subtitle_4,
                     imageResId = R.drawable.ic_onboard_4
                 ),
             modifier = Modifier

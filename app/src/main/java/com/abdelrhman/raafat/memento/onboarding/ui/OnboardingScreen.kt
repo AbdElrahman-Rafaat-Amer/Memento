@@ -24,26 +24,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrhman.raafat.memento.R
 import com.abdelrhman.raafat.memento.core.components.MEMCheckbox
 import com.abdelrhman.raafat.memento.core.components.MEMPrimaryButton
 import com.abdelrhman.raafat.memento.core.components.MEMProgressIndicator
 import com.abdelrhman.raafat.memento.core.theme.MementoTheme
-import com.abdelrhman.raafat.memento.onboarding.model.OnboardingItem
 import com.abdelrhman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrhman.raafat.memento.onboarding.OnboardingViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingScreen(
     onFinished: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: OnboardingViewModel = hiltViewModel(),
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.wrapContentHeight(),
     ) {
-        val onboardingList = getOnboardingItems()
+        val onboardingList = viewModel.getOnboardingItems()
         val next = stringResource(R.string.next)
         val start = stringResource(R.string.get_started)
         val primaryButtonText = remember { mutableStateOf((next)) }
@@ -97,6 +99,7 @@ fun OnboardingScreen(
             modifier = Modifier.padding(horizontal = 24.dp)
         ) {
             if (pagerState.currentPage == onboardingList.size - 1) {
+                viewModel.saveUserChoice(viewModel.showAgain)
                 onFinished.invoke()
             } else {
                 coroutineScope.launch {
@@ -111,7 +114,7 @@ fun OnboardingScreen(
 
         if (isLastItem) {
             MEMCheckbox(stringResource(R.string.show_onboarding)) {
-                //TODO handle check box logic to not show the Onboarding screen again
+                viewModel.showAgain = it
             }
         } else {
             MEMPrimaryButton(
@@ -127,30 +130,6 @@ fun OnboardingScreen(
         }
     }
 }
-
-@Composable
-private fun getOnboardingItems(): List<OnboardingItem> = listOf(
-    OnboardingItem(
-        title = stringResource(R.string.onboard_title_1),
-        subtitle = stringResource(R.string.onboard_subtitle_1),
-        imageResId = R.drawable.ic_onboard_1
-    ),
-    OnboardingItem(
-            title = stringResource(R.string.onboard_title_2),
-        subtitle = stringResource(R.string.onboard_subtitle_2),
-        imageResId = R.drawable.ic_onboard_2
-    ),
-    OnboardingItem(
-        title = stringResource(R.string.onboard_title_3),
-        subtitle = stringResource(R.string.onboard_subtitle_3),
-        imageResId = R.drawable.ic_onboard_3
-    ),
-    OnboardingItem(
-        title = stringResource(R.string.onboard_title_4),
-        subtitle = stringResource(R.string.onboard_subtitle_4),
-        imageResId = R.drawable.ic_onboard_4
-    )
-)
 
 @ThemesPreviews
 @Composable

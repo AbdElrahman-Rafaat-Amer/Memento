@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import com.abdelrhman.raafat.memento.MainActivity
 import com.abdelrhman.raafat.memento.core.theme.MementoTheme
 import com.abdelrhman.raafat.memento.onboarding.ui.OnboardingScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OnboardingActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
