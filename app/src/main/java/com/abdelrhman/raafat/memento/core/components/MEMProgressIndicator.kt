@@ -1,4 +1,4 @@
-package com.abdelrhman.raafat.memento.custom
+package com.abdelrhman.raafat.memento.core.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.abdelrhman.raafat.memento.ui.theme.MementoTheme
-import com.abdelrhman.raafat.memento.ui.theme.ThemesPreviews
+import com.abdelrhman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrhman.raafat.memento.core.theme.MementoTheme
 
 @Composable
 fun MEMProgressIndicator(

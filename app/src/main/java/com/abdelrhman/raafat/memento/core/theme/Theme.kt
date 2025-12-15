@@ -1,4 +1,4 @@
-package com.abdelrhman.raafat.memento.ui.theme
+package com.abdelrhman.raafat.memento.core.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

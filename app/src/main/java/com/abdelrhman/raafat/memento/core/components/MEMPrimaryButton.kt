@@ -1,4 +1,4 @@
-package com.abdelrhman.raafat.memento.custom
+package com.abdelrhman.raafat.memento.core.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.abdelrhman.raafat.memento.ui.theme.MementoTheme
-import com.abdelrhman.raafat.memento.ui.theme.ThemesPreviews
+import com.abdelrhman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrhman.raafat.memento.core.theme.MementoTheme
 
 @Composable
 fun MEMPrimaryButton(

@@ -1,5 +1,4 @@
-package com.abdelrhman.raafat.memento.custom
-
+package com.abdelrhman.raafat.memento.core.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,8 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.abdelrhman.raafat.memento.ui.theme.MementoTheme
-import com.abdelrhman.raafat.memento.ui.theme.ThemesPreviews
+import com.abdelrhman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrhman.raafat.memento.core.theme.MementoTheme
 
 @Composable
 fun MEMCheckbox(

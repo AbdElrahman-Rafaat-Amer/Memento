@@ -1,4 +1,4 @@
-package com.abdelrhman.raafat.memento
+package com.abdelrhman.raafat.memento.splash
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.abdelrhman.raafat.memento.onboarding.OnboardingActivity
 import com.abdelrhman.raafat.memento.ui.theme.MementoTheme
 
 class SplashActivity : ComponentActivity() {

@@ -1,4 +1,4 @@
-package com.abdelrhman.raafat.memento.ui.theme
+package com.abdelrhman.raafat.memento.core.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography

@@ -1,7 +1,7 @@
-package com.abdelrhman.raafat.memento
+package com.abdelrhman.raafat.memento.onboarding.ui
 import androidx.compose.runtime.Composable
-import com.abdelrhman.raafat.memento.ui.theme.MementoTheme
-import com.abdelrhman.raafat.memento.ui.theme.ThemesPreviews
+import com.abdelrhman.raafat.memento.core.theme.MementoTheme
+import com.abdelrhman.raafat.memento.core.theme.ThemesPreviews
 
 
 @Suppress("FunctionName")
@@ -15,7 +15,7 @@ fun OnboardingScreen(
 
 @ThemesPreviews
 @Composable
-fun OnboardingScreenPreview() {
+private fun OnboardingScreenPreview() {
     MementoTheme {
         OnboardingScreen(onFinished = {})
     }

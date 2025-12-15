@@ -1,9 +1,11 @@
-package com.abdelrhman.raafat.memento
+package com.abdelrhman.raafat.memento.onboarding
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.abdelrhman.raafat.memento.MainActivity
+import com.abdelrhman.raafat.memento.onboarding.ui.OnboardingScreen
 import com.abdelrhman.raafat.memento.ui.theme.MementoTheme
 
 class OnboardingActivity : ComponentActivity() {
