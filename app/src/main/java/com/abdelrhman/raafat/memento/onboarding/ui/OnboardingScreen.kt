@@ -35,16 +35,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingScreen(
-    onFinished: () -> Unit
+    onFinished: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier =
-            Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(vertical = 32.dp)
-                .wrapContentHeight(),
+        modifier = modifier.wrapContentHeight(),
     ) {
         val onboardingList = getOnboardingItems()
         val next = stringResource(R.string.next)

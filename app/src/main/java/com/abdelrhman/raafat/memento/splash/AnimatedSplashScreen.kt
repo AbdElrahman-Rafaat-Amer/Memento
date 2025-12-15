@@ -1,9 +1,7 @@
 package com.abdelrhman.raafat.memento.splash
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,7 +17,10 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import kotlinx.coroutines.delay
 
 @Composable
-fun AnimatedSplashScreen(onFinished: () -> Unit) {
+fun AnimatedSplashScreen(
+    onFinished: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val composition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(R.raw.memento_splash)
     )
@@ -38,10 +39,7 @@ fun AnimatedSplashScreen(onFinished: () -> Unit) {
     }
 
     Box(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         LottieAnimation(
@@ -56,6 +54,6 @@ fun AnimatedSplashScreen(onFinished: () -> Unit) {
 @Composable
 private fun AnimatedSplashScreenPreview() {
     MementoTheme {
-        AnimatedSplashScreen {}
+        AnimatedSplashScreen({})
     }
 }
