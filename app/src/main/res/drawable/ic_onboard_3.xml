@@ -4,13 +4,11 @@
     android:viewportWidth="24"
     android:viewportHeight="24">
 
-    <!-- Outer circle -->
     <path
         android:fillColor="?attr/colorPrimary"
         android:pathData="M12,4
             a8,8 0 1,0 0,16
             a8,8 0 1,0 0,-16z"/>
-
 
     <path
         android:fillColor="@color/black"
