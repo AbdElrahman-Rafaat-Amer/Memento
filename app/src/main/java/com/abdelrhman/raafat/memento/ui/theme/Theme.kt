@@ -9,6 +9,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.abdelrhman.raafat.memento.ui.theme.AppTextStyles.MEMTypography
 
 
 private val LightColorScheme = lightColorScheme(
@@ -24,7 +25,8 @@ private val LightColorScheme = lightColorScheme(
     onBackground = LightOnBackground,
 
     surface = LightSurface,
-    onSurface = LightOnSurface,
+    onSurface = LightTextPrimary,
+    onSurfaceVariant = LightTextSecondary,
 
     error = LightError,
     onError = LightOnError
@@ -43,7 +45,8 @@ private val DarkColorScheme = darkColorScheme(
     onBackground = DarkOnBackground,
 
     surface = DarkSurface,
-    onSurface = DarkOnSurface,
+    onSurface = DarkTextPrimary,
+    onSurfaceVariant = DarkTextSecondary,
 
     error = DarkError,
     onError = DarkOnError
@@ -69,7 +72,7 @@ fun MementoTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = MEMTypography,
         content = content
     )
 }
