@@ -24,6 +24,11 @@
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Memento"/>
+
+        <activity
+            android:name=".OnboardingActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Memento"/>
     </application>
 
 </manifest>
