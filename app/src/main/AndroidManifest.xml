@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
+        android:name=".MementoApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -11,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Memento">
         <activity
-            android:name=".SplashActivity"
+            android:name=".splash.SplashActivity"
             android:theme="@style/Theme.App.Starting"
             android:exported="true">
             <intent-filter>
@@ -22,6 +23,11 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Memento"/>
+
+        <activity
+            android:name=".onboarding.OnboardingActivity"
             android:exported="true"
             android:theme="@style/Theme.Memento"/>
     </application>

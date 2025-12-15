@@ -1,4 +1,4 @@
-package com.abdelrhman.raafat.memento.ui.theme
+package com.abdelrhman.raafat.memento.core.theme
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview

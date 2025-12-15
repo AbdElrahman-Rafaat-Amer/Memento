@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Memento</string>
+
+    <!-- Onboarding -->
+    <string name="onboard_title_1">Stay Organized</string>
+    <string name="onboard_subtitle_1">Create reminders and stay ahead of your tasks.</string>
+    <string name="onboard_title_2">Smart Alerts</string>
+    <string name="onboard_subtitle_2">Never miss anything important again.</string>
+    <string name="onboard_title_3">Focus Better</string>
+    <string name="onboard_subtitle_3">Boost your productivity with smart reminders.</string>
+    <string name="onboard_title_4">Unlock a world of possibilities</string>
+    <string name="onboard_subtitle_4">Plan smarter. Stay organized. Never miss a reminder.</string>
+    <string name="get_started">Get Started</string>
+    <string name="next">Next</string>
+    <string name="show_onboarding">Show Onboarding</string>
+    <string name="skip">Skip</string>
 </resources>
