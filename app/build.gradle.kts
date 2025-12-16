@@ -7,13 +7,13 @@ plugins {
 }
 
 android {
-    namespace = "com.abdelrhman.raafat.memento"
+    namespace = "com.abdelrahman.raafat.memento"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.abdelrhman.raafat.memento"
+        applicationId = "com.abdelrahman.raafat.memento"
         minSdk = 28
         targetSdk = 36
         versionCode = 1
