@@ -14,4 +14,6 @@
     <string name="next">Next</string>
     <string name="show_onboarding">Show Onboarding</string>
     <string name="skip">Skip</string>
+    <string name="back">Back</string>
+    <string name="new_reminder">New Reminder</string>
 </resources>
