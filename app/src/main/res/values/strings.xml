@@ -14,4 +14,6 @@
     <string name="next">Next</string>
     <string name="show_onboarding">Show Onboarding</string>
     <string name="skip">Skip</string>
+    <string name="splash_subtitle">Let Memento help you remember what matters — from small tasks to big goals.</string>
+    <string name="splash_title">Stay Organized Effortlessly</string>
 </resources>
