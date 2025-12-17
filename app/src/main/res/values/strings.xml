@@ -16,4 +16,9 @@
     <string name="skip">Skip</string>
     <string name="back">Back</string>
     <string name="new_reminder">New Reminder</string>
+    <string name="title">Title</string>
+    <string name="save_reminder">Save Reminder</string>
+    <string name="ok">OK</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
 </resources>
