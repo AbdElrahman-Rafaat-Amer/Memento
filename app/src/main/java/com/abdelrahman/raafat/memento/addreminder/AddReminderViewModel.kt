@@ -42,14 +42,6 @@ class AddReminderViewModel @Inject constructor() : ViewModel() {
             date = state.date,
             time = state.time
         )
-
-        _uiState.update {
-            it.copy(
-                reminders = it.reminders + newReminder,
-                title = "",
-                date = null,
-                time = null
-            )
-        }
+        //TODO save in DataBase
     }
 }
