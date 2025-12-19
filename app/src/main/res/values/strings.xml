@@ -16,4 +16,15 @@
     <string name="skip">Skip</string>
     <string name="splash_subtitle">Let Memento help you remember what matters — from small tasks to big goals.</string>
     <string name="splash_title">Stay Organized Effortlessly</string>
+    <string name="back">Back</string>
+    <string name="new_reminder">New Reminder</string>
+    <string name="title">Title</string>
+    <string name="save_reminder">Save Reminder</string>
+    <string name="ok">OK</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="set_time">Set Reminder Time</string>
+    <string name="additional_info">Additional Info</string>
+    <string name="write_something">Write something</string>
+    <string name="enter_title">Enter Title</string>
 </resources>

@@ -11,11 +11,10 @@ val LightOnPrimaryContainer = Color(0xFFFFFFFF)
 val LightSecondary = Color(0xFFAFA9FF)
 val LightOnSecondary = Color(0xFF1A1A1A)
 
-val LightAccent = Color(0xFFFFCE47)
-val LightOnAccent = Color(0xFF1A1A1A)
+val LightOutlineVariant = Color(0xFFCCCBCB)
 
 val LightBackground = Color(0xFFF7F7FA)
-val LightOnBackground = Color(0xFF1C1C1E)
+val LightOnBackground =  Color.Black
 
 val LightSurface = Color(0xFFFFFFFF)
 val LightError = Color(0xFFE53935)
@@ -34,11 +33,10 @@ val DarkOnPrimaryContainer = Color(0xFFFFFFFF)
 val DarkSecondary = Color(0xFF6E67D9)
 val DarkOnSecondary = Color(0xFFFFFFFF)
 
-val DarkAccent = Color(0xFFFFD86C)
-val DarkOnAccent = Color(0xFF000000)
+val DarkOutlineVariant = Color(0xFF3F3F3F)
 
 val DarkBackground = Color(0xFF0D0D10)
-val DarkOnBackground = Color(0xFFE6E6E7)
+val DarkOnBackground = Color.White
 
 val DarkSurface = Color(0xFF1A1A1D)
 
