@@ -3,20 +3,21 @@ package com.abdelrahman.raafat.memento.data.repository
 import com.abdelrahman.raafat.memento.data.local.dao.ReminderDao
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class OfflineReminderRepository (
+class OfflineReminderRepository @Inject constructor(
     private val reminderDao: ReminderDao
 ) : ReminderRepository {
-    override suspend fun insertReminder(reminder: ReminderEntity): Int {
-       return reminderDao.insertReminder(reminder)
+    override suspend fun insertReminder(reminder: ReminderEntity): Long {
+        return reminderDao.insertReminder(reminder)
     }
 
     override suspend fun updateReminder(reminder: ReminderEntity): Int {
         return reminderDao.updateReminder(reminder)
     }
 
-    override suspend fun deleteReminder(reminderId: Long): Int {
-        return reminderDao.deleteReminder(reminderId)
+    override suspend fun deleteReminder(reminder: ReminderEntity): Int {
+        return reminderDao.deleteReminder(reminder)
     }
 
     override fun getReminderById(reminderId: Long): Flow<ReminderEntity> {
