@@ -29,6 +29,10 @@ class AddReminderViewModel @Inject constructor() : ViewModel() {
         _uiState.update { it.copy(time = time) }
     }
 
+    fun onAdditionalInfo(onAdditionalInfo: String) {
+        _uiState.update { it.copy(additionalInfo = onAdditionalInfo) }
+    }
+
     fun saveReminder() {
         val state = _uiState.value
         if (state.title.isBlank() || state.date == null || state.time == null) return
