@@ -66,7 +66,7 @@ fun OnboardingContent(
 
         Text(
             text = stringResource(onboardingItem.subtitleResId),
-            style = AppTextStyles.textStyle16SPMedium.copy(
+            style = AppTextStyles.textStyle16SPNormal.copy(
                 lineHeight = 22.sp,
             ),
             color = MaterialTheme.colorScheme.onSurfaceVariant,

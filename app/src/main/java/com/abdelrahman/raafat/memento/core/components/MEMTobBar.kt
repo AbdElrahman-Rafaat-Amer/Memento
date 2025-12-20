@@ -35,12 +35,13 @@ import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
 fun MEMTobBar(
     title: String,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = AppTextStyles.textStyle16SPMedium.copy(textAlign = TextAlign.Center),
+    textStyle: TextStyle = AppTextStyles.textStyle16SPNormal.copy(textAlign = TextAlign.Center),
     iconVector: ImageVector? = Icons.AutoMirrored.Filled.ArrowBack,
     iconColor: Color? = MaterialTheme.colorScheme.onBackground,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
     borderColor: Color = MaterialTheme.colorScheme.outlineVariant,
     borderWidth: Dp = 1.dp,
+    isTitleCentered: Boolean = true,
     onBackButtonClicked: () -> Unit = {},
 ) {
 
@@ -71,7 +72,11 @@ fun MEMTobBar(
         Text(
             text = title,
             style = textStyle.copy(color = textColor),
-            modifier = Modifier.weight(1f),
+            modifier = if (isTitleCentered) {
+                Modifier.weight(1f)
+            } else {
+                Modifier
+            },
         )
     }
 }
@@ -84,10 +89,16 @@ private fun MEMTobBarPreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
         ) {
             MEMTobBar(
+                title = stringResource(R.string.new_reminder)
+            )
+
+            MEMTobBar(
                 title = stringResource(R.string.new_reminder),
-                modifier = Modifier.background(MaterialTheme.colorScheme.background)
+                iconVector = null,
+                isTitleCentered = false
             )
         }
     }

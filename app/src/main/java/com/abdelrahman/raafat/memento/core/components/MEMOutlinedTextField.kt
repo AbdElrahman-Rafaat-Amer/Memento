@@ -69,7 +69,7 @@ private fun MEMOutlinedTextFieldPreview() {
         ) {
             MEMOutlinedTextField(
                 value = stringResource(R.string.write_something),
-                textStyle = AppTextStyles.textStyle16SPMedium,
+                textStyle = AppTextStyles.textStyle16SPNormal,
                 label = { Text(stringResource(R.string.additional_info)) },
                 onValueChange = { },
                 onClick = {}

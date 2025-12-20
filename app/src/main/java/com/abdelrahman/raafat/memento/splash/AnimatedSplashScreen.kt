@@ -26,40 +26,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.abdelrahman.raafat.memento.R
+import com.abdelrahman.raafat.memento.core.components.LottieLoader
 import com.abdelrahman.raafat.memento.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
-import kotlinx.coroutines.delay
 
 @Composable
 fun AnimatedSplashScreen(
     onFinished: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val composition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(R.raw.memento_splash)
-    )
-
-    val progress by animateLottieCompositionAsState(
-        composition = composition,
-        iterations = 1,
-        speed = 1f
-    )
 
     var visible by remember { mutableStateOf(false) }
     val durationMillis = 600
-    val delayMillis =  400
-
-    LaunchedEffect(key1 = progress) {
-        if (progress == 1f) {
-            delay(300)
-            onFinished()
-        }
-    }
+    val delayMillis = 400
 
     LaunchedEffect(Unit) {
         visible = true
@@ -70,12 +50,12 @@ fun AnimatedSplashScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LottieAnimation(
-            composition = composition,
-            progress = { progress },
+        LottieLoader(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
-                .fillMaxHeight(0.6f)
+                .fillMaxHeight(0.6f),
+            lottieAnimation = R.raw.memento_splash,
+            onFinished = onFinished
         )
 
         AnimatedVisibility(
@@ -105,7 +85,7 @@ fun AnimatedSplashScreen(
         ) {
             Text(
                 text = stringResource(R.string.splash_subtitle),
-                style = AppTextStyles.textStyle16SPMedium.copy(
+                style = AppTextStyles.textStyle16SPNormal.copy(
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurface
                 )

@@ -11,8 +11,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.abdelrahman.raafat.memento.addreminder.AddReminderScreen
 import com.abdelrahman.raafat.memento.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.dashboard.DashboardScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,10 +38,6 @@ private fun MainScreen(modifier: Modifier) {
         modifier = modifier,
         contentAlignment = Alignment.BottomCenter
     ) {
-        AddReminderScreen(
-            onBack = {
-                //TODO later
-            }
-        )
+        DashboardScreen()
     }
 }
