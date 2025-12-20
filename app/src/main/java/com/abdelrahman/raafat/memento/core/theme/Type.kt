@@ -18,9 +18,20 @@ object AppTextStyles {
             textAlign = TextAlign.Start
         )
 
-    val textStyle16SPMedium =
+    val textStyle12SPNormal =
+        defaultTextStyle.copy(
+            fontSize = 12.sp
+        )
+
+    val textStyle16SPNormal =
         defaultTextStyle.copy(
             fontSize = 16.sp
+        )
+
+    val textStyle20SPSemiBold =
+        defaultTextStyle.copy(
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold,
         )
 
     val textStyle24SPBold =
