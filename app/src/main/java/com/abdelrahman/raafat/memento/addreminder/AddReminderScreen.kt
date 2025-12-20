@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,7 +60,7 @@ fun AddReminderContent(viewModel: AddReminderViewModel) {
 
         MEMOutlinedTextField(
             value = state.title,
-            textStyle = AppTextStyles.textStyle16SPMedium,
+            textStyle = AppTextStyles.textStyle16SPNormal,
             label = { Text(stringResource(R.string.title)) },
             placeholder = { Text(stringResource(R.string.enter_title)) },
             onValueChange = viewModel::onTitleChange
@@ -79,7 +78,7 @@ fun AddReminderContent(viewModel: AddReminderViewModel) {
 
         MEMOutlinedTextField(
             value = state.additionalInfo,
-            textStyle = AppTextStyles.textStyle16SPMedium,
+            textStyle = AppTextStyles.textStyle16SPNormal,
             label = { Text(stringResource(R.string.additional_info)) },
             placeholder = { Text(stringResource(R.string.write_something)) },
             onValueChange = viewModel::onAdditionalInfo

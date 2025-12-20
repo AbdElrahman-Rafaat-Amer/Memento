@@ -35,7 +35,7 @@ import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
 fun MEMTobBar(
     title: String,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = AppTextStyles.textStyle16SPMedium.copy(textAlign = TextAlign.Center),
+    textStyle: TextStyle = AppTextStyles.textStyle16SPNormal.copy(textAlign = TextAlign.Center),
     iconVector: ImageVector? = Icons.AutoMirrored.Filled.ArrowBack,
     iconColor: Color? = MaterialTheme.colorScheme.onBackground,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
