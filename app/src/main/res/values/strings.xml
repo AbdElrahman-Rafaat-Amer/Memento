@@ -29,4 +29,6 @@
     <string name="enter_title">Enter Title</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
+    <string name="no_reminders">You didn\'t add any reminders yet.\n Let\'s create one</string>
+    <string name="retry">Retry</string>
 </resources>

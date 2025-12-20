@@ -34,14 +34,32 @@ fun DashboardScreen(
             isTitleCentered = false
         )
 
-        if (reminderUiState.isLoading) {
-            LoadingScreen()
-        } else {
-            LazyColumn {
-                items(reminderUiState.reminders) {
-                    ReminderItem(item = it)
+        when {
+            reminderUiState.isLoading -> {
+                LoadingScreen()
+            }
+
+            reminderUiState.error != null -> {
+                ErrorScreen(
+                    error = reminderUiState.error!!,
+                    onRetry = {
+                        dashboardViewModel.retry()
+                    }
+                )
+            }
+
+            reminderUiState.reminders.isEmpty() -> {
+                EmptyScreen()
+            }
+
+            else -> {
+                LazyColumn {
+                    items(reminderUiState.reminders) {
+                        ReminderItem(item = it)
+                    }
                 }
             }
+
         }
 
     }

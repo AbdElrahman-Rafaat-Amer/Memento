@@ -72,4 +72,9 @@ class DashboardViewModel @Inject constructor(
         return localDateTime.format(formatter)
     }
 
+    fun retry() {
+        _dashboardUiState.value = DashboardUiState(isLoading = true)
+        loadReminders()
+    }
+
 }
