@@ -70,6 +70,10 @@ fun AddReminderContent(
                 is AddReminderEvent.ShowError -> {
                     snackbarHostState.showSnackbar(errorMessage)
                 }
+
+                else -> {
+                    //Nothing
+                }
             }
         }
     }

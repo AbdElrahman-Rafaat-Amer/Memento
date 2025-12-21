@@ -27,12 +27,8 @@ class AddReminderViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AddReminderUiState())
     val uiState = _uiState.asStateFlow()
 
-
-    private val _uiEvent = MutableSharedFlow<AddReminderEvent>()
-    val uiEvent = _uiEvent.asSharedFlow()
-
-//    private val _uiEvent = MutableStateFlow<AddReminderEvent?>(null)
-//    val uiEvent = _uiEvent.asStateFlow()
+    private val _uiEvent = MutableStateFlow<AddReminderEvent?>(null)
+    val uiEvent = _uiEvent.asStateFlow()
 
     fun onTitleChange(value: String) {
         _uiState.update { it.copy(title = value) }
@@ -60,7 +56,7 @@ class AddReminderViewModel @Inject constructor(
         val selectedDateTime = LocalDateTime.of(state.date!!, state.time!!)
         if (selectedDateTime.isBefore(LocalDateTime.now())) {
             viewModelScope.launch {
-                _uiEvent.emit(AddReminderEvent.ShowError(R.string.select_date_in_future))
+                _uiEvent.value = AddReminderEvent.ShowError(R.string.select_date_in_future)
             }
             return
         }
@@ -75,12 +71,12 @@ class AddReminderViewModel @Inject constructor(
                 )
                 val insertResult = reminderRepository.insertReminder(newReminder)
                 if (insertResult > 0) {
-                    _uiEvent.emit(AddReminderEvent.ReminderSaved)
+                    _uiEvent.value = AddReminderEvent.ReminderSaved
                 } else {
-                    _uiEvent.emit(AddReminderEvent.ShowError(R.string.failed_to_save_reminder))
+                    _uiEvent.value = AddReminderEvent.ShowError(R.string.failed_to_save_reminder)
                 }
             } catch (_: Exception){
-                _uiEvent.emit(AddReminderEvent.ShowError(R.string.something_went_wrong))
+                _uiEvent.value = AddReminderEvent.ShowError(R.string.something_went_wrong)
             }
         }
     }
