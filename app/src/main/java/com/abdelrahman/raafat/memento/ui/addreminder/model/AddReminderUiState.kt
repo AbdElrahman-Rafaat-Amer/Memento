@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.addreminder.model
+package com.abdelrahman.raafat.memento.ui.addreminder.model
 
 import java.time.LocalDate
 import java.time.LocalTime

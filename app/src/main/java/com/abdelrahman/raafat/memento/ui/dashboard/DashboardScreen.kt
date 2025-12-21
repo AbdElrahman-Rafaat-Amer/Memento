@@ -1,6 +1,5 @@
-package com.abdelrahman.raafat.memento.dashboard
+package com.abdelrahman.raafat.memento.ui.dashboard
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,9 +26,9 @@ import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
 
 @Composable
 fun DashboardScreen(
-    dashboardViewModel: DashboardViewModel = hiltViewModel()
+    dashboardViewModel: DashboardViewModel = hiltViewModel(),
+    onAddClicked: () -> Unit
 ) {
-
     val reminderUiState by dashboardViewModel.dashboardUiState.collectAsState()
     Box(
         modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
@@ -37,8 +36,7 @@ fun DashboardScreen(
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
-        )
-        {
+        ) {
             MEMTobBar(
                 title = stringResource(R.string.app_name),
                 iconVector = null,
@@ -70,9 +68,7 @@ fun DashboardScreen(
                         }
                     }
                 }
-
             }
-
         }
 
         MEMFabButton(
@@ -80,9 +76,7 @@ fun DashboardScreen(
             contentDescription = stringResource(R.string.add),
             modifier = Modifier.size(70.dp),
             iconModifier = Modifier.size(50.dp),
-            onFabClick = {
-                //TODO navigate to Add Reminder screen
-            }
+            onFabClick = onAddClicked
         )
     }
 }
@@ -97,8 +91,7 @@ private fun DashboardScreenPreview() {
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
         ) {
-            DashboardScreen()
+            DashboardScreen{}
         }
-
     }
 }

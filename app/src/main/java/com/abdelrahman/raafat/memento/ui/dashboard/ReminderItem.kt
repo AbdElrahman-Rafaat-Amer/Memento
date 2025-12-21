@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.dashboard
+package com.abdelrahman.raafat.memento.ui.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.dashboard.model.DashboardReminderUi
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
 
 @Composable
 fun ReminderItem(item: DashboardReminderUi) {

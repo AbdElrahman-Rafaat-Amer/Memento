@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.addreminder
+package com.abdelrahman.raafat.memento.ui.addreminder
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,6 +27,7 @@ import com.abdelrahman.raafat.memento.core.components.MEMTobBar
 import com.abdelrahman.raafat.memento.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
 
 @Composable
 fun AddReminderScreen(
@@ -43,13 +47,36 @@ fun AddReminderScreen(
 
         Spacer(Modifier.height(12.dp))
 
-        AddReminderContent(viewModel)
+        AddReminderContent(viewModel, onBack)
     }
 }
 
 @Composable
-fun AddReminderContent(viewModel: AddReminderViewModel) {
+fun AddReminderContent(
+    viewModel: AddReminderViewModel,
+    onBack: () -> Unit
+) {
+    val snackbarHostState = remember { SnackbarHostState() }
     val state by viewModel.uiState.collectAsState()
+    val errorMessage = stringResource(R.string.something_went_wrong)
+
+    LaunchedEffect(Unit) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is AddReminderEvent.ReminderSaved -> {
+                    onBack()
+                }
+
+                is AddReminderEvent.ShowError -> {
+                    snackbarHostState.showSnackbar(errorMessage)
+                }
+
+                else -> {
+                    //Nothing
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -98,7 +125,7 @@ fun AddReminderContent(viewModel: AddReminderViewModel) {
 
 @ThemesPreviews
 @Composable
-fun AddReminderScreenPreview() {
+private fun AddReminderScreenPreview() {
     MementoTheme {
         AddReminderScreen(
             modifier = Modifier

@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.dashboard
+package com.abdelrahman.raafat.memento.ui.dashboard
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

@@ -1,13 +1,13 @@
-package com.abdelrahman.raafat.memento.onboarding
+package com.abdelrahman.raafat.memento.ui.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.data.local.datastore.OnboardingPreferences
-import com.abdelrahman.raafat.memento.onboarding.model.OnboardingItem
+import com.abdelrahman.raafat.memento.ui.onboarding.model.OnboardingItem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(

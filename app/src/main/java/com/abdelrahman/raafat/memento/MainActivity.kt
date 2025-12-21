@@ -9,10 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
 import com.abdelrahman.raafat.memento.core.theme.MementoTheme
-import com.abdelrahman.raafat.memento.dashboard.DashboardScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MementoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
+                    MementoApp(
                         modifier = Modifier.fillMaxSize().padding(innerPadding)
                     )
                 }
@@ -33,11 +32,14 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun MainScreen(modifier: Modifier) {
+private fun MementoApp(modifier: Modifier) {
+    val navController = rememberNavController()
     Box(
-        modifier = modifier,
-        contentAlignment = Alignment.BottomCenter
+        modifier = modifier
     ) {
-        DashboardScreen()
+        MemoNavHost(
+            modifier = Modifier.fillMaxSize(),
+            navController = navController
+        )
     }
 }

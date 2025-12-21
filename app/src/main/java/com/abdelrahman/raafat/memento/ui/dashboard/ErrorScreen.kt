@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.dashboard
+package com.abdelrahman.raafat.memento.ui.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
