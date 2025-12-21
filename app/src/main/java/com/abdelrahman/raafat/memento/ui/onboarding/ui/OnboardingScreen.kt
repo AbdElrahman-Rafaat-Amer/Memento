@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.onboarding.ui
+package com.abdelrahman.raafat.memento.ui.onboarding.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ import com.abdelrahman.raafat.memento.core.components.MEMPrimaryButton
 import com.abdelrahman.raafat.memento.core.components.MEMProgressIndicator
 import com.abdelrahman.raafat.memento.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.onboarding.OnboardingViewModel
+import com.abdelrahman.raafat.memento.ui.onboarding.OnboardingViewModel
 import kotlinx.coroutines.launch
 
 @Composable

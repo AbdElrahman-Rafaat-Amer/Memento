@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.addreminder
+package com.abdelrahman.raafat.memento.ui.addreminder
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.onboarding.model
+package com.abdelrahman.raafat.memento.ui.onboarding.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

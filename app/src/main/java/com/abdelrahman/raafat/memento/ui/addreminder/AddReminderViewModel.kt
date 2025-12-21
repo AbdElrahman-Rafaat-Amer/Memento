@@ -1,11 +1,11 @@
-package com.abdelrahman.raafat.memento.addreminder
+package com.abdelrahman.raafat.memento.ui.addreminder
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abdelrahman.raafat.memento.addreminder.model.AddReminderUiState
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.data.repository.ReminderRepository
+import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.splash
+package com.abdelrahman.raafat.memento.ui.splash
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween

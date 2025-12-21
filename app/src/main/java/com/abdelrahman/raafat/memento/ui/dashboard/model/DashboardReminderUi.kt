@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.dashboard.model
+package com.abdelrahman.raafat.memento.ui.dashboard.model
 
 data class DashboardReminderUi(
     val id: Long,

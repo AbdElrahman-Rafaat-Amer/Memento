@@ -1,11 +1,11 @@
-package com.abdelrahman.raafat.memento.dashboard
+package com.abdelrahman.raafat.memento.ui.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.abdelrahman.raafat.memento.dashboard.model.DashboardReminderUi
-import com.abdelrahman.raafat.memento.dashboard.model.DashboardUiState
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.data.repository.ReminderRepository
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardUiState
 import com.abdelrahman.raafat.memento.utils.DateTimeFormats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

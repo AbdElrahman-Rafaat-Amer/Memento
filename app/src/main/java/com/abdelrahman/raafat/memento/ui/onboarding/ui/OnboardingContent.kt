@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.onboarding.ui
+package com.abdelrahman.raafat.memento.ui.onboarding.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,7 +25,7 @@ import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.onboarding.model.OnboardingItem
+import com.abdelrahman.raafat.memento.ui.onboarding.model.OnboardingItem
 
 @Composable
 fun OnboardingContent(

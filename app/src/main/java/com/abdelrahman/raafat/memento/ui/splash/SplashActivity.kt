@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.splash
+package com.abdelrahman.raafat.memento.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.abdelrahman.raafat.memento.MainActivity
 import com.abdelrahman.raafat.memento.core.theme.MementoTheme
-import com.abdelrahman.raafat.memento.onboarding.OnboardingActivity
+import com.abdelrahman.raafat.memento.ui.onboarding.OnboardingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
