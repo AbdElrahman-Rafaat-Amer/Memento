@@ -1,17 +1,21 @@
 package com.abdelrahman.raafat.memento.ui.addreminder
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.data.repository.ReminderRepository
+import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -22,6 +26,13 @@ class AddReminderViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(AddReminderUiState())
     val uiState = _uiState.asStateFlow()
+
+
+    private val _uiEvent = MutableSharedFlow<AddReminderEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
+
+//    private val _uiEvent = MutableStateFlow<AddReminderEvent?>(null)
+//    val uiEvent = _uiEvent.asStateFlow()
 
     fun onTitleChange(value: String) {
         _uiState.update { it.copy(title = value) }
@@ -41,17 +52,35 @@ class AddReminderViewModel @Inject constructor(
 
     fun saveReminder() {
         val state = _uiState.value
-        if (isValidReminder(state)) {
-            val newReminder = ReminderEntity(
-                title = state.title,
-                date = state.date!!.toEpochDay(),
-                time = state.time!!.toSecondOfDay().toLong(),
-                additionalInfo = state.additionalInfo,
-            )
 
+        if (isValidReminder(state).not()) {
+            return
+        }
+
+        val selectedDateTime = LocalDateTime.of(state.date!!, state.time!!)
+        if (selectedDateTime.isBefore(LocalDateTime.now())) {
             viewModelScope.launch {
+                _uiEvent.emit(AddReminderEvent.ShowError(R.string.select_date_in_future))
+            }
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                val newReminder = ReminderEntity(
+                    title = state.title,
+                    date = state.date.toEpochDay(),
+                    time = state.time.toSecondOfDay().toLong(),
+                    additionalInfo = state.additionalInfo,
+                )
                 val insertResult = reminderRepository.insertReminder(newReminder)
-                Log.i("Abdooooo", "saveReminder: insertResult $insertResult ")
+                if (insertResult > 0) {
+                    _uiEvent.emit(AddReminderEvent.ReminderSaved)
+                } else {
+                    _uiEvent.emit(AddReminderEvent.ShowError(R.string.failed_to_save_reminder))
+                }
+            } catch (_: Exception){
+                _uiEvent.emit(AddReminderEvent.ShowError(R.string.something_went_wrong))
             }
         }
     }
