@@ -1,5 +1,6 @@
 package com.abdelrahman.raafat.memento.ui.addreminder
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -21,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -52,7 +55,7 @@ fun AddReminderScreen(
             onBackButtonClicked = onBack
         )
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(20.dp))
 
         AddReminderContent(viewModel, onBack)
     }
@@ -65,10 +68,8 @@ fun AddReminderContent(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-
+    val context = LocalContext.current
     val state by viewModel.uiState.collectAsState()
-    val errorMessage = stringResource(R.string.something_went_wrong)
-    val dismissMessage = stringResource(R.string.ok)
 
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
@@ -80,13 +81,23 @@ fun AddReminderContent(
                 is AddReminderEvent.ShowError -> {
                     scope.launch {
                         snackbarHostState.showSnackbar(
-                            message = errorMessage,
-                            actionLabel = dismissMessage,
+                            message = getString(
+                                context = context,
+                                messageResId = event.messageResId
+                            ),
+                            actionLabel = getString(context = context, messageResId = R.string.ok),
                             duration = SnackbarDuration.Long
                         )
                     }
                 }
             }
+        }
+    }
+
+    // Clean up on dispose
+    DisposableEffect(Unit) {
+        onDispose {
+            snackbarHostState.currentSnackbarData?.dismiss()
         }
     }
 
@@ -100,7 +111,7 @@ fun AddReminderContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(padding),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
 
@@ -142,6 +153,8 @@ fun AddReminderContent(
     }
 }
 
+
+private fun getString(context: Context, messageResId: Int): String = context.getString(messageResId)
 
 @ThemesPreviews
 @Composable

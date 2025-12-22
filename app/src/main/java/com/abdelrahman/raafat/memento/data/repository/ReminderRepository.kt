@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
  * from a given data source.
  */
 interface ReminderRepository {
-    suspend fun insertReminder(reminder: ReminderEntity) : Long
+    suspend fun insertReminder(reminder: ReminderEntity) : Boolean
 
     suspend fun updateReminder(reminder: ReminderEntity) : Int
 

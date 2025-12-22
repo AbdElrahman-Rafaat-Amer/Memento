@@ -8,8 +8,9 @@ import javax.inject.Inject
 class OfflineReminderRepository @Inject constructor(
     private val reminderDao: ReminderDao
 ) : ReminderRepository {
-    override suspend fun insertReminder(reminder: ReminderEntity): Long {
-        return reminderDao.insertReminder(reminder)
+    override suspend fun insertReminder(reminder: ReminderEntity): Boolean {
+         val insertResult = reminderDao.insertReminder(reminder)
+        return insertResult > 0
     }
 
     override suspend fun updateReminder(reminder: ReminderEntity): Int {
