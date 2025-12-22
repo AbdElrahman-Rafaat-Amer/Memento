@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.core.components
+package com.abdelrahman.raafat.memento.ui.core.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -11,11 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 
 @Composable
-fun MEMProgressIndicator(
+fun MemoProgressIndicator(
     size: Int,
     currentPage: Int? = null,
     pagerState: PagerState? = null
@@ -48,16 +48,16 @@ fun MEMProgressIndicator(
                 } else {
                     Color.Transparent
                 }
-            MEMCustomIndicator(borderColor, color)
+            MemoCustomIndicator(borderColor, color)
         }
     }
 }
 
 @ThemesPreviews
 @Composable
-private fun MEMProgressIndicatorPreview() {
+private fun MemoProgressIndicatorPreview() {
     MementoTheme {
-        MEMProgressIndicator(
+        MemoProgressIndicator(
             size = 4,
             currentPage = 3,
             pagerState = null

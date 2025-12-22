@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.core.components
+package com.abdelrahman.raafat.memento.ui.core.components
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.shape.CircleShape
@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.abdelrahman.raafat.memento.core.theme.MementoTheme
-import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
-fun MEMFabButton(
+fun MemoFabButton(
     @DrawableRes iconResID: Int,
     contentDescription: String,
     onFabClick: () -> Unit,
@@ -43,9 +43,9 @@ fun MEMFabButton(
 
 @ThemesPreviews
 @Composable
-private fun MEMFabButtonPreview() {
+private fun MemoFabButtonPreview() {
     MementoTheme {
-        MEMFabButton(
+        MemoFabButton(
             iconResID = android.R.drawable.ic_menu_add,
             contentDescription = "Add",
             onFabClick = {}

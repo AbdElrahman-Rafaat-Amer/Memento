@@ -26,11 +26,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.core.components.MEMCheckbox
-import com.abdelrahman.raafat.memento.core.components.MEMPrimaryButton
-import com.abdelrahman.raafat.memento.core.components.MEMProgressIndicator
-import com.abdelrahman.raafat.memento.core.theme.MementoTheme
-import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.core.components.MemoCheckbox
+import com.abdelrahman.raafat.memento.ui.core.components.MemoPrimaryButton
+import com.abdelrahman.raafat.memento.ui.core.components.MemoProgressIndicator
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.onboarding.OnboardingViewModel
 import kotlinx.coroutines.launch
 
@@ -86,7 +86,7 @@ fun OnboardingScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        MEMProgressIndicator(
+        MemoProgressIndicator(
             pagerState = pagerState,
             size = onboardingList.size,
             currentPage = 0
@@ -94,7 +94,7 @@ fun OnboardingScreen(
 
         Spacer(Modifier.height(16.dp))
 
-        MEMPrimaryButton(
+        MemoPrimaryButton(
             text = primaryButtonText.value,
             modifier = Modifier.padding(horizontal = 24.dp)
         ) {
@@ -113,11 +113,11 @@ fun OnboardingScreen(
         Spacer(Modifier.height(8.dp))
 
         if (isLastItem) {
-            MEMCheckbox(stringResource(R.string.show_onboarding)) {
+            MemoCheckbox(stringResource(R.string.show_onboarding)) {
                 viewModel.showAgain = it
             }
         } else {
-            MEMPrimaryButton(
+            MemoPrimaryButton(
                 text = stringResource(R.string.skip),
                 isTextButton = true,
                 modifier = Modifier.padding(horizontal = 24.dp)

@@ -1,5 +1,6 @@
-package com.abdelrahman.raafat.memento.core.components
+package com.abdelrahman.raafat.memento.ui.core.components
 
+import androidx.annotation.RawRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -13,7 +14,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun LottieLoader(
     modifier: Modifier,
-    @androidx.annotation.RawRes lottieAnimation: Int,
+    @RawRes lottieAnimation: Int,
     iterations : Int = 1,
     onFinished: () -> Unit = {}
 ) {

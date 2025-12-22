@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.core.components
+package com.abdelrahman.raafat.memento.ui.core.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -19,18 +20,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.core.theme.AppTextStyles
-import com.abdelrahman.raafat.memento.core.theme.MementoTheme
-import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
-fun MEMOutlinedTextField(
+fun MemoOutlinedTextField(
     value: String,
     modifier: Modifier = Modifier,
     textStyle: TextStyle,
     isEnabled: Boolean = true,
     isClickable: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     placeholder: @Composable (() -> Unit)? = null,
     label: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -52,12 +54,13 @@ fun MEMOutlinedTextField(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions
     )
 }
 
 @ThemesPreviews
 @Composable
-private fun MEMOutlinedTextFieldPreview() {
+private fun MemoOutlinedTextFieldPreview() {
     MementoTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -67,7 +70,7 @@ private fun MEMOutlinedTextFieldPreview() {
                     MaterialTheme.colorScheme.background
                 )
         ) {
-            MEMOutlinedTextField(
+            MemoOutlinedTextField(
                 value = stringResource(R.string.write_something),
                 textStyle = AppTextStyles.textStyle16SPNormal,
                 label = { Text(stringResource(R.string.additional_info)) },

@@ -35,4 +35,7 @@
     <string name="select_date_in_future">Please select a future date and time</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="failed_to_save_reminder">Failed to save reminder</string>
+    <string name="title_required">Title Required</string>
+    <string name="date_required">Date Required</string>
+    <string name="time_required">Time Required</string>
 </resources>

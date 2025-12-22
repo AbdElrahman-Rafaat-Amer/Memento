@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.core.components
+package com.abdelrahman.raafat.memento.ui.core.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 
 @Composable
-fun MEMPrimaryButton(
+fun MemoPrimaryButton(
     text: String,
     modifier: Modifier = Modifier,
     isAllCaps: Boolean = true,
@@ -92,7 +92,7 @@ fun MEMPrimaryButton(
 
 @ThemesPreviews
 @Composable
-private fun MEMPrimaryButtonPreview() {
+private fun MemoPrimaryButtonPreview() {
     MementoTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -102,18 +102,18 @@ private fun MEMPrimaryButtonPreview() {
                     MaterialTheme.colorScheme.background
                 )
         ) {
-            MEMPrimaryButton(
+            MemoPrimaryButton(
                 text = "Next",
                 onButtonClicked = {}
             )
 
-            MEMPrimaryButton(
+            MemoPrimaryButton(
                 text = "Skip",
                 isTextButton = true,
                 onButtonClicked = {}
             )
 
-            MEMPrimaryButton(
+            MemoPrimaryButton(
                 text = "Disabled",
                 isEnabled = false,
                 onButtonClicked = {}

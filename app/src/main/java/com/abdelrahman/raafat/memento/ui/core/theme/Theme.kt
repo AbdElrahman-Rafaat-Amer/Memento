@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.core.theme
+package com.abdelrahman.raafat.memento.ui.core.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -9,7 +9,7 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.abdelrahman.raafat.memento.core.theme.AppTextStyles.MEMTypography
+import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles.MEMTypography
 
 
 private val LightColorScheme = lightColorScheme(

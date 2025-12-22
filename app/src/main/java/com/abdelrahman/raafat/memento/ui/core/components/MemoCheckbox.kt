@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.core.components
+package com.abdelrahman.raafat.memento.ui.core.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,11 +17,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 
 @Composable
-fun MEMCheckbox(
+fun MemoCheckbox(
     text: String,
     isAllCaps: Boolean = false,
     isChecked: Boolean = true,
@@ -64,12 +64,12 @@ fun MEMCheckbox(
 
 @ThemesPreviews
 @Composable
-private fun MEMCheckboxPreview() {
+private fun MemoCheckboxPreview() {
     MementoTheme {
         Column(
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-            MEMCheckbox("check Me") {
+            MemoCheckbox("check Me") {
             }
         }
     }

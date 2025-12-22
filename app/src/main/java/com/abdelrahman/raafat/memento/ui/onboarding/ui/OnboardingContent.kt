@@ -14,17 +14,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.core.theme.AppTextStyles
-import com.abdelrahman.raafat.memento.core.theme.MementoTheme
-import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.onboarding.model.OnboardingItem
 
 @Composable
@@ -32,18 +30,12 @@ fun OnboardingContent(
     onboardingItem: OnboardingItem,
     modifier: Modifier = Modifier
 ) {
-    val windowInfo = LocalWindowInfo.current
-    val screenHeight = with(LocalDensity.current) {
-        windowInfo.containerSize.height.toDp()
-    }
 
     Column(
         modifier = modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-
-        Spacer(Modifier.height(screenHeight * 0.3f))
 
         Image(
             painter = painterResource(onboardingItem.imageResId),

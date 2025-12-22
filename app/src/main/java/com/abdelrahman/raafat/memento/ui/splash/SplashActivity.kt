@@ -13,8 +13,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.abdelrahman.raafat.memento.MainActivity
-import com.abdelrahman.raafat.memento.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.onboarding.OnboardingActivity
+import com.abdelrahman.raafat.memento.ui.splash.model.Destination
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

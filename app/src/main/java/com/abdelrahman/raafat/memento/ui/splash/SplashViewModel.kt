@@ -3,6 +3,7 @@ package com.abdelrahman.raafat.memento.ui.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.data.local.datastore.OnboardingPreferences
+import com.abdelrahman.raafat.memento.ui.splash.model.Destination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map

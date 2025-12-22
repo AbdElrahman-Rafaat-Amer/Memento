@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.ui.addreminder
+package com.abdelrahman.raafat.memento.ui.addreminder.ui
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction

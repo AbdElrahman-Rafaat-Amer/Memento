@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.ui.dashboard
+package com.abdelrahman.raafat.memento.ui.dashboard.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.core.components.MEMPrimaryButton
-import com.abdelrahman.raafat.memento.core.theme.AppTextStyles
+import com.abdelrahman.raafat.memento.ui.core.components.MemoPrimaryButton
+import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 
 @Composable
 fun ErrorScreen(
@@ -38,7 +38,7 @@ fun ErrorScreen(
 
         Spacer(Modifier.height((32.dp)))
 
-        MEMPrimaryButton(
+        MemoPrimaryButton(
             text = stringResource(R.string.retry),
             onButtonClicked = onRetry
         )

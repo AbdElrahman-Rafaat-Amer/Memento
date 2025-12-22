@@ -1,5 +1,6 @@
 package com.abdelrahman.raafat.memento.ui.addreminder
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
@@ -8,10 +9,10 @@ import com.abdelrahman.raafat.memento.data.repository.ReminderRepository
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -27,8 +28,8 @@ class AddReminderViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(AddReminderUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _uiEvent = MutableStateFlow<AddReminderEvent?>(null)
-    val uiEvent = _uiEvent.asStateFlow()
+    private val _uiEvent = Channel<AddReminderEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     fun onTitleChange(value: String) {
         _uiState.update { it.copy(title = value) }
@@ -49,14 +50,21 @@ class AddReminderViewModel @Inject constructor(
     fun saveReminder() {
         val state = _uiState.value
 
-        if (isValidReminder(state).not()) {
+        val validationError = validateReminder(state)
+        if (validationError != null) {
+            _uiState.update { it.copy(validationError = validationError) }
+            viewModelScope.launch {
+                _uiEvent.send(AddReminderEvent.ShowError(validationError))
+            }
             return
         }
 
         val selectedDateTime = LocalDateTime.of(state.date!!, state.time!!)
         if (selectedDateTime.isBefore(LocalDateTime.now())) {
+            val errorResId = R.string.select_date_in_future
+            _uiState.update { it.copy(validationError = errorResId) }
             viewModelScope.launch {
-                _uiEvent.value = AddReminderEvent.ShowError(R.string.select_date_in_future)
+                _uiEvent.send(AddReminderEvent.ShowError(errorResId))
             }
             return
         }
@@ -69,18 +77,30 @@ class AddReminderViewModel @Inject constructor(
                     time = state.time.toSecondOfDay().toLong(),
                     additionalInfo = state.additionalInfo,
                 )
-                val insertResult = reminderRepository.insertReminder(newReminder)
-                if (insertResult > 0) {
-                    _uiEvent.value = AddReminderEvent.ReminderSaved
+                val isSuccessInsert = reminderRepository.insertReminder(newReminder)
+                if (isSuccessInsert) {
+                    _uiEvent.send(AddReminderEvent.ReminderSaved)
                 } else {
-                    _uiEvent.value = AddReminderEvent.ShowError(R.string.failed_to_save_reminder)
+                    _uiEvent.send(AddReminderEvent.ShowError(R.string.failed_to_save_reminder))
                 }
-            } catch (_: Exception){
-                _uiEvent.value = AddReminderEvent.ShowError(R.string.something_went_wrong)
+            } catch (exception: Exception) {
+                Log.e(TAG, "saveReminder: exception.messageResId = ${exception.message}")
+                _uiEvent.send(AddReminderEvent.ShowError(R.string.something_went_wrong))
             }
         }
     }
 
-    private fun isValidReminder(state: AddReminderUiState) =
-        state.title.isNotBlank() && state.date != null && state.time != null
+
+    private fun validateReminder(state: AddReminderUiState): Int? {
+        return when {
+            state.title.isBlank() -> R.string.title_required
+            state.date == null -> R.string.date_required
+            state.time == null -> R.string.time_required
+            else -> null
+        }
+    }
+
+    companion object {
+        private const val TAG = "AddReminderViewModel"
+    }
 }
