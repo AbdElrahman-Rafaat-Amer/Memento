@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.ui.core.components.LoadingScreen
-import com.abdelrahman.raafat.memento.ui.core.components.MEMFabButton
-import com.abdelrahman.raafat.memento.ui.core.components.MEMTobBar
+import com.abdelrahman.raafat.memento.ui.core.components.MemoFabButton
+import com.abdelrahman.raafat.memento.ui.core.components.MemoTobBar
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
@@ -37,7 +37,7 @@ fun DashboardScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            MEMTobBar(
+            MemoTobBar(
                 title = stringResource(R.string.app_name),
                 iconVector = null,
                 isTitleCentered = false
@@ -71,7 +71,7 @@ fun DashboardScreen(
             }
         }
 
-        MEMFabButton(
+        MemoFabButton(
             iconResID = android.R.drawable.ic_input_add,
             contentDescription = stringResource(R.string.add),
             modifier = Modifier.size(70.dp),

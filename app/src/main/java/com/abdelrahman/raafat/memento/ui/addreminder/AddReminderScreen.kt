@@ -21,9 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.ui.core.components.MEMOutlinedTextField
-import com.abdelrahman.raafat.memento.ui.core.components.MEMPrimaryButton
-import com.abdelrahman.raafat.memento.ui.core.components.MEMTobBar
+import com.abdelrahman.raafat.memento.ui.core.components.MemoOutlinedTextField
+import com.abdelrahman.raafat.memento.ui.core.components.MemoPrimaryButton
+import com.abdelrahman.raafat.memento.ui.core.components.MemoTobBar
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
@@ -40,7 +40,7 @@ fun AddReminderScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MEMTobBar(
+        MemoTobBar(
             title = stringResource(R.string.new_reminder),
             onBackButtonClicked = onBack
         )
@@ -85,7 +85,7 @@ fun AddReminderContent(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
 
-        MEMOutlinedTextField(
+        MemoOutlinedTextField(
             value = state.title,
             textStyle = AppTextStyles.textStyle16SPNormal,
             label = { Text(stringResource(R.string.title)) },
@@ -103,7 +103,7 @@ fun AddReminderContent(
             onTimeSelected = viewModel::onTimeSelected
         )
 
-        MEMOutlinedTextField(
+        MemoOutlinedTextField(
             value = state.additionalInfo,
             textStyle = AppTextStyles.textStyle16SPNormal,
             label = { Text(stringResource(R.string.additional_info)) },
@@ -111,7 +111,7 @@ fun AddReminderContent(
             onValueChange = viewModel::onAdditionalInfo
         )
 
-        MEMPrimaryButton(
+        MemoPrimaryButton(
             text = stringResource(R.string.save_reminder),
             isAllCaps = false,
             isEnabled = state.title.isNotBlank()

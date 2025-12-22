@@ -32,7 +32,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
-fun MEMTobBar(
+fun MemoTobBar(
     title: String,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = AppTextStyles.textStyle16SPNormal.copy(textAlign = TextAlign.Center),
@@ -83,7 +83,7 @@ fun MEMTobBar(
 
 @ThemesPreviews
 @Composable
-private fun MEMTobBarPreview() {
+private fun MemoTobBarPreview() {
     MementoTheme {
         Column(
             modifier = Modifier
@@ -91,11 +91,11 @@ private fun MEMTobBarPreview() {
                 .background(MaterialTheme.colorScheme.background),
             verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
         ) {
-            MEMTobBar(
+            MemoTobBar(
                 title = stringResource(R.string.new_reminder)
             )
 
-            MEMTobBar(
+            MemoTobBar(
                 title = stringResource(R.string.new_reminder),
                 iconVector = null,
                 isTitleCentered = false

@@ -24,7 +24,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 
 @Composable
-fun MEMCustomIndicator(
+fun MemoCustomIndicator(
     color: Color,
     borderColor: Color = color,
     selectedColor: Color = color,
@@ -65,16 +65,16 @@ fun MEMCustomIndicator(
 
 @ThemesPreviews
 @Composable
-private fun MEMCustomIndicatorPreview() {
+private fun MemoCustomIndicatorPreview() {
     MementoTheme {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-            MEMCustomIndicator(
+            MemoCustomIndicator(
                 color = MaterialTheme.colorScheme.primary,
                 size = 70.dp,
                 text = "2"
             )
 
-            MEMCustomIndicator(
+            MemoCustomIndicator(
                 color = MaterialTheme.colorScheme.primary,
                 size = 70.dp,
                 text = "4",

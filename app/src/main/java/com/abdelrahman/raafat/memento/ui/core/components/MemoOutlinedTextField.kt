@@ -24,7 +24,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
-fun MEMOutlinedTextField(
+fun MemoOutlinedTextField(
     value: String,
     modifier: Modifier = Modifier,
     textStyle: TextStyle,
@@ -57,7 +57,7 @@ fun MEMOutlinedTextField(
 
 @ThemesPreviews
 @Composable
-private fun MEMOutlinedTextFieldPreview() {
+private fun MemoOutlinedTextFieldPreview() {
     MementoTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -67,7 +67,7 @@ private fun MEMOutlinedTextFieldPreview() {
                     MaterialTheme.colorScheme.background
                 )
         ) {
-            MEMOutlinedTextField(
+            MemoOutlinedTextField(
                 value = stringResource(R.string.write_something),
                 textStyle = AppTextStyles.textStyle16SPNormal,
                 label = { Text(stringResource(R.string.additional_info)) },

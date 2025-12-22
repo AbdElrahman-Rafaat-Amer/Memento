@@ -15,7 +15,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 
 @Composable
-fun MEMProgressIndicator(
+fun MemoProgressIndicator(
     size: Int,
     currentPage: Int? = null,
     pagerState: PagerState? = null
@@ -48,16 +48,16 @@ fun MEMProgressIndicator(
                 } else {
                     Color.Transparent
                 }
-            MEMCustomIndicator(borderColor, color)
+            MemoCustomIndicator(borderColor, color)
         }
     }
 }
 
 @ThemesPreviews
 @Composable
-private fun MEMProgressIndicatorPreview() {
+private fun MemoProgressIndicatorPreview() {
     MementoTheme {
-        MEMProgressIndicator(
+        MemoProgressIndicator(
             size = 4,
             currentPage = 3,
             pagerState = null

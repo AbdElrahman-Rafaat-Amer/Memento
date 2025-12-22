@@ -21,7 +21,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 
 @Composable
-fun MEMCheckbox(
+fun MemoCheckbox(
     text: String,
     isAllCaps: Boolean = false,
     isChecked: Boolean = true,
@@ -64,12 +64,12 @@ fun MEMCheckbox(
 
 @ThemesPreviews
 @Composable
-private fun MEMCheckboxPreview() {
+private fun MemoCheckboxPreview() {
     MementoTheme {
         Column(
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
-            MEMCheckbox("check Me") {
+            MemoCheckbox("check Me") {
             }
         }
     }

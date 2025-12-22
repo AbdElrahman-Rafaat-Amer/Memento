@@ -1,6 +1,5 @@
 package com.abdelrahman.raafat.memento.ui.core.components
 
-import android.R
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
@@ -16,7 +15,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
-fun MEMFabButton(
+fun MemoFabButton(
     @DrawableRes iconResID: Int,
     contentDescription: String,
     onFabClick: () -> Unit,
@@ -44,10 +43,10 @@ fun MEMFabButton(
 
 @ThemesPreviews
 @Composable
-private fun MEMFabButtonPreview() {
+private fun MemoFabButtonPreview() {
     MementoTheme {
-        MEMFabButton(
-            iconResID = R.drawable.ic_menu_add,
+        MemoFabButton(
+            iconResID = android.R.drawable.ic_menu_add,
             contentDescription = "Add",
             onFabClick = {}
         )
