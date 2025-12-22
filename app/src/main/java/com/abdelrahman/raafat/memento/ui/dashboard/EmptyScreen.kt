@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.core.theme.AppTextStyles
+import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 
 
 @Composable

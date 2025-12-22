@@ -21,12 +21,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.core.components.MEMOutlinedTextField
-import com.abdelrahman.raafat.memento.core.components.MEMPrimaryButton
-import com.abdelrahman.raafat.memento.core.components.MEMTobBar
-import com.abdelrahman.raafat.memento.core.theme.AppTextStyles
-import com.abdelrahman.raafat.memento.core.theme.MementoTheme
-import com.abdelrahman.raafat.memento.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.core.components.MEMOutlinedTextField
+import com.abdelrahman.raafat.memento.ui.core.components.MEMPrimaryButton
+import com.abdelrahman.raafat.memento.ui.core.components.MEMTobBar
+import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
 
 @Composable
