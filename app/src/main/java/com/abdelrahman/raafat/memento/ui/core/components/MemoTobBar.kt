@@ -35,7 +35,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 fun MemoTobBar(
     title: String,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = AppTextStyles.textStyle16SPNormal.copy(textAlign = TextAlign.Center),
+    textStyle: TextStyle = AppTextStyles.textStyle20SPSemiBold.copy(textAlign = TextAlign.Center),
     iconVector: ImageVector? = Icons.AutoMirrored.Filled.ArrowBack,
     iconColor: Color? = MaterialTheme.colorScheme.onBackground,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
@@ -56,7 +56,7 @@ fun MemoTobBar(
                     strokeWidth = borderWidth.toPx()
                 )
             }
-            .padding(12.dp),
+            .padding(horizontal = 12.dp, vertical = 15.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
@@ -97,6 +97,7 @@ private fun MemoTobBarPreview() {
 
             MemoTobBar(
                 title = stringResource(R.string.new_reminder),
+                textStyle = AppTextStyles.textStyle28SPMedium,
                 iconVector = null,
                 isTitleCentered = false
             )

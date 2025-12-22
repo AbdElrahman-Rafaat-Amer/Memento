@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.ui.dashboard
+package com.abdelrahman.raafat.memento.ui.dashboard.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,7 +23,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
 
 @Composable
-fun ReminderItem(item: DashboardReminderUi) {
+fun ReminderRow(item: DashboardReminderUi) {
 
     Row(
         modifier = Modifier
@@ -87,7 +87,7 @@ private fun ReminderItemPreview() {
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background),
         ) {
-            ReminderItem(
+            ReminderRow(
                 item = DashboardReminderUi(
                     id = 1,
                     title = "title",
