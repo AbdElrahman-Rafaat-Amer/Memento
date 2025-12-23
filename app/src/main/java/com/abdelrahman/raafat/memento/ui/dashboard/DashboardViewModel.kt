@@ -8,6 +8,7 @@ import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardUiState
 import com.abdelrahman.raafat.memento.utils.DateTimeFormats
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -29,13 +30,15 @@ class DashboardViewModel @Inject constructor(
         MutableStateFlow(DashboardUiState(isLoading = true))
     val dashboardUiState = _dashboardUiState.asStateFlow()
 
+    private var loadJob: Job? = null
 
     init {
         loadReminders()
     }
 
     private fun loadReminders() {
-        viewModelScope.launch {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
             reminderRepository.getAllReminders()
                 .map { entities -> entities.map(::mapToUiModel) }
                 .catch { exception ->
