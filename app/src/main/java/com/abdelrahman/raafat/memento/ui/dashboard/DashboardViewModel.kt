@@ -68,7 +68,7 @@ class DashboardViewModel @Inject constructor(
 
         val localDateTime = LocalDateTime.of(localDate, localTime)
         val formatter =
-            DateTimeFormatter.ofPattern(DateTimeFormats.REMINDER_DATE_TIME, Locale.ENGLISH)
+            DateTimeFormatter.ofPattern(DateTimeFormats.REMINDER_DATE_TIME, Locale.getDefault())
         return localDateTime.format(formatter)
     }
 
