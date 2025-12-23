@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.ui.addreminder.ui
+package com.abdelrahman.raafat.memento.ui.addreminder.components
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -22,6 +22,8 @@ import com.abdelrahman.raafat.memento.R
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,6 +33,7 @@ fun DatePickerField(
 ) {
     val datePickerState = rememberDatePickerState()
     var show by remember { mutableStateOf(false) }
+    val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
 
     if (show) {
         DatePickerDialog(
@@ -55,7 +58,7 @@ fun DatePickerField(
     }
 
     OutlinedTextField(
-        value = date?.toString() ?: "",
+        value = date?.format(dateFormatter) ?: "",
         onValueChange = {},
         readOnly = true,
         label = { Text(stringResource(R.string.date)) },

@@ -2,6 +2,7 @@ package com.abdelrahman.raafat.memento.data.repository
 
 import com.abdelrahman.raafat.memento.data.local.dao.ReminderDao
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
+import com.abdelrahman.raafat.memento.domain.ReminderRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

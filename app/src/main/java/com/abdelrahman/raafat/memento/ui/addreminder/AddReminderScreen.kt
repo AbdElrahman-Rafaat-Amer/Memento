@@ -4,9 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,13 +22,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
-import com.abdelrahman.raafat.memento.ui.addreminder.ui.DatePickerField
-import com.abdelrahman.raafat.memento.ui.addreminder.ui.TimePickerField
+import com.abdelrahman.raafat.memento.ui.addreminder.model.isValid
+import com.abdelrahman.raafat.memento.ui.addreminder.components.DatePickerField
+import com.abdelrahman.raafat.memento.ui.addreminder.components.TimePickerField
 import com.abdelrahman.raafat.memento.ui.core.components.MemoOutlinedTextField
 import com.abdelrahman.raafat.memento.ui.core.components.MemoPrimaryButton
 import com.abdelrahman.raafat.memento.ui.core.components.MemoTobBar
@@ -55,8 +55,6 @@ fun AddReminderScreen(
             onBackButtonClicked = onBack
         )
 
-        Spacer(Modifier.height(20.dp))
-
         AddReminderContent(viewModel, onBack)
     }
 }
@@ -69,6 +67,7 @@ fun AddReminderContent(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
     val state by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -80,6 +79,7 @@ fun AddReminderContent(
 
                 is AddReminderEvent.ShowError -> {
                     scope.launch {
+                        snackbarHostState.currentSnackbarData?.dismiss()
                         snackbarHostState.showSnackbar(
                             message = getString(
                                 context = context,
@@ -111,7 +111,7 @@ fun AddReminderContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
 
@@ -144,10 +144,11 @@ fun AddReminderContent(
             MemoPrimaryButton(
                 text = stringResource(R.string.save_reminder),
                 isAllCaps = false,
-                isEnabled = state.title.isNotBlank()
-                        && state.date != null
-                        && state.time != null,
-                onButtonClicked = viewModel::saveReminder
+                isEnabled = state.isValid,
+                onButtonClicked = {
+                    focusManager.clearFocus()
+                    viewModel.saveReminder()
+                }
             )
         }
     }

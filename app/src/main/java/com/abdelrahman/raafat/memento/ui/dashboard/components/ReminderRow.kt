@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.ui.dashboard.ui
+package com.abdelrahman.raafat.memento.ui.dashboard.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,12 +25,17 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
 
 @Composable
-fun ReminderRow(item: DashboardReminderUi) {
+fun ReminderRow(
+    item: DashboardReminderUi,
+    onDoneClicked: (DashboardReminderUi) -> Unit = {},
+    onEditClicked: (DashboardReminderUi) -> Unit = {},
+    onDeleteClicked: (DashboardReminderUi) -> Unit = {}
+) {
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -61,19 +68,44 @@ fun ReminderRow(item: DashboardReminderUi) {
         }
 
         Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource(R.drawable.ic_edit),
-                tint = MaterialTheme.colorScheme.onSurface,
-                contentDescription = stringResource(R.string.edit)
-            )
+            IconButton(
+                onClick = { onDoneClicked(item) },
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_check),
+                    contentDescription = stringResource(R.string.done),
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
 
-            Icon(
-                painter = painterResource(R.drawable.ic_delete),
-                tint = MaterialTheme.colorScheme.onSurface,
-                contentDescription = stringResource(R.string.delete)
-            )
+            IconButton(
+                onClick = { onEditClicked(item) },
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_edit),
+                    contentDescription = stringResource(R.string.edit),
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+
+            IconButton(
+                onClick = { onDeleteClicked(item) },
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_delete),
+                    contentDescription = stringResource(R.string.delete),
+                    modifier = Modifier.size(24.dp),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
         }
     }
 }

@@ -24,9 +24,9 @@ import com.abdelrahman.raafat.memento.ui.core.components.MemoTobBar
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.ui.dashboard.ui.EmptyScreen
-import com.abdelrahman.raafat.memento.ui.dashboard.ui.ErrorScreen
-import com.abdelrahman.raafat.memento.ui.dashboard.ui.ReminderRow
+import com.abdelrahman.raafat.memento.ui.core.components.EmptyScreen
+import com.abdelrahman.raafat.memento.ui.core.components.ErrorScreen
+import com.abdelrahman.raafat.memento.ui.dashboard.components.ReminderRow
 
 @Composable
 fun DashboardScreen(
@@ -35,7 +35,9 @@ fun DashboardScreen(
 ) {
     val reminderUiState by dashboardViewModel.dashboardUiState.collectAsState()
     Box(
-        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
         contentAlignment = Alignment.BottomEnd
     ) {
         Column(
@@ -68,8 +70,22 @@ fun DashboardScreen(
 
                 else -> {
                     LazyColumn {
-                        items(reminderUiState.reminders) {
-                            ReminderRow(item = it)
+                        items(
+                            items = reminderUiState.reminders,
+                            key = { reminder -> reminder.id }
+                        ) { reminder ->
+                            ReminderRow(
+                                item = reminder,
+                                onDoneClicked = {
+                                    //TODO implement Done later
+                                },
+                                onEditClicked = {
+                                    //TODO implement Edit later
+                                },
+                                onDeleteClicked = {
+                                    //TODO implement Delete later
+                                }
+                            )
                         }
                     }
                 }
@@ -96,7 +112,7 @@ private fun DashboardScreenPreview() {
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
         ) {
-            DashboardScreen{}
+            DashboardScreen {}
         }
     }
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
-import com.abdelrahman.raafat.memento.data.repository.ReminderRepository
+import com.abdelrahman.raafat.memento.domain.ReminderRepository
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,19 +52,8 @@ class AddReminderViewModel @Inject constructor(
 
         val validationError = validateReminder(state)
         if (validationError != null) {
-            _uiState.update { it.copy(validationError = validationError) }
             viewModelScope.launch {
                 _uiEvent.send(AddReminderEvent.ShowError(validationError))
-            }
-            return
-        }
-
-        val selectedDateTime = LocalDateTime.of(state.date!!, state.time!!)
-        if (selectedDateTime.isBefore(LocalDateTime.now())) {
-            val errorResId = R.string.select_date_in_future
-            _uiState.update { it.copy(validationError = errorResId) }
-            viewModelScope.launch {
-                _uiEvent.send(AddReminderEvent.ShowError(errorResId))
             }
             return
         }
@@ -73,8 +62,8 @@ class AddReminderViewModel @Inject constructor(
             try {
                 val newReminder = ReminderEntity(
                     title = state.title,
-                    date = state.date.toEpochDay(),
-                    time = state.time.toSecondOfDay().toLong(),
+                    date = state.date!!.toEpochDay(),
+                    time = state.time!!.toSecondOfDay().toLong(),
                     additionalInfo = state.additionalInfo,
                 )
                 val isSuccessInsert = reminderRepository.insertReminder(newReminder)
@@ -96,7 +85,14 @@ class AddReminderViewModel @Inject constructor(
             state.title.isBlank() -> R.string.title_required
             state.date == null -> R.string.date_required
             state.time == null -> R.string.time_required
-            else -> null
+            else -> {
+                val selectedDateTime = LocalDateTime.of(state.date, state.time)
+                if (selectedDateTime.isBefore(LocalDateTime.now())) {
+                    R.string.select_date_in_future
+                } else {
+                    null
+                }
+            }
         }
     }
 
