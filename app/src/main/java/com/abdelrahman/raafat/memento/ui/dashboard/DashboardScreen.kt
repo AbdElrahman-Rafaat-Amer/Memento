@@ -24,9 +24,9 @@ import com.abdelrahman.raafat.memento.ui.core.components.MemoTobBar
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.ui.dashboard.ui.EmptyScreen
-import com.abdelrahman.raafat.memento.ui.dashboard.ui.ErrorScreen
-import com.abdelrahman.raafat.memento.ui.dashboard.ui.ReminderRow
+import com.abdelrahman.raafat.memento.ui.core.components.EmptyScreen
+import com.abdelrahman.raafat.memento.ui.core.components.ErrorScreen
+import com.abdelrahman.raafat.memento.ui.dashboard.components.ReminderRow
 
 @Composable
 fun DashboardScreen(

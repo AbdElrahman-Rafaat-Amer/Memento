@@ -3,7 +3,7 @@ package com.abdelrahman.raafat.memento.ui.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
-import com.abdelrahman.raafat.memento.data.repository.ReminderRepository
+import com.abdelrahman.raafat.memento.domain.ReminderRepository
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardUiState
 import com.abdelrahman.raafat.memento.utils.DateTimeFormats

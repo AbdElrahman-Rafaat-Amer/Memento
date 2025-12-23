@@ -1,7 +1,7 @@
 package com.abdelrahman.raafat.memento.di
 
 import com.abdelrahman.raafat.memento.data.repository.OfflineReminderRepository
-import com.abdelrahman.raafat.memento.data.repository.ReminderRepository
+import com.abdelrahman.raafat.memento.domain.ReminderRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

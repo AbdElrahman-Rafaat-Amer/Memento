@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
-import com.abdelrahman.raafat.memento.data.repository.ReminderRepository
+import com.abdelrahman.raafat.memento.domain.ReminderRepository
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

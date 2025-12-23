@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.ui.dashboard.ui
+package com.abdelrahman.raafat.memento.ui.core.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
-
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
 fun EmptyScreen() {
@@ -28,5 +29,15 @@ fun EmptyScreen() {
                 textAlign = TextAlign.Center
             )
         )
+    }
+}
+
+
+
+@ThemesPreviews
+@Composable
+fun EmptyScreenPreview(){
+    MementoTheme {
+        EmptyScreen()
     }
 }

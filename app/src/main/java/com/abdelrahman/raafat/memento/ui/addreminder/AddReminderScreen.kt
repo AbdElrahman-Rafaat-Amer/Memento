@@ -29,8 +29,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
 import com.abdelrahman.raafat.memento.ui.addreminder.model.isValid
-import com.abdelrahman.raafat.memento.ui.addreminder.ui.DatePickerField
-import com.abdelrahman.raafat.memento.ui.addreminder.ui.TimePickerField
+import com.abdelrahman.raafat.memento.ui.addreminder.components.DatePickerField
+import com.abdelrahman.raafat.memento.ui.addreminder.components.TimePickerField
 import com.abdelrahman.raafat.memento.ui.core.components.MemoOutlinedTextField
 import com.abdelrahman.raafat.memento.ui.core.components.MemoPrimaryButton
 import com.abdelrahman.raafat.memento.ui.core.components.MemoTobBar
