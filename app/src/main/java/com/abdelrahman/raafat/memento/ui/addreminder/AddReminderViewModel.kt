@@ -59,22 +59,12 @@ class AddReminderViewModel @Inject constructor(
             return
         }
 
-        val selectedDateTime = LocalDateTime.of(state.date!!, state.time!!)
-        if (selectedDateTime.isBefore(LocalDateTime.now())) {
-            val errorResId = R.string.select_date_in_future
-            _uiState.update { it.copy(validationError = errorResId) }
-            viewModelScope.launch {
-                _uiEvent.send(AddReminderEvent.ShowError(errorResId))
-            }
-            return
-        }
-
         viewModelScope.launch {
             try {
                 val newReminder = ReminderEntity(
                     title = state.title,
-                    date = state.date.toEpochDay(),
-                    time = state.time.toSecondOfDay().toLong(),
+                    date = state.date!!.toEpochDay(),
+                    time = state.time!!.toSecondOfDay().toLong(),
                     additionalInfo = state.additionalInfo,
                 )
                 val isSuccessInsert = reminderRepository.insertReminder(newReminder)
@@ -96,7 +86,14 @@ class AddReminderViewModel @Inject constructor(
             state.title.isBlank() -> R.string.title_required
             state.date == null -> R.string.date_required
             state.time == null -> R.string.time_required
-            else -> null
+            else ->{
+                val selectedDateTime = LocalDateTime.of(state.date, state.time)
+                if (selectedDateTime.isBefore(LocalDateTime.now())) {
+                  R.string.select_date_in_future
+                } else {
+                    null
+                }
+            }
         }
     }
 

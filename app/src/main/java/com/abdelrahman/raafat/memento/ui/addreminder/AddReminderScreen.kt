@@ -55,8 +55,6 @@ fun AddReminderScreen(
             onBackButtonClicked = onBack
         )
 
-        Spacer(Modifier.height(20.dp))
-
         AddReminderContent(viewModel, onBack)
     }
 }
@@ -111,7 +109,7 @@ fun AddReminderContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
+                .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
 
