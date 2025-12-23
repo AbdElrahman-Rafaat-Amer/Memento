@@ -70,9 +70,12 @@ fun DashboardScreen(
 
                 else -> {
                     LazyColumn {
-                        items(reminderUiState.reminders) {
+                        items(
+                            items = reminderUiState.reminders,
+                            key = { reminder -> reminder.id }
+                        ) { reminder ->
                             ReminderRow(
-                                item = it,
+                                item = reminder,
                                 onDoneClicked = {
                                     //TODO implement Done later
                                 },
