@@ -20,7 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.abdelrahman.raafat.memento.R
 import java.time.LocalTime
-
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,6 +31,7 @@ fun TimePickerField(
 ) {
     val state = rememberTimePickerState()
     var show by remember { mutableStateOf(false) }
+    val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
     if (show) {
         AlertDialog(
@@ -49,7 +51,7 @@ fun TimePickerField(
     }
 
     OutlinedTextField(
-        value = time?.toString() ?: "",
+        value = time?.format(timeFormatter) ?: "",
         onValueChange = {},
         readOnly = true,
         label = { Text(stringResource(R.string.time)) },
