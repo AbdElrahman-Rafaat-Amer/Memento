@@ -52,7 +52,6 @@ class AddReminderViewModel @Inject constructor(
 
         val validationError = validateReminder(state)
         if (validationError != null) {
-            _uiState.update { it.copy(validationError = validationError) }
             viewModelScope.launch {
                 _uiEvent.send(AddReminderEvent.ShowError(validationError))
             }
@@ -86,10 +85,10 @@ class AddReminderViewModel @Inject constructor(
             state.title.isBlank() -> R.string.title_required
             state.date == null -> R.string.date_required
             state.time == null -> R.string.time_required
-            else ->{
+            else -> {
                 val selectedDateTime = LocalDateTime.of(state.date, state.time)
                 if (selectedDateTime.isBefore(LocalDateTime.now())) {
-                  R.string.select_date_in_future
+                    R.string.select_date_in_future
                 } else {
                     null
                 }
