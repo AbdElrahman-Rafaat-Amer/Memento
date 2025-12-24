@@ -28,6 +28,9 @@ interface ReminderDao {
     @Query("SELECT * FROM ReminderEntity ORDER BY id ASC")
     fun getAllReminders() : Flow<List<ReminderEntity>>
 
+    @Query("SELECT * FROM ReminderEntity WHERE isDone = 0 ORDER BY id ASC")
+    fun getUnDoneReminders(): Flow<List<ReminderEntity>>
+
     @Query("SELECT * FROM ReminderEntity Where isDone = 1 ORDER BY id ASC")
     fun getAllDoneReminders() : Flow<List<ReminderEntity>>
 }
