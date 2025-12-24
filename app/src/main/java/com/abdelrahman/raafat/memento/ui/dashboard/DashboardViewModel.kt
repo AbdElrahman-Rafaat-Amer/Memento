@@ -3,14 +3,19 @@ package com.abdelrahman.raafat.memento.ui.dashboard
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.domain.ReminderRepository
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardEvent
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardUiState
 import com.abdelrahman.raafat.memento.utils.DateTimeFormats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -30,6 +35,10 @@ class DashboardViewModel @Inject constructor(
     private val _dashboardUiState =
         MutableStateFlow(DashboardUiState(isLoading = true))
     val dashboardUiState = _dashboardUiState.asStateFlow()
+
+    private val _uiEvent = MutableSharedFlow<DashboardEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
+
 
     private var loadJob: Job? = null
 
@@ -83,19 +92,29 @@ class DashboardViewModel @Inject constructor(
 
     fun markReminderAsDone(dashboardReminderUi: DashboardReminderUi) {
         viewModelScope.launch {
-            val updatedReminder = dashboardReminderUi.copy(isDone = true)
+            try {
+                val updatedReminder = dashboardReminderUi.copy(isDone = true)
 
-            val (date, time) = parseDateTime(updatedReminder.dateTime)
-            val reminderEntity = ReminderEntity(
-                id = updatedReminder.id,
-                title = updatedReminder.title,
-                date = date,
-                time = time,
-                additionalInfo = updatedReminder.additionalInfo,
-                isDone = updatedReminder.isDone
-            )
-           val updateReminderResult = reminderRepository.updateReminder(reminderEntity)
-            Log.i("DashboardViewModel", "markReminderAsDone: updateReminderResult $updateReminderResult")
+                val (date, time) = parseDateTime(updatedReminder.dateTime)
+                val reminderEntity = ReminderEntity(
+                    id = updatedReminder.id,
+                    title = updatedReminder.title,
+                    date = date,
+                    time = time,
+                    additionalInfo = updatedReminder.additionalInfo,
+                    isDone = updatedReminder.isDone
+                )
+                val updateReminderResult = reminderRepository.updateReminder(reminderEntity)
+                if (updateReminderResult) {
+                    _uiEvent.emit(DashboardEvent.ShowSuccess(R.string.marked_as_done))
+                } else {
+                    _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_mark_as_done))
+
+                }
+            } catch (exception: Exception) {
+                Log.e(TAG, "markReminderAsDone: exception.messageResId = ${exception.message}")
+                _uiEvent.emit(DashboardEvent.ShowError(R.string.something_went_wrong))
+            }
         }
     }
 
@@ -111,5 +130,9 @@ class DashboardViewModel @Inject constructor(
         val time = localDateTime.toLocalTime().toSecondOfDay().toLong()
 
         return date to time
+    }
+
+    companion object {
+        private const val TAG = "DashboardViewModel"
     }
 }
