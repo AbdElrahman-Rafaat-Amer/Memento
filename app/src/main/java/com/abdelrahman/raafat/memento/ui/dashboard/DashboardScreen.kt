@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,19 +53,22 @@ fun DashboardScreen(
     LaunchedEffect(UInt) {
         dashboardViewModel.uiEvent.collect { event ->
             when (event) {
-                is DashboardEvent.ShowSuccess -> {
+                is DashboardEvent.ShowMarkAsDoneSuccess -> {
                     scope.launch {
-                        snackbarHostState.showSnackbar(
+                        val snackbarResult = snackbarHostState.showSnackbar(
                             message = getString(
                                 context = context,
                                 messageResId = event.messageResId
                             ),
                             actionLabel = getString(
                                 context = context,
-                                messageResId = R.string.ok
+                                messageResId = R.string.undo
                             ),
-                            duration = SnackbarDuration.Long
+                            duration = SnackbarDuration.Short
                         )
+                        if (snackbarResult == SnackbarResult.ActionPerformed) {
+                            dashboardViewModel.undoMarkingAsDone(dashboardReminderUi = event.reminder)
+                        }
                     }
                 }
 
@@ -99,8 +103,7 @@ fun DashboardScreen(
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
-            )
-            {
+            ) {
                 MemoTobBar(
                     title = stringResource(R.string.app_name),
                     textStyle = AppTextStyles.textStyle28SPMedium,

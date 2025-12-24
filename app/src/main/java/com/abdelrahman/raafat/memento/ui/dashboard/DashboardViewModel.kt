@@ -12,7 +12,6 @@ import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardUiState
 import com.abdelrahman.raafat.memento.utils.DateTimeFormats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -106,7 +105,12 @@ class DashboardViewModel @Inject constructor(
                 )
                 val updateReminderResult = reminderRepository.updateReminder(reminderEntity)
                 if (updateReminderResult) {
-                    _uiEvent.emit(DashboardEvent.ShowSuccess(R.string.marked_as_done))
+                    _uiEvent.emit(
+                        DashboardEvent.ShowMarkAsDoneSuccess(
+                            messageResId = R.string.marked_as_done,
+                            reminder = updatedReminder
+                        )
+                    )
                 } else {
                     _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_mark_as_done))
 
@@ -130,6 +134,28 @@ class DashboardViewModel @Inject constructor(
         val time = localDateTime.toLocalTime().toSecondOfDay().toLong()
 
         return date to time
+    }
+
+    fun undoMarkingAsDone(dashboardReminderUi: DashboardReminderUi) {
+        viewModelScope.launch {
+            try {
+                val updatedReminder = dashboardReminderUi.copy(isDone = false)
+
+                val (date, time) = parseDateTime(updatedReminder.dateTime)
+                val reminderEntity = ReminderEntity(
+                    id = updatedReminder.id,
+                    title = updatedReminder.title,
+                    date = date,
+                    time = time,
+                    additionalInfo = updatedReminder.additionalInfo,
+                    isDone = updatedReminder.isDone
+                )
+                reminderRepository.updateReminder(reminderEntity)
+            } catch (exception: Exception) {
+                Log.e(TAG, "undoMarkingAsDone: exception.messageResId = ${exception.message}")
+                _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_undo_action))
+            }
+        }
     }
 
     companion object {
