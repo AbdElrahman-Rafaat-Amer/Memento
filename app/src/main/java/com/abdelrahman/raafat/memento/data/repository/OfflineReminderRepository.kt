@@ -10,12 +10,13 @@ class OfflineReminderRepository @Inject constructor(
     private val reminderDao: ReminderDao
 ) : ReminderRepository {
     override suspend fun insertReminder(reminder: ReminderEntity): Boolean {
-         val insertResult = reminderDao.insertReminder(reminder)
+        val insertResult = reminderDao.insertReminder(reminder)
         return insertResult > 0
     }
 
-    override suspend fun updateReminder(reminder: ReminderEntity): Int {
-        return reminderDao.updateReminder(reminder)
+    override suspend fun updateReminder(reminder: ReminderEntity): Boolean {
+        val updateReminderResult = reminderDao.updateReminder(reminder)
+        return updateReminderResult > 0
     }
 
     override suspend fun deleteReminder(reminder: ReminderEntity): Int {
@@ -30,12 +31,13 @@ class OfflineReminderRepository @Inject constructor(
         return reminderDao.getReminderByTitle(title)
     }
 
-    override fun getAllReminders(): Flow<List<ReminderEntity>> {
-        return reminderDao.getAllReminders()
-    }
+    override fun getAllReminders(): Flow<List<ReminderEntity>> =
+        reminderDao.getAllReminders()
 
-    override fun getAllDoneReminders(): Flow<List<ReminderEntity>> {
-        return reminderDao.getAllDoneReminders()
-    }
+    override fun getUnDoneReminders(): Flow<List<ReminderEntity>> =
+        reminderDao.getUnDoneReminders()
+
+    override fun getAllDoneReminders(): Flow<List<ReminderEntity>> =
+        reminderDao.getAllDoneReminders()
 
 }

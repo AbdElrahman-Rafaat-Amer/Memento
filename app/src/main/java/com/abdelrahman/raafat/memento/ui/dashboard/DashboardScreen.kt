@@ -76,8 +76,8 @@ fun DashboardScreen(
                         ) { reminder ->
                             ReminderRow(
                                 item = reminder,
-                                onDoneClicked = {
-                                    //TODO implement Done later
+                                onDoneClicked = { reminderUi ->
+                                    dashboardViewModel.markReminderAsDone(reminderUi)
                                 },
                                 onEditClicked = {
                                     //TODO implement Edit later

@@ -1,5 +1,6 @@
 package com.abdelrahman.raafat.memento.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
@@ -39,7 +40,7 @@ class DashboardViewModel @Inject constructor(
     private fun loadReminders() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
-            reminderRepository.getAllReminders()
+            reminderRepository.getUnDoneReminders()
                 .map { entities -> entities.map(::mapToUiModel) }
                 .catch { exception ->
                     _dashboardUiState.value = DashboardUiState(
@@ -80,4 +81,35 @@ class DashboardViewModel @Inject constructor(
         loadReminders()
     }
 
+    fun markReminderAsDone(dashboardReminderUi: DashboardReminderUi) {
+        viewModelScope.launch {
+            val updatedReminder = dashboardReminderUi.copy(isDone = true)
+
+            val (date, time) = parseDateTime(updatedReminder.dateTime)
+            val reminderEntity = ReminderEntity(
+                id = updatedReminder.id,
+                title = updatedReminder.title,
+                date = date,
+                time = time,
+                additionalInfo = updatedReminder.additionalInfo,
+                isDone = updatedReminder.isDone
+            )
+           val updateReminderResult = reminderRepository.updateReminder(reminderEntity)
+            Log.i("DashboardViewModel", "markReminderAsDone: updateReminderResult $updateReminderResult")
+        }
+    }
+
+    private fun parseDateTime(dateTime: String): Pair<Long, Long> {
+        val formatter = DateTimeFormatter.ofPattern(
+            DateTimeFormats.REMINDER_DATE_TIME,
+            Locale.getDefault()
+        )
+
+        val localDateTime = LocalDateTime.parse(dateTime, formatter)
+
+        val date = localDateTime.toLocalDate().toEpochDay()
+        val time = localDateTime.toLocalTime().toSecondOfDay().toLong()
+
+        return date to time
+    }
 }
