@@ -150,7 +150,10 @@ class DashboardViewModel @Inject constructor(
                     additionalInfo = updatedReminder.additionalInfo,
                     isDone = updatedReminder.isDone
                 )
-                reminderRepository.updateReminder(reminderEntity)
+                val updateReminderResult = reminderRepository.updateReminder(reminderEntity)
+                if (updateReminderResult.not()){
+                    _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_undo_action))
+                }
             } catch (exception: Exception) {
                 Log.e(TAG, "undoMarkingAsDone: exception.messageResId = ${exception.message}")
                 _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_undo_action))

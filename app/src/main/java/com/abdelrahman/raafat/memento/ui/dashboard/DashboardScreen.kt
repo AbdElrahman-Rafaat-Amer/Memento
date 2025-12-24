@@ -50,7 +50,7 @@ fun DashboardScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    LaunchedEffect(UInt) {
+    LaunchedEffect(Unit) {
         dashboardViewModel.uiEvent.collect { event ->
             when (event) {
                 is DashboardEvent.ShowMarkAsDoneSuccess -> {
