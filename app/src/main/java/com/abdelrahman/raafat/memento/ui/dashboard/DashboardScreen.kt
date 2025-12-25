@@ -56,14 +56,8 @@ fun DashboardScreen(
                 is DashboardEvent.ShowMarkAsDoneSuccess -> {
                     scope.launch {
                         val snackbarResult = snackbarHostState.showSnackbar(
-                            message = getString(
-                                context = context,
-                                messageResId = event.messageResId
-                            ),
-                            actionLabel = getString(
-                                context = context,
-                                messageResId = R.string.undo
-                            ),
+                            message = context.getString(event.messageResId),
+                            actionLabel = context.getString(R.string.undo),
                             duration = SnackbarDuration.Short
                         )
                         if (snackbarResult == SnackbarResult.ActionPerformed) {
@@ -75,11 +69,8 @@ fun DashboardScreen(
                 is DashboardEvent.ShowError -> {
                     scope.launch {
                         snackbarHostState.showSnackbar(
-                            message = getString(
-                                context = context,
-                                messageResId = event.messageResId
-                            ),
-                            actionLabel = getString(context = context, messageResId = R.string.ok),
+                            message = context.getString(event.messageResId),
+                            actionLabel = context.getString(R.string.ok),
                             duration = SnackbarDuration.Long
                         )
                     }
@@ -163,9 +154,6 @@ fun DashboardScreen(
         }
     }
 }
-
-private fun getString(context: Context, messageResId: Int): String = context.getString(messageResId)
-
 
 @ThemesPreviews
 @Composable
