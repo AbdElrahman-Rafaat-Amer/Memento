@@ -38,7 +38,6 @@ class DashboardViewModel @Inject constructor(
     private val _uiEvent = MutableSharedFlow<DashboardEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
-
     private var loadJob: Job? = null
 
     init {
@@ -90,36 +89,16 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun markReminderAsDone(dashboardReminderUi: DashboardReminderUi) {
-        viewModelScope.launch {
-            try {
-                val updatedReminder = dashboardReminderUi.copy(isDone = true)
-
-                val (date, time) = parseDateTime(updatedReminder.dateTime)
-                val reminderEntity = ReminderEntity(
-                    id = updatedReminder.id,
-                    title = updatedReminder.title,
-                    date = date,
-                    time = time,
-                    additionalInfo = updatedReminder.additionalInfo,
-                    isDone = updatedReminder.isDone
-                )
-                val updateReminderResult = reminderRepository.updateReminder(reminderEntity)
-                if (updateReminderResult) {
-                    _uiEvent.emit(
-                        DashboardEvent.ShowMarkAsDoneSuccess(
-                            messageResId = R.string.marked_as_done,
-                            reminder = updatedReminder
-                        )
-                    )
-                } else {
-                    _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_mark_as_done))
-
-                }
-            } catch (exception: Exception) {
-                Log.e(TAG, "markReminderAsDone: exception.messageResId = ${exception.message}")
-                _uiEvent.emit(DashboardEvent.ShowError(R.string.something_went_wrong))
-            }
-        }
+        val updatedReminder = dashboardReminderUi.copy(isDone = true)
+        updateReminderAsDone(
+            dashboardReminderUi = dashboardReminderUi,
+            isDone = true,
+            successEvent = DashboardEvent.ShowMarkAsDoneSuccess(
+                messageResId = R.string.marked_as_done,
+                reminder = updatedReminder
+            ),
+            failedEvent = DashboardEvent.ShowError(R.string.failed_to_mark_as_done)
+        )
     }
 
     private fun parseDateTime(dateTime: String): Pair<Long, Long> {
@@ -137,26 +116,42 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun undoMarkingAsDone(dashboardReminderUi: DashboardReminderUi) {
+        updateReminderAsDone(
+            dashboardReminderUi = dashboardReminderUi,
+            isDone = false,
+            successEvent = null,
+            failedEvent = DashboardEvent.ShowError(R.string.failed_to_undo_action)
+        )
+    }
+
+    private fun updateReminderAsDone(
+        dashboardReminderUi: DashboardReminderUi,
+        isDone: Boolean,
+        successEvent: DashboardEvent.ShowMarkAsDoneSuccess?,
+        failedEvent: DashboardEvent.ShowError,
+    ) {
         viewModelScope.launch {
             try {
-                val updatedReminder = dashboardReminderUi.copy(isDone = false)
-
-                val (date, time) = parseDateTime(updatedReminder.dateTime)
+                val (date, time) = parseDateTime(dashboardReminderUi.dateTime)
                 val reminderEntity = ReminderEntity(
-                    id = updatedReminder.id,
-                    title = updatedReminder.title,
+                    id = dashboardReminderUi.id,
+                    title = dashboardReminderUi.title,
                     date = date,
                     time = time,
-                    additionalInfo = updatedReminder.additionalInfo,
-                    isDone = updatedReminder.isDone
+                    additionalInfo = dashboardReminderUi.additionalInfo,
+                    isDone = isDone
                 )
                 val updateReminderResult = reminderRepository.updateReminder(reminderEntity)
-                if (updateReminderResult.not()){
-                    _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_undo_action))
+                if (updateReminderResult) {
+                    successEvent?.let {
+                        _uiEvent.emit(successEvent)
+                    }
+                } else {
+                    _uiEvent.emit(failedEvent)
                 }
             } catch (exception: Exception) {
-                Log.e(TAG, "undoMarkingAsDone: exception.messageResId = ${exception.message}")
-                _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_undo_action))
+                Log.e(TAG, "updateReminderAsDone: exception.message = ${exception.message}")
+                _uiEvent.emit(failedEvent)
             }
         }
     }
