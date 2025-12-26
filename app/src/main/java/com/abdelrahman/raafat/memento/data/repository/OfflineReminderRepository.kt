@@ -24,7 +24,10 @@ class OfflineReminderRepository @Inject constructor(
     }
 
     override suspend fun softDeleteReminder(reminder: ReminderEntity): Int {
-        val updatedReminder = reminder.copy(isDeleted = true)
+        val updatedReminder = reminder.copy(
+            isDeleted = true,
+            deletedAt = System.currentTimeMillis()
+        )
         return reminderDao.updateReminder(updatedReminder)
     }
 

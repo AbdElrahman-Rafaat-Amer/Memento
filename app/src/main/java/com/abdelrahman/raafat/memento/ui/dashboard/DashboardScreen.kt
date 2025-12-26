@@ -135,8 +135,8 @@ fun DashboardScreen(
                                     onEditClicked = {
                                         //TODO implement Edit later
                                     },
-                                    onDeleteClicked = {
-                                        //TODO implement Delete later
+                                    onDeleteClicked = { reminder ->
+                                        dashboardViewModel.deleteReminder(reminder)
                                     }
                                 )
                             }

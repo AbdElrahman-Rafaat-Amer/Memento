@@ -156,6 +156,21 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    fun deleteReminder(dashboardReminderUi: DashboardReminderUi) {
+        val (date, time) = parseDateTime(dashboardReminderUi.dateTime)
+        val reminderEntity = ReminderEntity(
+            id = dashboardReminderUi.id,
+            title = dashboardReminderUi.title,
+            date = date,
+            time = time,
+            additionalInfo = dashboardReminderUi.additionalInfo,
+            isDone = dashboardReminderUi.isDone
+        )
+        viewModelScope.launch {
+            reminderRepository.softDeleteReminder(reminderEntity)
+        }
+    }
+
     companion object {
         private const val TAG = "DashboardViewModel"
     }
