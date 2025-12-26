@@ -23,6 +23,11 @@ class OfflineReminderRepository @Inject constructor(
         return reminderDao.deleteReminder(reminder)
     }
 
+    override suspend fun softDeleteReminder(reminder: ReminderEntity): Int {
+        val updatedReminder = reminder.copy(isDeleted = true)
+        return reminderDao.updateReminder(updatedReminder)
+    }
+
     override fun getReminderById(reminderId: Long): Flow<ReminderEntity> {
         return reminderDao.getReminderById(reminderId)
     }
@@ -34,8 +39,8 @@ class OfflineReminderRepository @Inject constructor(
     override fun getAllReminders(): Flow<List<ReminderEntity>> =
         reminderDao.getAllReminders()
 
-    override fun getUnDoneReminders(): Flow<List<ReminderEntity>> =
-        reminderDao.getUnDoneReminders()
+    override fun getDashboardReminders(): Flow<List<ReminderEntity>> =
+        reminderDao.getDashboardReminders()
 
     override fun getAllDoneReminders(): Flow<List<ReminderEntity>> =
         reminderDao.getAllDoneReminders()

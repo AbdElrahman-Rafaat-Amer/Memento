@@ -47,7 +47,7 @@ class DashboardViewModel @Inject constructor(
     private fun loadReminders() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
-            reminderRepository.getUnDoneReminders()
+            reminderRepository.getDashboardReminders()
                 .map { entities -> entities.map(::mapToUiModel) }
                 .catch { exception ->
                     _dashboardUiState.value = DashboardUiState(
