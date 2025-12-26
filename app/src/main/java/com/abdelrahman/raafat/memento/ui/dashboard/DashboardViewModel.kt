@@ -51,7 +51,7 @@ class DashboardViewModel @Inject constructor(
                 .map { entities -> entities.map(::mapToUiModel) }
                 .catch { exception ->
                     _dashboardUiState.value = DashboardUiState(
-                        error = exception.message ?: "Unknown error occurred",
+                        error = R.string.clear_app_data,
                         isLoading = false
                     )
                 }.collect { remindersUi ->

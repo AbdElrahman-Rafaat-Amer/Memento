@@ -43,4 +43,5 @@
     <string name="failed_to_mark_as_done">Failed to mark as done</string>
     <string name="undo">Undo</string>
     <string name="failed_to_undo_action">Failed to undo action</string>
+    <string name="clear_app_data">Unknown error occurred, Please try to clear the cache from app setting but note this will clear all your current data</string>
 </resources>

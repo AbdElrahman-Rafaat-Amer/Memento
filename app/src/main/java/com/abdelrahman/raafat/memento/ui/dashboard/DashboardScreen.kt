@@ -1,6 +1,6 @@
 package com.abdelrahman.raafat.memento.ui.dashboard
 
-import android.content.Context
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +40,7 @@ import com.abdelrahman.raafat.memento.ui.dashboard.components.ReminderRow
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardEvent
 import kotlinx.coroutines.launch
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun DashboardScreen(
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
@@ -109,7 +110,7 @@ fun DashboardScreen(
 
                     reminderUiState.error != null -> {
                         ErrorScreen(
-                            error = reminderUiState.error!!,
+                            error = stringResource(reminderUiState.error!!),
                             onRetry = {
                                 dashboardViewModel.retry()
                             }
