@@ -15,7 +15,7 @@ interface ReminderRepository {
 
     suspend fun deleteReminder(reminder: ReminderEntity): Int
 
-    suspend fun softDeleteReminder(reminder: ReminderEntity): Int
+    suspend fun softDeleteReminder(reminder: ReminderEntity): Boolean
 
     fun getReminderById(reminderId: Long): Flow<ReminderEntity>
 

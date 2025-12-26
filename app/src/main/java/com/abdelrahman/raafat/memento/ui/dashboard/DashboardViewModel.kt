@@ -167,7 +167,17 @@ class DashboardViewModel @Inject constructor(
             isDone = dashboardReminderUi.isDone
         )
         viewModelScope.launch {
-            reminderRepository.softDeleteReminder(reminderEntity)
+            try {
+                val deleteReminderResult = reminderRepository.softDeleteReminder(reminderEntity)
+                if (deleteReminderResult) {
+                    _uiEvent.emit(DashboardEvent.ShowDeleteSuccess(R.string.reminder_deleted_successfully))
+                } else {
+                    _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_delete_reminder))
+                }
+            } catch (exception: Exception) {
+                Log.e(TAG, "deleteReminder: exception.message = ${exception.message}")
+                _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_delete_reminder))
+            }
         }
     }
 

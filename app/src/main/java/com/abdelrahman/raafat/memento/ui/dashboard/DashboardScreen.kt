@@ -53,6 +53,7 @@ fun DashboardScreen(
 
     LaunchedEffect(Unit) {
         dashboardViewModel.uiEvent.collect { event ->
+            snackbarHostState.currentSnackbarData?.dismiss()
             when (event) {
                 is DashboardEvent.ShowMarkAsDoneSuccess -> {
                     scope.launch {
@@ -64,6 +65,14 @@ fun DashboardScreen(
                         if (snackbarResult == SnackbarResult.ActionPerformed) {
                             dashboardViewModel.undoMarkingAsDone(dashboardReminderUi = event.reminder)
                         }
+                    }
+                }
+
+                is DashboardEvent.ShowDeleteSuccess -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(event.messageResId)
+                        )
                     }
                 }
 
