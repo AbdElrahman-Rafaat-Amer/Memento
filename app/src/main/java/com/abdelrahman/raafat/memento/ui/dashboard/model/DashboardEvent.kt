@@ -8,6 +8,10 @@ sealed interface DashboardEvent {
         val reminder: DashboardReminderUi
     ) : DashboardEvent
 
+    data class ShowDeleteSuccess(
+        @StringRes val messageResId: Int
+    ) : DashboardEvent
+
     data class ShowError(@StringRes val messageResId: Int) : DashboardEvent
 
 }

@@ -47,11 +47,11 @@ class DashboardViewModel @Inject constructor(
     private fun loadReminders() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
-            reminderRepository.getUnDoneReminders()
+            reminderRepository.getDashboardReminders()
                 .map { entities -> entities.map(::mapToUiModel) }
                 .catch { exception ->
                     _dashboardUiState.value = DashboardUiState(
-                        error = exception.message ?: "Unknown error occurred",
+                        error = R.string.clear_app_data,
                         isLoading = false
                     )
                 }.collect { remindersUi ->
@@ -152,6 +152,31 @@ class DashboardViewModel @Inject constructor(
             } catch (exception: Exception) {
                 Log.e(TAG, "updateReminderAsDone: exception.message = ${exception.message}")
                 _uiEvent.emit(failedEvent)
+            }
+        }
+    }
+
+    fun deleteReminder(dashboardReminderUi: DashboardReminderUi) {
+        val (date, time) = parseDateTime(dashboardReminderUi.dateTime)
+        val reminderEntity = ReminderEntity(
+            id = dashboardReminderUi.id,
+            title = dashboardReminderUi.title,
+            date = date,
+            time = time,
+            additionalInfo = dashboardReminderUi.additionalInfo,
+            isDone = dashboardReminderUi.isDone
+        )
+        viewModelScope.launch {
+            try {
+                val deleteReminderResult = reminderRepository.softDeleteReminder(reminderEntity)
+                if (deleteReminderResult) {
+                    _uiEvent.emit(DashboardEvent.ShowDeleteSuccess(R.string.reminder_deleted_successfully))
+                } else {
+                    _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_delete_reminder))
+                }
+            } catch (exception: Exception) {
+                Log.e(TAG, "deleteReminder: exception.message = ${exception.message}")
+                _uiEvent.emit(DashboardEvent.ShowError(R.string.failed_to_delete_reminder))
             }
         }
     }
