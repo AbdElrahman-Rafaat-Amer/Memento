@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
+import com.abdelrahman.raafat.memento.ReminderEditorDestination
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.domain.ReminderRepository
 import com.abdelrahman.raafat.memento.ui.mapper.toEntity
@@ -36,7 +37,7 @@ class ReminderEditorViewModel @Inject constructor(
     private val _uiEvent = Channel<ReminderEditorEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val reminderId: Long? = savedStateHandle.get<Long>("reminderId")
+    private val reminderId: Long? = savedStateHandle.get<Long>(ReminderEditorDestination.ARG_REMINDER_ID)
 
     val isEditMode: Boolean = reminderId != null
 

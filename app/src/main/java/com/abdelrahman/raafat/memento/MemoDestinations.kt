@@ -4,11 +4,14 @@ data object Dashboard {
     const val ROUTE: String = "Dashboard"
 }
 
-data object AddReminder {
-    const val ROUTE: String = "Add_Reminder"
-}
+object ReminderEditorDestination {
 
-data object UpdateReminder {
-    const val ROUTE: String = "Update_Reminder/{reminderId}"
+    const val ARG_REMINDER_ID = "reminderId"
+
+    const val ROUTE = "reminder_editor"
+    const val ROUTE_WITH_ARG = "$ROUTE/{$ARG_REMINDER_ID}"
+
+    fun createRoute(reminderId: Long): String =
+        "$ROUTE/$reminderId"
 }
 

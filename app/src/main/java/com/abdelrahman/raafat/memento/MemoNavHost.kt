@@ -24,24 +24,24 @@ fun MemoNavHost(
         composable(route = Dashboard.ROUTE) {
             DashboardScreen(
                 onAddClicked = {
-                    navController.navigate(AddReminder.ROUTE)
+                    navController.navigate(ReminderEditorDestination.ROUTE)
                 },
                 onUpdateClicked = {
-                    navController.navigate("Update_Reminder/${it.id}")
+                    navController.navigate(ReminderEditorDestination.createRoute(it.id))
                 }
             )
         }
 
-        composable(route = AddReminder.ROUTE) {
+        composable(route = ReminderEditorDestination.ROUTE) {
             AddReminderScreen {
                 navController.navigateUp()
             }
         }
 
         composable(
-            route = UpdateReminder.ROUTE,
+            route = ReminderEditorDestination.ROUTE_WITH_ARG,
             arguments = listOf(
-                navArgument("reminderId") {
+                navArgument(ReminderEditorDestination.ARG_REMINDER_ID) {
                     type = NavType.LongType
                 }
             )
