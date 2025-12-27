@@ -19,7 +19,7 @@
     <string name="back">Back</string>
     <string name="new_reminder">New Reminder</string>
     <string name="title">Title</string>
-    <string name="save_reminder">Save Reminder</string>
+    <string name="save">Save</string>
     <string name="ok">OK</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
@@ -46,4 +46,7 @@
     <string name="clear_app_data">Unknown error occurred, Please try to clear the cache from app setting but note this will clear all your current data</string>
     <string name="failed_to_delete_reminder">Failed to delete reminder</string>
     <string name="reminder_deleted_successfully">Reminder deleted successfully</string>
+    <string name="edit_reminder">Edit Reminder</string>
+    <string name="update">Update</string>
+    <string name="failed_to_update_reminder">Failed to update reminder</string>
 </resources>

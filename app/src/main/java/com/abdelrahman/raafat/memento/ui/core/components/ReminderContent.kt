@@ -23,6 +23,7 @@ import java.time.LocalTime
 @Composable
 fun ReminderContent(
     reminderItem: ReminderEditorUiState,
+    buttonText: String,
     onTitleChanged: (String) -> Unit,
     onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
@@ -72,7 +73,7 @@ fun ReminderContent(
         )
 
         MemoPrimaryButton(
-            text = stringResource(R.string.save_reminder),
+            text = buttonText,
             isAllCaps = false,
             isEnabled = reminderItem.isValid,
             onButtonClicked = {
@@ -94,6 +95,7 @@ private fun ReminderContentPreview() {
                 time = LocalTime.ofSecondOfDay(4000),
                 additionalInfo = "This is test reminder",
             ),
+            buttonText = "Save",
             onTitleChanged = {},
             onDateChanged = {},
             onTimeChanged = {},

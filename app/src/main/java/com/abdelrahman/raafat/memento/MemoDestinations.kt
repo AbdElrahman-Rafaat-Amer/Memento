@@ -9,6 +9,6 @@ data object AddReminder {
 }
 
 data object UpdateReminder {
-    const val ROUTE: String = "Update_Reminder"
+    const val ROUTE: String = "Update_Reminder/{reminderId}"
 }
 

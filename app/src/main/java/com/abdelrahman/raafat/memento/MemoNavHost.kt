@@ -3,8 +3,10 @@ package com.abdelrahman.raafat.memento
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.abdelrahman.raafat.memento.ui.remindereditor.AddReminderScreen
 import com.abdelrahman.raafat.memento.ui.dashboard.DashboardScreen
 
@@ -25,7 +27,7 @@ fun MemoNavHost(
                     navController.navigate(AddReminder.ROUTE)
                 },
                 onUpdateClicked = {
-                    navController.navigate(UpdateReminder.ROUTE)
+                    navController.navigate("Update_Reminder/${it.id}")
                 }
             )
         }
@@ -36,8 +38,17 @@ fun MemoNavHost(
             }
         }
 
-        composable(route = UpdateReminder.ROUTE) {
-            //TODO UpdateReminder Screen
+        composable(
+            route = UpdateReminder.ROUTE,
+            arguments = listOf(
+                navArgument("reminderId") {
+                    type = NavType.LongType
+                }
+            )
+        ) {
+            AddReminderScreen(
+                onBack = { navController.navigateUp() }
+            )
         }
     }
 }

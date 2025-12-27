@@ -1,17 +1,21 @@
 package com.abdelrahman.raafat.memento.ui.remindereditor
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.domain.ReminderRepository
+import com.abdelrahman.raafat.memento.ui.mapper.toEntity
+import com.abdelrahman.raafat.memento.ui.mapper.toUiState
 import com.abdelrahman.raafat.memento.ui.remindereditor.model.ReminderEditorEvent
 import com.abdelrahman.raafat.memento.ui.remindereditor.model.ReminderEditorUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -22,7 +26,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReminderEditorViewModel @Inject constructor(
-    private val reminderRepository: ReminderRepository
+    private val reminderRepository: ReminderRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ReminderEditorUiState())
@@ -30,6 +35,31 @@ class ReminderEditorViewModel @Inject constructor(
 
     private val _uiEvent = Channel<ReminderEditorEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
+
+    private val reminderId: Long? = savedStateHandle.get<Long>("reminderId")
+
+    val isEditMode: Boolean = reminderId != null
+
+    init {
+        if (isEditMode) {
+            loadReminder()
+        }
+    }
+
+    private fun loadReminder() {
+        viewModelScope.launch {
+            try {
+                reminderRepository.getReminderById(reminderId!!)
+                    .collect { reminder ->
+                        _uiState.value = reminder.toUiState()
+                    }
+            } catch (exception: Exception) {
+                Log.e(TAG, "loadReminder: exception.messageResId = ${exception.message}")
+                _uiEvent.send(ReminderEditorEvent.ShowError(R.string.something_went_wrong))
+            }
+        }
+    }
+
 
     fun onTitleChange(value: String) {
         _uiState.update { it.copy(title = value) }
@@ -60,17 +90,10 @@ class ReminderEditorViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val newReminder = ReminderEntity(
-                    title = state.title,
-                    date = state.date!!.toEpochDay(),
-                    time = state.time!!.toSecondOfDay().toLong(),
-                    additionalInfo = state.additionalInfo,
-                )
-                val isSuccessInsert = reminderRepository.insertReminder(newReminder)
-                if (isSuccessInsert) {
-                    _uiEvent.send(ReminderEditorEvent.ReminderSaved)
+                if (isEditMode) {
+                    updateReminder(state.toEntity(reminderId!!))
                 } else {
-                    _uiEvent.send(ReminderEditorEvent.ShowError(R.string.failed_to_save_reminder))
+                    insertReminder(state.toEntity())
                 }
             } catch (exception: Exception) {
                 Log.e(TAG, "saveReminder: exception.messageResId = ${exception.message}")
@@ -78,7 +101,6 @@ class ReminderEditorViewModel @Inject constructor(
             }
         }
     }
-
 
     private fun validateReminder(state: ReminderEditorUiState): Int? {
         return when {
@@ -96,7 +118,25 @@ class ReminderEditorViewModel @Inject constructor(
         }
     }
 
+    private suspend fun updateReminder(entity: ReminderEntity) {
+        val isSuccessUpdate = reminderRepository.updateReminder(entity)
+        if (isSuccessUpdate) {
+            _uiEvent.send(ReminderEditorEvent.ReminderSaved)
+        } else {
+            _uiEvent.send(ReminderEditorEvent.ShowError(R.string.failed_to_update_reminder))
+        }
+    }
+
+    private suspend fun insertReminder(entity: ReminderEntity) {
+        val isSuccessInsert = reminderRepository.insertReminder(entity)
+        if (isSuccessInsert) {
+            _uiEvent.send(ReminderEditorEvent.ReminderSaved)
+        } else {
+            _uiEvent.send(ReminderEditorEvent.ShowError(R.string.failed_to_save_reminder))
+        }
+    }
+
     companion object {
-        private const val TAG = "AddReminderViewModel"
+        private const val TAG = "ReminderEditorViewModel"
     }
 }

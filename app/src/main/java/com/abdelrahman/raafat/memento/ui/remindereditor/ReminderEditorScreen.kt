@@ -31,16 +31,16 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddReminderScreen(
     modifier: Modifier = Modifier,
-    addViewModel: ReminderEditorViewModel = hiltViewModel(),
+    editorViewModel: ReminderEditorViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
-    val state by addViewModel.uiState.collectAsState()
+    val state by editorViewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        addViewModel.uiEvent.collect { event ->
+        editorViewModel.uiEvent.collect { event ->
             when (event) {
                 is ReminderEditorEvent.ReminderSaved -> {
                     onBack()
@@ -80,27 +80,42 @@ fun AddReminderScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            val screenTitle =
+                if (editorViewModel.isEditMode) {
+                    stringResource(R.string.edit_reminder)
+                } else {
+                    stringResource(R.string.new_reminder)
+                }
+
             MemoTobBar(
-                title = stringResource(R.string.new_reminder),
+                title = screenTitle,
                 onBackButtonClicked = onBack
             )
 
+            val buttonText =
+                if (editorViewModel.isEditMode) {
+                    stringResource(R.string.update)
+                } else {
+                    stringResource(R.string.save)
+                }
+
             ReminderContent(
                 reminderItem = state,
+                buttonText = buttonText,
                 onTitleChanged = { newTitle ->
-                    addViewModel.onTitleChange(newTitle)
+                    editorViewModel.onTitleChange(newTitle)
                 },
                 onDateChanged = { newDate ->
-                    addViewModel.onDateSelected(newDate)
+                    editorViewModel.onDateSelected(newDate)
                 },
                 onTimeChanged = { newTime ->
-                    addViewModel.onTimeSelected(newTime)
+                    editorViewModel.onTimeSelected(newTime)
                 },
                 onAdditionalInfoChanged = { newInfo ->
-                    addViewModel.onAdditionalInfo(newInfo)
+                    editorViewModel.onAdditionalInfo(newInfo)
                 },
                 onSaveButtonClicked = {
-                    addViewModel.saveReminder()
+                    editorViewModel.saveReminder()
                 }
             )
         }
