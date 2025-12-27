@@ -12,27 +12,32 @@ import com.abdelrahman.raafat.memento.ui.dashboard.DashboardScreen
 fun MemoNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = Dashboard.route
+    startDestination: String = Dashboard.ROUTE
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier
-    ){
-        composable(route = Dashboard.route) {
-            DashboardScreen{
-                navController.navigate(AddReminder.route)
-            }
+    ) {
+        composable(route = Dashboard.ROUTE) {
+            DashboardScreen(
+                onAddClicked = {
+                    navController.navigate(AddReminder.ROUTE)
+                },
+                onUpdateClicked = {
+                    navController.navigate(UpdateReminder.ROUTE)
+                }
+            )
         }
 
-        composable(route = AddReminder.route) {
-            AddReminderScreen{
+        composable(route = AddReminder.ROUTE) {
+            AddReminderScreen {
                 navController.navigateUp()
             }
         }
 
-        composable(route = History.route) {
-            //TODO History Screen
+        composable(route = UpdateReminder.ROUTE) {
+            //TODO UpdateReminder Screen
         }
     }
 }

@@ -1,14 +1,14 @@
 package com.abdelrahman.raafat.memento
 
 data object Dashboard {
-    const val route: String = "Dashboard"
+    const val ROUTE: String = "Dashboard"
 }
 
 data object AddReminder {
-    const val route: String = "Add_Reminder"
+    const val ROUTE: String = "Add_Reminder"
 }
 
-data object History {
-    const val route: String = "History"
+data object UpdateReminder {
+    const val ROUTE: String = "Update_Reminder"
 }
 

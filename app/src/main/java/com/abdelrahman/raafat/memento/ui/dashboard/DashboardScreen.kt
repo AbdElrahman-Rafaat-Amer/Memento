@@ -38,13 +38,15 @@ import com.abdelrahman.raafat.memento.ui.core.components.EmptyScreen
 import com.abdelrahman.raafat.memento.ui.core.components.ErrorScreen
 import com.abdelrahman.raafat.memento.ui.dashboard.components.ReminderRow
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardEvent
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
 import kotlinx.coroutines.launch
 
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun DashboardScreen(
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
-    onAddClicked: () -> Unit
+    onAddClicked: () -> Unit,
+    onUpdateClicked: (DashboardReminderUi) -> Unit
 ) {
     val reminderUiState by dashboardViewModel.dashboardUiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -141,8 +143,8 @@ fun DashboardScreen(
                                     onDoneClicked = { reminderUi ->
                                         dashboardViewModel.markReminderAsDone(reminderUi)
                                     },
-                                    onEditClicked = {
-                                        //TODO implement Edit later
+                                    onEditClicked = {reminderUi ->
+                                        onUpdateClicked(reminderUi)
                                     },
                                     onDeleteClicked = { reminder ->
                                         dashboardViewModel.deleteReminder(reminder)
@@ -174,7 +176,10 @@ private fun DashboardScreenPreview() {
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
         ) {
-            DashboardScreen {}
+            DashboardScreen(
+                onAddClicked = {},
+                onUpdateClicked = {}
+            )
         }
     }
 }
