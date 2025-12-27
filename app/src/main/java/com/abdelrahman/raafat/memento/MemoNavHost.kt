@@ -3,36 +3,52 @@ package com.abdelrahman.raafat.memento
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.abdelrahman.raafat.memento.ui.addreminder.AddReminderScreen
+import androidx.navigation.navArgument
+import com.abdelrahman.raafat.memento.ui.remindereditor.AddReminderScreen
 import com.abdelrahman.raafat.memento.ui.dashboard.DashboardScreen
 
 @Composable
 fun MemoNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    startDestination: String = Dashboard.route
+    startDestination: String = Dashboard.ROUTE
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier
-    ){
-        composable(route = Dashboard.route) {
-            DashboardScreen{
-                navController.navigate(AddReminder.route)
-            }
+    ) {
+        composable(route = Dashboard.ROUTE) {
+            DashboardScreen(
+                onAddClicked = {
+                    navController.navigate(ReminderEditorDestination.ROUTE)
+                },
+                onUpdateClicked = {
+                    navController.navigate(ReminderEditorDestination.createRoute(it.id))
+                }
+            )
         }
 
-        composable(route = AddReminder.route) {
-            AddReminderScreen{
+        composable(route = ReminderEditorDestination.ROUTE) {
+            AddReminderScreen {
                 navController.navigateUp()
             }
         }
 
-        composable(route = History.route) {
-            //TODO History Screen
+        composable(
+            route = ReminderEditorDestination.ROUTE_WITH_ARG,
+            arguments = listOf(
+                navArgument(ReminderEditorDestination.ARG_REMINDER_ID) {
+                    type = NavType.LongType
+                }
+            )
+        ) {
+            AddReminderScreen(
+                onBack = { navController.navigateUp() }
+            )
         }
     }
 }

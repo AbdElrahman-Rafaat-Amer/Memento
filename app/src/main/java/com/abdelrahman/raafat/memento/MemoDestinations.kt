@@ -1,14 +1,17 @@
 package com.abdelrahman.raafat.memento
 
 data object Dashboard {
-    const val route: String = "Dashboard"
+    const val ROUTE: String = "Dashboard"
 }
 
-data object AddReminder {
-    const val route: String = "Add_Reminder"
-}
+object ReminderEditorDestination {
 
-data object History {
-    const val route: String = "History"
+    const val ARG_REMINDER_ID = "reminderId"
+
+    const val ROUTE = "reminder_editor"
+    const val ROUTE_WITH_ARG = "$ROUTE/{$ARG_REMINDER_ID}"
+
+    fun createRoute(reminderId: Long): String =
+        "$ROUTE/$reminderId"
 }
 
