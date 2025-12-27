@@ -43,8 +43,8 @@ class AddReminderViewModel @Inject constructor(
         _uiState.update { it.copy(time = time) }
     }
 
-    fun onAdditionalInfo(onAdditionalInfo: String) {
-        _uiState.update { it.copy(additionalInfo = onAdditionalInfo) }
+    fun onAdditionalInfo(additionalInfo: String) {
+        _uiState.update { it.copy(additionalInfo = additionalInfo) }
     }
 
     fun saveReminder() {

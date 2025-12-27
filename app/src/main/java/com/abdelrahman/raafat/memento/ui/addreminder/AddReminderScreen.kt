@@ -1,17 +1,14 @@
 package com.abdelrahman.raafat.memento.ui.addreminder
 
-import android.content.Context
-import androidx.compose.foundation.background
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -22,56 +19,28 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
-import com.abdelrahman.raafat.memento.ui.addreminder.model.isValid
-import com.abdelrahman.raafat.memento.ui.addreminder.components.DatePickerField
-import com.abdelrahman.raafat.memento.ui.addreminder.components.TimePickerField
-import com.abdelrahman.raafat.memento.ui.core.components.MemoOutlinedTextField
-import com.abdelrahman.raafat.memento.ui.core.components.MemoPrimaryButton
 import com.abdelrahman.raafat.memento.ui.core.components.MemoTobBar
-import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
-import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
-import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.core.components.ReminderContent
 import kotlinx.coroutines.launch
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun AddReminderScreen(
     modifier: Modifier = Modifier,
-    viewModel: AddReminderViewModel = hiltViewModel(),
+    addViewModel: AddReminderViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        MemoTobBar(
-            title = stringResource(R.string.new_reminder),
-            onBackButtonClicked = onBack
-        )
-
-        AddReminderContent(viewModel, onBack)
-    }
-}
-
-@Composable
-fun AddReminderContent(
-    viewModel: AddReminderViewModel,
-    onBack: () -> Unit
-) {
+    val state by addViewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val focusManager = LocalFocusManager.current
-    val state by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.uiEvent.collect { event ->
+        addViewModel.uiEvent.collect { event ->
             when (event) {
                 is AddReminderEvent.ReminderSaved -> {
                     onBack()
@@ -81,11 +50,8 @@ fun AddReminderContent(
                     scope.launch {
                         snackbarHostState.currentSnackbarData?.dismiss()
                         snackbarHostState.showSnackbar(
-                            message = getString(
-                                context = context,
-                                messageResId = event.messageResId
-                            ),
-                            actionLabel = getString(context = context, messageResId = R.string.ok),
+                            message = context.getString(event.messageResId),
+                            actionLabel = context.getString(R.string.ok),
                             duration = SnackbarDuration.Long
                         )
                     }
@@ -94,7 +60,6 @@ fun AddReminderContent(
         }
     }
 
-    // Clean up on dispose
     DisposableEffect(Unit) {
         onDispose {
             snackbarHostState.currentSnackbarData?.dismiss()
@@ -102,70 +67,42 @@ fun AddReminderContent(
     }
 
     Scaffold(
+        modifier = modifier.fillMaxSize(),
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState
             )
         }
     ) { padding ->
+
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            modifier = Modifier.padding(padding),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
-            MemoOutlinedTextField(
-                value = state.title,
-                textStyle = AppTextStyles.textStyle16SPNormal,
-                label = { Text(stringResource(R.string.title)) },
-                placeholder = { Text(stringResource(R.string.enter_title)) },
-                onValueChange = viewModel::onTitleChange
+            MemoTobBar(
+                title = stringResource(R.string.new_reminder),
+                onBackButtonClicked = onBack
             )
 
-            DatePickerField(
-                date = state.date,
-                onDateSelected = viewModel::onDateSelected
-            )
-
-            TimePickerField(
-                time = state.time,
-                onTimeSelected = viewModel::onTimeSelected
-            )
-
-            MemoOutlinedTextField(
-                value = state.additionalInfo,
-                textStyle = AppTextStyles.textStyle16SPNormal,
-                label = { Text(stringResource(R.string.additional_info)) },
-                placeholder = { Text(stringResource(R.string.write_something)) },
-                onValueChange = viewModel::onAdditionalInfo
-            )
-
-            MemoPrimaryButton(
-                text = stringResource(R.string.save_reminder),
-                isAllCaps = false,
-                isEnabled = state.isValid,
-                onButtonClicked = {
-                    focusManager.clearFocus()
-                    viewModel.saveReminder()
+            ReminderContent(
+                reminderItem = state,
+                onTitleChanged = { newTitle ->
+                    addViewModel.onTitleChange(newTitle)
+                },
+                onDateChanged = { newDate ->
+                    addViewModel.onDateSelected(newDate)
+                },
+                onTimeChanged = { newTime ->
+                    addViewModel.onTimeSelected(newTime)
+                },
+                onAdditionalInfoChanged = { newInfo ->
+                    addViewModel.onAdditionalInfo(newInfo)
+                },
+                onSaveButtonClicked = {
+                    addViewModel.saveReminder()
                 }
             )
         }
-    }
-}
-
-
-private fun getString(context: Context, messageResId: Int): String = context.getString(messageResId)
-
-@ThemesPreviews
-@Composable
-private fun AddReminderScreenPreview() {
-    MementoTheme {
-        AddReminderScreen(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            onBack = {}
-        )
     }
 }
