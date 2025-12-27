@@ -10,10 +10,10 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.ui.addreminder.components.DatePickerField
-import com.abdelrahman.raafat.memento.ui.addreminder.components.TimePickerField
-import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderUiState
-import com.abdelrahman.raafat.memento.ui.addreminder.model.isValid
+import com.abdelrahman.raafat.memento.ui.remindereditor.components.DatePickerField
+import com.abdelrahman.raafat.memento.ui.remindereditor.components.TimePickerField
+import com.abdelrahman.raafat.memento.ui.remindereditor.model.ReminderEditorUiState
+import com.abdelrahman.raafat.memento.ui.remindereditor.model.isValid
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
@@ -22,7 +22,7 @@ import java.time.LocalTime
 
 @Composable
 fun ReminderContent(
-    reminderItem: AddReminderUiState,
+    reminderItem: ReminderEditorUiState,
     onTitleChanged: (String) -> Unit,
     onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
@@ -88,7 +88,7 @@ fun ReminderContent(
 private fun ReminderContentPreview() {
     MementoTheme {
         ReminderContent(
-            reminderItem = AddReminderUiState(
+            reminderItem = ReminderEditorUiState(
                 title = "Test Reminder",
                 date = LocalDate.ofEpochDay(2000),
                 time = LocalTime.ofSecondOfDay(4000),

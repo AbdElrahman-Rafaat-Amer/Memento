@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.ui.addreminder
+package com.abdelrahman.raafat.memento.ui.remindereditor
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.ui.addreminder.model.AddReminderEvent
+import com.abdelrahman.raafat.memento.ui.remindereditor.model.ReminderEditorEvent
 import com.abdelrahman.raafat.memento.ui.core.components.MemoTobBar
 import com.abdelrahman.raafat.memento.ui.core.components.ReminderContent
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddReminderScreen(
     modifier: Modifier = Modifier,
-    addViewModel: AddReminderViewModel = hiltViewModel(),
+    addViewModel: ReminderEditorViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by addViewModel.uiState.collectAsState()
@@ -42,11 +42,11 @@ fun AddReminderScreen(
     LaunchedEffect(Unit) {
         addViewModel.uiEvent.collect { event ->
             when (event) {
-                is AddReminderEvent.ReminderSaved -> {
+                is ReminderEditorEvent.ReminderSaved -> {
                     onBack()
                 }
 
-                is AddReminderEvent.ShowError -> {
+                is ReminderEditorEvent.ShowError -> {
                     scope.launch {
                         snackbarHostState.currentSnackbarData?.dismiss()
                         snackbarHostState.showSnackbar(

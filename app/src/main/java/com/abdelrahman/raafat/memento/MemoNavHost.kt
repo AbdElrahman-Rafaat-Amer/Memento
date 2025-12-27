@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.abdelrahman.raafat.memento.ui.addreminder.AddReminderScreen
+import com.abdelrahman.raafat.memento.ui.remindereditor.AddReminderScreen
 import com.abdelrahman.raafat.memento.ui.dashboard.DashboardScreen
 
 @Composable
