@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.abdelrahman.raafat.memento.R
+import com.abdelrahman.raafat.memento.utils.DateRangeSelectableDates
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -31,7 +32,11 @@ fun DatePickerField(
     date: LocalDate?,
     onDateSelected: (LocalDate) -> Unit
 ) {
-    val datePickerState = rememberDatePickerState()
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = DateRangeSelectableDates.todayUtcMillis,
+        initialDisplayedMonthMillis = DateRangeSelectableDates.todayUtcMillis,
+        selectableDates = DateRangeSelectableDates
+    )
     var show by remember { mutableStateOf(false) }
     val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
 
@@ -39,17 +44,19 @@ fun DatePickerField(
         DatePickerDialog(
             onDismissRequest = { show = false },
             confirmButton = {
-                TextButton(onClick = {
-                    datePickerState.selectedDateMillis?.let {
-                        onDateSelected(
-                            Instant.ofEpochMilli(it)
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate()
-                        )
-                    }
-                    show = false
-                }) {
-                    Text(stringResource(R.string.ok))
+                TextButton(
+                    enabled = datePickerState.selectedDateMillis != null,
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let {
+                            onDateSelected(
+                                Instant.ofEpochMilli(it)
+                                    .atZone(ZoneId.systemDefault())
+                                    .toLocalDate()
+                            )
+                        }
+                        show = false
+                    }) {
+                    Text(stringResource(R.string.set))
                 }
             }
         ) {
@@ -62,6 +69,7 @@ fun DatePickerField(
         onValueChange = {},
         readOnly = true,
         label = { Text(stringResource(R.string.date)) },
+        placeholder = { Text(stringResource(R.string.select_date)) },
         interactionSource = remember { MutableInteractionSource() }
             .also { interactionSource ->
                 LaunchedEffect(interactionSource) {

@@ -1,6 +1,7 @@
 package com.abdelrahman.raafat.memento.ui.remindereditor
 
 import android.util.Log
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -37,27 +38,45 @@ class ReminderEditorViewModel @Inject constructor(
     private val _uiEvent = Channel<ReminderEditorEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val reminderId: Long? = savedStateHandle.get<Long>(ReminderEditorDestination.ARG_REMINDER_ID)
+    private val reminderId: Long? =
+        savedStateHandle.get<Long>(ReminderEditorDestination.ARG_REMINDER_ID)
 
     val isEditMode: Boolean = reminderId != null
 
-    init {
+    val screenTitle =
         if (isEditMode) {
-            loadReminder()
+            R.string.edit_reminder
+        } else {
+            R.string.new_reminder
+        }
+
+    val buttonText =
+        if (isEditMode) {
+            R.string.update
+        } else {
+            R.string.save
+        }
+
+    init {
+        reminderId?.let {
+            loadReminder(it)
+        } ?: {
+            viewModelScope.launch {
+                _uiEvent.send(ReminderEditorEvent.ShowError(R.string.something_went_wrong))
+            }
         }
     }
 
-    private fun loadReminder() {
+    private fun loadReminder(reminderId: Long) {
         viewModelScope.launch {
-            try {
-                reminderRepository.getReminderById(reminderId!!)
-                    .collect { reminder ->
-                        _uiState.value = reminder.toUiState()
-                    }
-            } catch (exception: Exception) {
-                Log.e(TAG, "loadReminder: exception.messageResId = ${exception.message}")
-                _uiEvent.send(ReminderEditorEvent.ShowError(R.string.something_went_wrong))
-            }
+            reminderRepository.getReminderById(reminderId)
+                .catch { exception ->
+                    Log.e(TAG, "loadReminder: Failed to load reminder", exception)
+                    _uiEvent.send(ReminderEditorEvent.ShowError(R.string.something_went_wrong))
+                }
+                .collect { reminder ->
+                    _uiState.value = reminder.toUiState()
+                }
         }
     }
 
@@ -92,7 +111,10 @@ class ReminderEditorViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (isEditMode) {
-                    updateReminder(state.toEntity(reminderId!!))
+                    requireNotNull(reminderId) {
+                        "Reminder ID cannot be null in edit mode"
+                    }
+                    updateReminder(state.toEntity(reminderId))
                 } else {
                     insertReminder(state.toEntity())
                 }

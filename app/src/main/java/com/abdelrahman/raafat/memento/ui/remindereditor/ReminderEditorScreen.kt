@@ -80,28 +80,15 @@ fun AddReminderScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            val screenTitle =
-                if (editorViewModel.isEditMode) {
-                    stringResource(R.string.edit_reminder)
-                } else {
-                    stringResource(R.string.new_reminder)
-                }
 
             MemoTobBar(
-                title = screenTitle,
+                title = stringResource(editorViewModel.screenTitle),
                 onBackButtonClicked = onBack
             )
 
-            val buttonText =
-                if (editorViewModel.isEditMode) {
-                    stringResource(R.string.update)
-                } else {
-                    stringResource(R.string.save)
-                }
-
             ReminderContent(
                 reminderItem = state,
-                buttonText = buttonText,
+                buttonText = stringResource(editorViewModel.buttonText),
                 onTitleChanged = { newTitle ->
                     editorViewModel.onTitleChange(newTitle)
                 },

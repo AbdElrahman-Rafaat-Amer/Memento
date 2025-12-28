@@ -41,7 +41,7 @@ fun TimePickerField(
                     onTimeSelected(LocalTime.of(state.hour, state.minute))
                     show = false
                 }) {
-                    Text(stringResource(R.string.ok))
+                    Text(stringResource(R.string.set))
                 }
             },
             text = {
@@ -55,6 +55,7 @@ fun TimePickerField(
         onValueChange = {},
         readOnly = true,
         label = { Text(stringResource(R.string.time)) },
+        placeholder = { Text(stringResource(R.string.select_time)) },
         interactionSource = remember { MutableInteractionSource() }
             .also { interactionSource ->
                 LaunchedEffect(interactionSource) {

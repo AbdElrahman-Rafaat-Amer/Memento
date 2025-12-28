@@ -49,4 +49,7 @@
     <string name="edit_reminder">Edit Reminder</string>
     <string name="update">Update</string>
     <string name="failed_to_update_reminder">Failed to update reminder</string>
+    <string name="set">Set</string>
+    <string name="select_date">Select dat in Future</string>
+    <string name="select_time">Select time in Future</string>
 </resources>
