@@ -52,4 +52,13 @@
     <string name="set">Set</string>
     <string name="select_date">Select dat in Future</string>
     <string name="select_time">Select time in Future</string>
+    <string name="snooze">Snooze</string>
+    <string name="notification_permission_title">Notifications Permission</string>
+    <string name="notification_permission_message">We need notification permission to remind you about tasks.</string>
+    <string name="try_again">Try Again</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="enable_notifications">Enable Notifications</string>
+    <string name="notification_disabled_message">Notifications are disabled permanently. Please enable them from settings.</string>
+    <string name="cancel">Cancel</string>
+
 </resources>
