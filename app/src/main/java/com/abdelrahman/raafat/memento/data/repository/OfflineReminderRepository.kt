@@ -3,7 +3,10 @@ package com.abdelrahman.raafat.memento.data.repository
 import com.abdelrahman.raafat.memento.data.local.dao.ReminderDao
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.data.local.entity.toTriggerMillis
-import com.abdelrahman.raafat.memento.domain.ReminderRepository
+import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
+import com.abdelrahman.raafat.memento.domain.result.ReminderScheduleResult
+import com.abdelrahman.raafat.memento.domain.exceptions.ExactAlarmPermissionException
+import com.abdelrahman.raafat.memento.domain.exceptions.PastTriggerException
 import com.abdelrahman.raafat.memento.domain.reminder.ReminderNotificationScheduler
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -12,15 +15,28 @@ class OfflineReminderRepository @Inject constructor(
     private val reminderDao: ReminderDao,
     private val scheduler: ReminderNotificationScheduler
 ) : ReminderRepository {
-    override suspend fun insertReminder(reminder: ReminderEntity): Boolean {
+    override suspend fun insertReminder(reminder: ReminderEntity): ReminderScheduleResult {
         val insertResult = reminderDao.insertReminder(reminder)
-        scheduler.scheduleReminder(
-            reminderId = insertResult,
-            triggerAtMillis = reminder.toTriggerMillis(),
-            title = reminder.title,
-            additionalInfo = reminder.additionalInfo
-        )
-        return insertResult > 0
+
+        if (insertResult <= 0) {
+            return ReminderScheduleResult.DataBaseError("Failed to insert reminder")
+        }
+
+        return try {
+            scheduler.scheduleReminder(
+                reminderId = insertResult,
+                triggerAtMillis = reminder.toTriggerMillis(),
+                title = reminder.title,
+                additionalInfo = reminder.additionalInfo
+            )
+            ReminderScheduleResult.Success
+        } catch (exception: PastTriggerException) {
+            ReminderScheduleResult.PastTrigger(exception.message)
+        } catch (exception: ExactAlarmPermissionException) {
+            ReminderScheduleResult.ExactAlarmPermissionMissing(exception.message)
+        } catch (exception: Exception) {
+            ReminderScheduleResult.UnknownError(exception.message)
+        }
     }
 
     override suspend fun updateReminder(reminder: ReminderEntity): Boolean {

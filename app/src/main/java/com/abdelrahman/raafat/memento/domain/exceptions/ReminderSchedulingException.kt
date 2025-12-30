@@ -1,4 +1,4 @@
-package com.abdelrahman.raafat.memento.domain.reminder
+package com.abdelrahman.raafat.memento.domain.exceptions
 
 sealed class ReminderSchedulingException(message: String) : Exception(message)
 

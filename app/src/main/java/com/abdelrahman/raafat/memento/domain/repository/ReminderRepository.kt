@@ -1,6 +1,7 @@
-package com.abdelrahman.raafat.memento.domain
+package com.abdelrahman.raafat.memento.domain.repository
 
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
+import com.abdelrahman.raafat.memento.domain.result.ReminderScheduleResult
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -9,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
  * from a given data source.
  */
 interface ReminderRepository {
-    suspend fun insertReminder(reminder: ReminderEntity): Boolean
+    suspend fun insertReminder(reminder: ReminderEntity): ReminderScheduleResult
 
     suspend fun updateReminder(reminder: ReminderEntity): Boolean
 

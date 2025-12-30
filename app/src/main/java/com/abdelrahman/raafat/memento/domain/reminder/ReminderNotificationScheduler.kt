@@ -5,6 +5,8 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import com.abdelrahman.raafat.memento.domain.exceptions.ExactAlarmPermissionException
+import com.abdelrahman.raafat.memento.domain.exceptions.PastTriggerException
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

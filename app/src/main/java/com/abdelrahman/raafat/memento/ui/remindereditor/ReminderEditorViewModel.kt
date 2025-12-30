@@ -1,14 +1,14 @@
 package com.abdelrahman.raafat.memento.ui.remindereditor
 
 import android.util.Log
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.ReminderEditorDestination
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
-import com.abdelrahman.raafat.memento.domain.ReminderRepository
+import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
+import com.abdelrahman.raafat.memento.domain.result.ReminderScheduleResult
 import com.abdelrahman.raafat.memento.ui.mapper.toEntity
 import com.abdelrahman.raafat.memento.ui.mapper.toUiState
 import com.abdelrahman.raafat.memento.ui.remindereditor.model.ReminderEditorEvent
@@ -151,11 +151,24 @@ class ReminderEditorViewModel @Inject constructor(
     }
 
     private suspend fun insertReminder(entity: ReminderEntity) {
-        val isSuccessInsert = reminderRepository.insertReminder(entity)
-        if (isSuccessInsert) {
-            _uiEvent.send(ReminderEditorEvent.ReminderSaved)
-        } else {
-            _uiEvent.send(ReminderEditorEvent.ShowError(R.string.failed_to_save_reminder))
+        val insertResult = reminderRepository.insertReminder(entity)
+        when (insertResult) {
+            is ReminderScheduleResult.Success -> {
+                _uiEvent.send(ReminderEditorEvent.ReminderSaved)
+            }
+
+            is ReminderScheduleResult.ExactAlarmPermissionMissing -> {
+                _uiEvent.send(ReminderEditorEvent.ShowExactAlarmPermissionRequired)
+            }
+
+            is ReminderScheduleResult.PastTrigger -> {
+                _uiEvent.send(ReminderEditorEvent.ShowError(R.string.select_date_in_future))
+            }
+
+            is ReminderScheduleResult.DataBaseError,
+            is ReminderScheduleResult.UnknownError -> {
+                _uiEvent.send(ReminderEditorEvent.ShowError(R.string.failed_to_save_reminder))
+            }
         }
     }
 
