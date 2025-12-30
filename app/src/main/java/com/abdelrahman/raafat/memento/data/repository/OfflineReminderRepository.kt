@@ -4,7 +4,7 @@ import com.abdelrahman.raafat.memento.data.local.dao.ReminderDao
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.data.local.entity.toTriggerMillis
 import com.abdelrahman.raafat.memento.domain.ReminderRepository
-import com.abdelrahman.raafat.memento.domain.notification.ReminderNotificationScheduler
+import com.abdelrahman.raafat.memento.domain.reminder.ReminderNotificationScheduler
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
