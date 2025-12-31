@@ -36,7 +36,7 @@
             android:exported="true"
             android:theme="@style/Theme.Memento"/>
 
-        <receiver android:name=".domain.notification.ReminderAlarmReceiver"
+        <receiver android:name=".domain.reminder.ReminderAlarmReceiver"
             android:enabled="true"
             android:exported="false"/>
     </application>

@@ -1,6 +1,8 @@
 package com.abdelrahman.raafat.memento.ui.remindereditor
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -44,6 +47,20 @@ fun AddReminderScreen(
             when (event) {
                 is ReminderEditorEvent.ReminderSaved -> {
                     onBack()
+                }
+
+                is ReminderEditorEvent.ShowExactAlarmPermissionRequired -> {
+                    snackbarHostState.showSnackbar(
+                        message = context.getString(R.string.exact_alarm_permission_required),
+                        actionLabel = context.getString(R.string.open_settings),
+                        duration = SnackbarDuration.Long
+                    ).also { result ->
+                        if (result == SnackbarResult.ActionPerformed) {
+                            context.startActivity(
+                                Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                            )
+                        }
+                    }
                 }
 
                 is ReminderEditorEvent.ShowError -> {
