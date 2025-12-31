@@ -41,7 +41,25 @@ class OfflineReminderRepository @Inject constructor(
 
     override suspend fun updateReminder(reminder: ReminderEntity): Boolean {
         val updateReminderResult = reminderDao.updateReminder(reminder)
-        return updateReminderResult > 0
+        return if (updateReminderResult > 0) {
+            try {
+                scheduler.scheduleReminder(
+                    reminderId = reminder.id,
+                    triggerAtMillis = reminder.toTriggerMillis(),
+                    title = reminder.title,
+                    additionalInfo = reminder.additionalInfo
+                )
+                true
+            } catch (_: PastTriggerException) {
+                false
+            } catch (_: ExactAlarmPermissionException) {
+                false
+            } catch (_: Exception) {
+                false
+            }
+        } else {
+            false
+        }
     }
 
     override suspend fun markReminderAsDone(reminder: ReminderEntity): Boolean {
