@@ -44,18 +44,60 @@ class OfflineReminderRepository @Inject constructor(
         return updateReminderResult > 0
     }
 
+    override suspend fun markReminderAsDone(reminder: ReminderEntity): Boolean {
+        val updateReminderResult = reminderDao.updateReminder(reminder)
+        return if (updateReminderResult > 0) {
+            scheduler.cancelReminder(reminderId = reminder.id)
+            true
+        } else {
+            false
+        }
+    }
+
+    override suspend fun unDoMarkReminderAsDone(reminder: ReminderEntity): Boolean {
+        val updateReminderResult = reminderDao.updateReminder(reminder)
+        return if (updateReminderResult > 0) {
+            try {
+                scheduler.scheduleReminder(
+                    reminderId = reminder.id,
+                    triggerAtMillis = reminder.toTriggerMillis(),
+                    title = reminder.title,
+                    additionalInfo = reminder.additionalInfo
+                )
+                true
+            } catch (_: PastTriggerException) {
+                false
+            } catch (_: ExactAlarmPermissionException) {
+                false
+            } catch (_: Exception) {
+                false
+            }
+        } else {
+            false
+        }
+    }
+
     override suspend fun deleteReminder(reminder: ReminderEntity): Int {
-        scheduler.cancelReminder(reminderId = reminder.id)
-        return reminderDao.deleteReminder(reminder)
+        val deleteReminderResult = reminderDao.deleteReminder(reminder)
+        if (deleteReminderResult > 0) {
+            scheduler.cancelReminder(reminderId = reminder.id)
+        }
+        return deleteReminderResult
     }
 
     override suspend fun softDeleteReminder(reminder: ReminderEntity): Boolean {
-        scheduler.cancelReminder(reminderId = reminder.id)
         val updatedReminder = reminder.copy(
             isDeleted = true,
             deletedAt = System.currentTimeMillis()
         )
-        return reminderDao.updateReminder(updatedReminder) > 0
+        val updatedReminderResult = reminderDao.updateReminder(updatedReminder)
+
+        return if (updatedReminderResult > 0) {
+            scheduler.cancelReminder(reminderId = reminder.id)
+            true
+        } else {
+            false
+        }
     }
 
     override fun getReminderById(reminderId: Long): Flow<ReminderEntity> {

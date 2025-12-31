@@ -14,6 +14,10 @@ interface ReminderRepository {
 
     suspend fun updateReminder(reminder: ReminderEntity): Boolean
 
+    suspend fun markReminderAsDone(reminder: ReminderEntity): Boolean
+
+    suspend fun unDoMarkReminderAsDone(reminder: ReminderEntity): Boolean
+
     suspend fun deleteReminder(reminder: ReminderEntity): Int
 
     suspend fun softDeleteReminder(reminder: ReminderEntity): Boolean
