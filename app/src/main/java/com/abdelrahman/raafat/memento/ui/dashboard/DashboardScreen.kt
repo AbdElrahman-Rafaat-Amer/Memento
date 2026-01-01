@@ -1,6 +1,8 @@
 package com.abdelrahman.raafat.memento.ui.dashboard
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -78,6 +80,22 @@ fun DashboardScreen(
                     }
                 }
 
+                DashboardEvent.ShowExactAlarmPermissionRequired -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(R.string.exact_alarm_permission_required),
+                            actionLabel = context.getString(R.string.open_settings),
+                            duration = SnackbarDuration.Long
+                        ).also { result ->
+                            if (result == SnackbarResult.ActionPerformed) {
+                                context.startActivity(
+                                    Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                                )
+                            }
+                        }
+                    }
+                }
+
                 is DashboardEvent.ShowError -> {
                     scope.launch {
                         snackbarHostState.showSnackbar(
@@ -143,7 +161,7 @@ fun DashboardScreen(
                                     onDoneClicked = { reminderUi ->
                                         dashboardViewModel.markReminderAsDone(reminderUi)
                                     },
-                                    onEditClicked = {reminderUi ->
+                                    onEditClicked = { reminderUi ->
                                         onUpdateClicked(reminderUi)
                                     },
                                     onDeleteClicked = { reminder ->
