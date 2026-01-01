@@ -1,15 +1,15 @@
 package com.abdelrahman.raafat.memento.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
-import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
 import com.abdelrahman.raafat.memento.domain.result.ReminderScheduleResult
+import com.abdelrahman.raafat.memento.ui.dashboard.mapper.DashboardReminderMapper
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardEvent
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardUiState
-import com.abdelrahman.raafat.memento.utils.DateTimeFormats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,16 +19,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val reminderRepository: ReminderRepository
+    private val reminderRepository: ReminderRepository,
+    private val dashboardMapper: DashboardReminderMapper
 ) : ViewModel() {
 
     private val _dashboardUiState =
@@ -48,8 +44,11 @@ class DashboardViewModel @Inject constructor(
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
             reminderRepository.getDashboardReminders()
-                .map { entities -> entities.map(::mapToUiModel) }
+                .map { entities ->
+                    entities.map { dashboardMapper.toUiModel(it) }
+                }
                 .catch { exception ->
+                    Log.e(TAG, "loadReminders: ${exception.message}", exception)
                     _dashboardUiState.value = DashboardUiState(
                         error = R.string.clear_app_data,
                         isLoading = false
@@ -63,26 +62,6 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private fun mapToUiModel(entity: ReminderEntity): DashboardReminderUi {
-        return DashboardReminderUi(
-            id = entity.id,
-            title = entity.title,
-            additionalInfo = entity.additionalInfo,
-            dateTime = formatDateTime(entity.date, entity.time),
-            isDone = entity.isDone
-        )
-    }
-
-    private fun formatDateTime(date: Long, time: Long): String {
-        val localDate = LocalDate.ofEpochDay(date)
-        val localTime = LocalTime.ofSecondOfDay(time)
-
-        val localDateTime = LocalDateTime.of(localDate, localTime)
-        val formatter =
-            DateTimeFormatter.ofPattern(DateTimeFormats.REMINDER_DATE_TIME, Locale.getDefault())
-        return localDateTime.format(formatter)
-    }
-
     fun retry() {
         _dashboardUiState.value = DashboardUiState(isLoading = true)
         loadReminders()
@@ -91,9 +70,9 @@ class DashboardViewModel @Inject constructor(
     fun markReminderAsDone(dashboardReminderUi: DashboardReminderUi) {
         viewModelScope.launch {
             val updatedReminder = dashboardReminderUi.copy(isDone = true)
-            val reminderEntity = toEntity(reminderUi = updatedReminder)
+            val reminder = dashboardMapper.toDomain(updatedReminder)
 
-            val updateReminderResult = reminderRepository.markReminderAsDone(reminderEntity)
+            val updateReminderResult = reminderRepository.markReminderAsDone(reminder)
             when (updateReminderResult) {
                 is ReminderScheduleResult.Success -> {
                     _uiEvent.emit(
@@ -120,8 +99,10 @@ class DashboardViewModel @Inject constructor(
 
     fun undoMarkingAsDone(dashboardReminderUi: DashboardReminderUi) {
         viewModelScope.launch {
-            val reminderEntity = toEntity(reminderUi = dashboardReminderUi.copy(isDone = false))
-            val updateReminderResult = reminderRepository.markReminderAsNotDone(reminderEntity)
+            val updatedReminder = dashboardReminderUi.copy(isDone = true)
+            val reminder = dashboardMapper.toDomain(updatedReminder)
+
+            val updateReminderResult = reminderRepository.markReminderAsNotDone(reminder)
             when (updateReminderResult) {
                 is ReminderScheduleResult.Success -> {
                     //Do nothing as the reminder will be rescheduled
@@ -145,9 +126,10 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun deleteReminder(dashboardReminderUi: DashboardReminderUi) {
-        val reminderEntity = toEntity(reminderUi = dashboardReminderUi)
+        val reminder = dashboardMapper.toDomain(dashboardReminderUi)
+
         viewModelScope.launch {
-            val deleteReminderResult = reminderRepository.softDeleteReminder(reminderEntity)
+            val deleteReminderResult = reminderRepository.softDeleteReminder(reminder)
             when (deleteReminderResult) {
                 is ReminderScheduleResult.Success -> {
                     _uiEvent.emit(DashboardEvent.ShowDeleteSuccess(R.string.reminder_deleted_successfully))
@@ -167,32 +149,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private fun toEntity(
-        reminderUi: DashboardReminderUi
-    ): ReminderEntity {
-        val (date, time) = parseDateTime(reminderUi.dateTime)
-        val reminderEntity = ReminderEntity(
-            id = reminderUi.id,
-            title = reminderUi.title,
-            date = date,
-            time = time,
-            additionalInfo = reminderUi.additionalInfo,
-            isDone = reminderUi.isDone
-        )
-        return reminderEntity
-    }
-
-    private fun parseDateTime(dateTime: String): Pair<Long, Long> {
-        val formatter = DateTimeFormatter.ofPattern(
-            DateTimeFormats.REMINDER_DATE_TIME,
-            Locale.getDefault()
-        )
-
-        val localDateTime = LocalDateTime.parse(dateTime, formatter)
-
-        val date = localDateTime.toLocalDate().toEpochDay()
-        val time = localDateTime.toLocalTime().toSecondOfDay().toLong()
-
-        return date to time
+    companion object {
+        private const val TAG = "DashboardViewModel"
     }
 }

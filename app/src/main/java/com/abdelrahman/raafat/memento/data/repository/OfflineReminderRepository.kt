@@ -2,23 +2,28 @@ package com.abdelrahman.raafat.memento.data.repository
 
 import com.abdelrahman.raafat.memento.data.local.dao.ReminderDao
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
-import com.abdelrahman.raafat.memento.data.local.entity.toTriggerMillis
+import com.abdelrahman.raafat.memento.data.mapper.ReminderEntityMapper
 import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
 import com.abdelrahman.raafat.memento.domain.result.ReminderScheduleResult
 import com.abdelrahman.raafat.memento.domain.exceptions.ExactAlarmPermissionException
 import com.abdelrahman.raafat.memento.domain.exceptions.PastTriggerException
+import com.abdelrahman.raafat.memento.domain.model.Reminder
+import com.abdelrahman.raafat.memento.domain.model.toTriggerMillis
 import com.abdelrahman.raafat.memento.domain.reminder.ReminderNotificationScheduler
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class OfflineReminderRepository @Inject constructor(
     private val reminderDao: ReminderDao,
-    private val scheduler: ReminderNotificationScheduler
+    private val scheduler: ReminderNotificationScheduler,
+    private val entityMapper: ReminderEntityMapper,
 ) : ReminderRepository {
-    override suspend fun insertReminder(reminder: ReminderEntity): ReminderScheduleResult {
+    override suspend fun insertReminder(reminder: Reminder): ReminderScheduleResult {
         //TODO Rollback the insert operation if the reminder is not scheduled
         try {
-            val newId = reminderDao.insertReminder(reminder)
+            val entity = entityMapper.toEntity(reminder)
+            val newId = reminderDao.insertReminder(entity)
             val isSuccessfulInsert = newId > 0
 
             return if (isSuccessfulInsert) {
@@ -31,9 +36,10 @@ class OfflineReminderRepository @Inject constructor(
         }
     }
 
-    override suspend fun updateReminder(reminder: ReminderEntity): ReminderScheduleResult {
+    override suspend fun updateReminder(reminder: Reminder): ReminderScheduleResult {
+        val entity = entityMapper.toEntity(reminder)
         return updateReminder(
-            reminder = reminder,
+            reminder = entity,
             onSuccessAction = {
                 scheduler.cancelReminder(reminderId = reminder.id)
                 trySchedulingReminder(reminder.copy(id = reminder.id))
@@ -41,9 +47,10 @@ class OfflineReminderRepository @Inject constructor(
         )
     }
 
-    override suspend fun markReminderAsDone(reminder: ReminderEntity): ReminderScheduleResult {
+    override suspend fun markReminderAsDone(reminder: Reminder): ReminderScheduleResult {
+        val entity = entityMapper.toEntity(reminder)
         return updateReminder(
-            reminder = reminder,
+            reminder = entity,
             onSuccessAction = {
                 scheduler.cancelReminder(reminderId = reminder.id)
                 ReminderScheduleResult.Success
@@ -51,17 +58,19 @@ class OfflineReminderRepository @Inject constructor(
         )
     }
 
-    override suspend fun markReminderAsNotDone(reminder: ReminderEntity): ReminderScheduleResult {
+    override suspend fun markReminderAsNotDone(reminder: Reminder): ReminderScheduleResult {
+        val entity = entityMapper.toEntity(reminder)
         return updateReminder(
-            reminder = reminder,
+            reminder = entity,
             onSuccessAction = {
                 trySchedulingReminder(reminder.copy(id = reminder.id))
             }
         )
     }
 
-    override suspend fun deleteReminder(reminder: ReminderEntity): ReminderScheduleResult {
-        val isSuccessfulDelete = reminderDao.deleteReminder(reminder) > 0
+    override suspend fun deleteReminder(reminder: Reminder): ReminderScheduleResult {
+        val entity = entityMapper.toEntity(reminder)
+        val isSuccessfulDelete = reminderDao.deleteReminder(entity) > 0
         return if (isSuccessfulDelete) {
             scheduler.cancelReminder(reminderId = reminder.id)
             ReminderScheduleResult.Success
@@ -70,36 +79,58 @@ class OfflineReminderRepository @Inject constructor(
         }
     }
 
-    override suspend fun softDeleteReminder(reminder: ReminderEntity): ReminderScheduleResult {
-        val updatedReminder = reminder.copy(
+    override suspend fun softDeleteReminder(reminder: Reminder): ReminderScheduleResult {
+        val entity = entityMapper.toEntity(reminder)
+        val updatedEntity = entity.copy(
             isDeleted = true,
             deletedAt = System.currentTimeMillis()
         )
         return updateReminder(
-            reminder = updatedReminder,
+            reminder = updatedEntity,
             onSuccessAction = {
-                scheduler.cancelReminder(reminderId = updatedReminder.id)
+                scheduler.cancelReminder(reminderId = updatedEntity.id)
                 ReminderScheduleResult.Success
             }
         )
     }
 
-    override fun getReminderById(reminderId: Long): Flow<ReminderEntity> {
-        return reminderDao.getReminderById(reminderId)
+    override fun getReminderById(reminderId: Long): Flow<Reminder> {
+        val entity = reminderDao.getReminderById(reminderId)
+        return entity.map {
+            entityMapper.toDomain(it)
+        }
     }
 
-    override fun getReminderByTitle(title: String): Flow<ReminderEntity> {
-        return reminderDao.getReminderByTitle(title)
+    override fun getReminderByTitle(title: String): Flow<Reminder> {
+        val entity = reminderDao.getReminderByTitle(title)
+        return entity.map {
+            entityMapper.toDomain(it)
+        }
     }
 
-    override fun getAllReminders(): Flow<List<ReminderEntity>> =
-        reminderDao.getAllReminders()
+    override fun getAllReminders(): Flow<List<Reminder>> {
+        val entities = reminderDao.getAllReminders()
+        return entities.map {
+            entityMapper.toDomainList(it)
+        }
+    }
 
-    override fun getDashboardReminders(): Flow<List<ReminderEntity>> =
-        reminderDao.getDashboardReminders()
 
-    override fun getAllDoneReminders(): Flow<List<ReminderEntity>> =
-        reminderDao.getAllDoneReminders()
+    override fun getDashboardReminders(): Flow<List<Reminder>> {
+        val entities = reminderDao.getDashboardReminders()
+        return entities.map {
+            entityMapper.toDomainList(it)
+        }
+    }
+
+
+    override fun getAllDoneReminders(): Flow<List<Reminder>> {
+        val entities = reminderDao.getAllDoneReminders()
+        return entities.map {
+            entityMapper.toDomainList(it)
+        }
+    }
+
 
     /**
      * A helper function to perform a database update and execute a follow-up action on success.
@@ -126,7 +157,7 @@ class OfflineReminderRepository @Inject constructor(
     /**
      * Schedules a reminder and wraps the result, handling potential exceptions.
      */
-    private fun trySchedulingReminder(reminder: ReminderEntity): ReminderScheduleResult {
+    private fun trySchedulingReminder(reminder: Reminder): ReminderScheduleResult {
         return try {
             scheduler.scheduleReminder(
                 reminderId = reminder.id,
