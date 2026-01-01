@@ -12,15 +12,15 @@ import kotlinx.coroutines.flow.Flow
 interface ReminderRepository {
     suspend fun insertReminder(reminder: ReminderEntity): ReminderScheduleResult
 
-    suspend fun updateReminder(reminder: ReminderEntity): Boolean
+    suspend fun updateReminder(reminder: ReminderEntity): ReminderScheduleResult
 
-    suspend fun markReminderAsDone(reminder: ReminderEntity): Boolean
+    suspend fun markReminderAsDone(reminder: ReminderEntity): ReminderScheduleResult
 
-    suspend fun unDoMarkReminderAsDone(reminder: ReminderEntity): Boolean
+    suspend fun markReminderAsNotDone(reminder: ReminderEntity): ReminderScheduleResult
 
-    suspend fun deleteReminder(reminder: ReminderEntity): Int
+    suspend fun deleteReminder(reminder: ReminderEntity): ReminderScheduleResult
 
-    suspend fun softDeleteReminder(reminder: ReminderEntity): Boolean
+    suspend fun softDeleteReminder(reminder: ReminderEntity): ReminderScheduleResult
 
     fun getReminderById(reminderId: Long): Flow<ReminderEntity>
 

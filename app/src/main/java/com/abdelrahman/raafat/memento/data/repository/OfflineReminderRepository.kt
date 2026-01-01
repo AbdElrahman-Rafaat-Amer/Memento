@@ -16,106 +16,72 @@ class OfflineReminderRepository @Inject constructor(
     private val scheduler: ReminderNotificationScheduler
 ) : ReminderRepository {
     override suspend fun insertReminder(reminder: ReminderEntity): ReminderScheduleResult {
-        val insertResult = reminderDao.insertReminder(reminder)
+        //TODO Rollback the insert operation if the reminder is not scheduled
+        try {
+            val newId = reminderDao.insertReminder(reminder)
+            val isSuccessfulInsert = newId > 0
 
-        if (insertResult <= 0) {
-            return ReminderScheduleResult.DataBaseError("Failed to insert reminder")
-        }
-
-        return try {
-            scheduler.scheduleReminder(
-                reminderId = insertResult,
-                triggerAtMillis = reminder.toTriggerMillis(),
-                title = reminder.title,
-                additionalInfo = reminder.additionalInfo
-            )
-            ReminderScheduleResult.Success
-        } catch (exception: PastTriggerException) {
-            ReminderScheduleResult.PastTrigger(exception.message)
-        } catch (exception: ExactAlarmPermissionException) {
-            ReminderScheduleResult.ExactAlarmPermissionMissing(exception.message)
+            return if (isSuccessfulInsert) {
+                trySchedulingReminder(reminder.copy(id = newId))
+            } else {
+                ReminderScheduleResult.DataBaseError("Failed to insert reminder")
+            }
         } catch (exception: Exception) {
-            ReminderScheduleResult.UnknownError(exception.message)
+            return ReminderScheduleResult.DataBaseError("Failed to insert reminder ${exception.message}")
         }
     }
 
-    override suspend fun updateReminder(reminder: ReminderEntity): Boolean {
-        val updateReminderResult = reminderDao.updateReminder(reminder)
-        return if (updateReminderResult > 0) {
-            try {
-                scheduler.scheduleReminder(
-                    reminderId = reminder.id,
-                    triggerAtMillis = reminder.toTriggerMillis(),
-                    title = reminder.title,
-                    additionalInfo = reminder.additionalInfo
-                )
-                true
-            } catch (_: PastTriggerException) {
-                false
-            } catch (_: ExactAlarmPermissionException) {
-                false
-            } catch (_: Exception) {
-                false
+    override suspend fun updateReminder(reminder: ReminderEntity): ReminderScheduleResult {
+        return updateReminder(
+            reminder = reminder,
+            onSuccessAction = {
+                scheduler.cancelReminder(reminderId = reminder.id)
+                trySchedulingReminder(reminder.copy(id = reminder.id))
             }
-        } else {
-            false
-        }
+        )
     }
 
-    override suspend fun markReminderAsDone(reminder: ReminderEntity): Boolean {
-        val updateReminderResult = reminderDao.updateReminder(reminder)
-        return if (updateReminderResult > 0) {
-            scheduler.cancelReminder(reminderId = reminder.id)
-            true
-        } else {
-            false
-        }
-    }
-
-    override suspend fun unDoMarkReminderAsDone(reminder: ReminderEntity): Boolean {
-        val updateReminderResult = reminderDao.updateReminder(reminder)
-        return if (updateReminderResult > 0) {
-            try {
-                scheduler.scheduleReminder(
-                    reminderId = reminder.id,
-                    triggerAtMillis = reminder.toTriggerMillis(),
-                    title = reminder.title,
-                    additionalInfo = reminder.additionalInfo
-                )
-                true
-            } catch (_: PastTriggerException) {
-                false
-            } catch (_: ExactAlarmPermissionException) {
-                false
-            } catch (_: Exception) {
-                false
+    override suspend fun markReminderAsDone(reminder: ReminderEntity): ReminderScheduleResult {
+        return updateReminder(
+            reminder = reminder,
+            onSuccessAction = {
+                scheduler.cancelReminder(reminderId = reminder.id)
+                ReminderScheduleResult.Success
             }
-        } else {
-            false
-        }
+        )
     }
 
-    override suspend fun deleteReminder(reminder: ReminderEntity): Int {
-        val deleteReminderResult = reminderDao.deleteReminder(reminder)
-        if (deleteReminderResult > 0) {
+    override suspend fun markReminderAsNotDone(reminder: ReminderEntity): ReminderScheduleResult {
+        return updateReminder(
+            reminder = reminder,
+            onSuccessAction = {
+                trySchedulingReminder(reminder.copy(id = reminder.id))
+            }
+        )
+    }
+
+    override suspend fun deleteReminder(reminder: ReminderEntity): ReminderScheduleResult {
+        val isSuccessfulDelete = reminderDao.deleteReminder(reminder) > 0
+        return if (isSuccessfulDelete) {
             scheduler.cancelReminder(reminderId = reminder.id)
+            ReminderScheduleResult.Success
+        } else {
+            ReminderScheduleResult.DataBaseError("Failed to delete reminder $reminder")
         }
-        return deleteReminderResult
     }
 
-    override suspend fun softDeleteReminder(reminder: ReminderEntity): Boolean {
+    override suspend fun softDeleteReminder(reminder: ReminderEntity): ReminderScheduleResult {
         val updatedReminder = reminder.copy(
             isDeleted = true,
             deletedAt = System.currentTimeMillis()
         )
-        val updatedReminderResult = reminderDao.updateReminder(updatedReminder)
-
-        return if (updatedReminderResult > 0) {
-            scheduler.cancelReminder(reminderId = reminder.id)
-            true
-        } else {
-            false
-        }
+        return updateReminder(
+            reminder = updatedReminder,
+            onSuccessAction = {
+                scheduler.cancelReminder(reminderId = updatedReminder.id)
+                ReminderScheduleResult.Success
+            }
+        )
     }
 
     override fun getReminderById(reminderId: Long): Flow<ReminderEntity> {
@@ -135,4 +101,48 @@ class OfflineReminderRepository @Inject constructor(
     override fun getAllDoneReminders(): Flow<List<ReminderEntity>> =
         reminderDao.getAllDoneReminders()
 
+    /**
+     * A helper function to perform a database update and execute a follow-up action on success.
+     * @param reminder The entity to update in the database.
+     * @param onSuccessAction The action to perform if the database update is successful.
+     * @return The result of the operation.
+     */
+    private suspend fun updateReminder(
+        reminder: ReminderEntity,
+        onSuccessAction: (ReminderEntity) -> ReminderScheduleResult
+    ): ReminderScheduleResult {
+        try {
+            val rowsAffected = reminderDao.updateReminder(reminder)
+            return if (rowsAffected > 0) {
+                onSuccessAction(reminder)
+            } else {
+                ReminderScheduleResult.DataBaseError("Failed to update reminder: $reminder")
+            }
+        } catch (exception: Exception) {
+            return ReminderScheduleResult.DataBaseError("Failed to update reminder: ${exception.message}")
+        }
+    }
+
+    /**
+     * Schedules a reminder and wraps the result, handling potential exceptions.
+     */
+    private fun trySchedulingReminder(reminder: ReminderEntity): ReminderScheduleResult {
+        return try {
+            scheduler.scheduleReminder(
+                reminderId = reminder.id,
+                triggerAtMillis = reminder.toTriggerMillis(),
+                title = reminder.title,
+                additionalInfo = reminder.additionalInfo
+            )
+            ReminderScheduleResult.Success
+        } catch (exception: PastTriggerException) {
+            ReminderScheduleResult.PastTrigger(exception.message)
+        } catch (exception: ExactAlarmPermissionException) {
+            ReminderScheduleResult.ExactAlarmPermissionMissing(exception.message)
+        } catch (exception: SecurityException) {
+            ReminderScheduleResult.UnknownError("A security error occurred: ${exception.message}")
+        } catch (exception: Exception) {
+            ReminderScheduleResult.UnknownError(exception.message)
+        }
+    }
 }

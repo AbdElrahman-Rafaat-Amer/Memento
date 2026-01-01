@@ -12,6 +12,8 @@ sealed interface DashboardEvent {
         @StringRes val messageResId: Int
     ) : DashboardEvent
 
+    data object ShowExactAlarmPermissionRequired : DashboardEvent
+
     data class ShowError(@StringRes val messageResId: Int) : DashboardEvent
 
 }

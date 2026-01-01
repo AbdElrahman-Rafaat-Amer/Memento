@@ -109,18 +109,13 @@ class ReminderEditorViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            try {
-                if (isEditMode) {
-                    requireNotNull(reminderId) {
-                        "Reminder ID cannot be null in edit mode"
-                    }
-                    updateReminder(state.toEntity(reminderId))
-                } else {
-                    insertReminder(state.toEntity())
+            if (isEditMode) {
+                requireNotNull(reminderId) {
+                    "Reminder ID cannot be null in edit mode"
                 }
-            } catch (exception: Exception) {
-                Log.e(TAG, "saveReminder: exception.messageResId = ${exception.message}")
-                _uiEvent.send(ReminderEditorEvent.ShowError(R.string.something_went_wrong))
+                updateReminder(state.toEntity(reminderId))
+            } else {
+                insertReminder(state.toEntity())
             }
         }
     }
@@ -142,11 +137,24 @@ class ReminderEditorViewModel @Inject constructor(
     }
 
     private suspend fun updateReminder(entity: ReminderEntity) {
-        val isSuccessUpdate = reminderRepository.updateReminder(entity)
-        if (isSuccessUpdate) {
-            _uiEvent.send(ReminderEditorEvent.ReminderSaved)
-        } else {
-            _uiEvent.send(ReminderEditorEvent.ShowError(R.string.failed_to_update_reminder))
+        val updateResult = reminderRepository.updateReminder(entity)
+        when (updateResult) {
+            is ReminderScheduleResult.Success -> {
+                _uiEvent.send(ReminderEditorEvent.ReminderSaved)
+            }
+
+            is ReminderScheduleResult.ExactAlarmPermissionMissing -> {
+                _uiEvent.send(ReminderEditorEvent.ShowExactAlarmPermissionRequired)
+            }
+
+            is ReminderScheduleResult.PastTrigger -> {
+                _uiEvent.send(ReminderEditorEvent.ShowError(R.string.select_date_in_future))
+            }
+
+            is ReminderScheduleResult.DataBaseError,
+            is ReminderScheduleResult.UnknownError -> {
+                _uiEvent.send(ReminderEditorEvent.ShowError(R.string.failed_to_update_reminder))
+            }
         }
     }
 

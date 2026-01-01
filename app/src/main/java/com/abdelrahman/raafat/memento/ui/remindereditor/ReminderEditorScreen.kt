@@ -44,21 +44,24 @@ fun AddReminderScreen(
 
     LaunchedEffect(Unit) {
         editorViewModel.uiEvent.collect { event ->
+            snackbarHostState.currentSnackbarData?.dismiss()
             when (event) {
                 is ReminderEditorEvent.ReminderSaved -> {
                     onBack()
                 }
 
                 is ReminderEditorEvent.ShowExactAlarmPermissionRequired -> {
-                    snackbarHostState.showSnackbar(
-                        message = context.getString(R.string.exact_alarm_permission_required),
-                        actionLabel = context.getString(R.string.open_settings),
-                        duration = SnackbarDuration.Long
-                    ).also { result ->
-                        if (result == SnackbarResult.ActionPerformed) {
-                            context.startActivity(
-                                Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-                            )
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(R.string.exact_alarm_permission_required),
+                            actionLabel = context.getString(R.string.open_settings),
+                            duration = SnackbarDuration.Long
+                        ).also { result ->
+                            if (result == SnackbarResult.ActionPerformed) {
+                                context.startActivity(
+                                    Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                                )
+                            }
                         }
                     }
                 }
