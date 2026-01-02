@@ -61,5 +61,6 @@
     <string name="notification_disabled_message">Notifications are disabled permanently. Please enable them from settings.</string>
     <string name="cancel">Cancel</string>
     <string name="exact_alarm_permission_required">Exact Alarm Permission Required</string>
+    <string name="min">Minutes</string>
 
 </resources>
