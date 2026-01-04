@@ -4,7 +4,12 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
+import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -13,6 +18,9 @@ class SnoozeAlarmReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var scheduler: ReminderNotificationScheduler
+
+    @Inject
+    lateinit var repository: ReminderRepository
 
     override fun onReceive(context: Context, intent: Intent) {
         val reminderId = intent.getLongExtra(ID_EXTRA, -1L)
@@ -34,6 +42,18 @@ class SnoozeAlarmReceiver : BroadcastReceiver() {
             title = reminderName,
             additionalInfo = reminderDescription
         )
+
+        val pendingResult: PendingResult = goAsync()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                repository.markAsSnoozed(reminderId)
+            } catch (exception: Exception) {
+                Log.e(TAG, "Failed to mark as snoozed for reminder: $reminderId", exception)
+            } finally {
+                pendingResult.finish()
+            }
+        }
+
     }
 
     companion object {
@@ -41,5 +61,6 @@ class SnoozeAlarmReceiver : BroadcastReceiver() {
         const val NAME_EXTRA = "NAME_EXTRA"
         const val DESCRIPTION_EXTRA = "DESCRIPTION_EXTRA"
         const val SNOOZE_MINUTES_EXTRA = "SNOOZE_MINUTES_EXTRA"
+        private const val TAG = "SnoozeAlarmReceiver"
     }
 }

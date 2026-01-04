@@ -1,5 +1,6 @@
 package com.abdelrahman.raafat.memento.data.repository
 
+import android.util.Log
 import com.abdelrahman.raafat.memento.data.local.dao.ReminderDao
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.data.mapper.ReminderEntityMapper
@@ -115,14 +116,12 @@ class OfflineReminderRepository @Inject constructor(
         }
     }
 
-
     override fun getDashboardReminders(): Flow<List<Reminder>> {
         val entities = reminderDao.getDashboardReminders()
         return entities.map {
             entityMapper.toDomainList(it)
         }
     }
-
 
     override fun getAllDoneReminders(): Flow<List<Reminder>> {
         val entities = reminderDao.getAllDoneReminders()
@@ -131,6 +130,21 @@ class OfflineReminderRepository @Inject constructor(
         }
     }
 
+    override suspend fun markAsSnoozed(id: Long) {
+        val markAsSnoozedState = reminderDao.updateSnoozeState(
+            id = id,
+            isSnoozed = true
+        )
+        Log.i("Abdooooo", "markAsSnoozed: markAsSnoozedState $markAsSnoozedState")
+    }
+
+    override suspend fun clearSnooze(id: Long) {
+        val clearSnoozeState = reminderDao.updateSnoozeState(
+            id = id,
+            isSnoozed = false
+        )
+        Log.i("Abdooooo", "clearSnoozeState: clearSnoozeState $clearSnoozeState")
+    }
 
     /**
      * A helper function to perform a database update and execute a follow-up action on success.

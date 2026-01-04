@@ -32,4 +32,7 @@ interface ReminderRepository {
 
     fun getAllDoneReminders(): Flow<List<Reminder>>
 
+    suspend fun markAsSnoozed(id: Long)
+    suspend fun clearSnooze(id: Long)
+
 }
