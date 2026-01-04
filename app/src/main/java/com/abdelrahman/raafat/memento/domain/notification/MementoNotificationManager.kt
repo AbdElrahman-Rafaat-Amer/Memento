@@ -60,7 +60,7 @@ class MementoNotificationManager @Inject constructor(
                     reminderId = id,
                     reminderName = title,
                     description = description,
-                    delayMinutes = SnoozeOption.MIN_5.duration
+                    delayMinutes = SnoozeOption.MIN_5.minutes
                 )
             )
             addAction(
@@ -68,7 +68,7 @@ class MementoNotificationManager @Inject constructor(
                     reminderId = id,
                     reminderName = title,
                     description = description,
-                    delayMinutes = SnoozeOption.MIN_10.duration
+                    delayMinutes = SnoozeOption.MIN_10.minutes
                 )
             )
             addAction(
@@ -76,7 +76,7 @@ class MementoNotificationManager @Inject constructor(
                     reminderId = id,
                     reminderName = title,
                     description = description,
-                    delayMinutes = SnoozeOption.MIN_30.duration
+                    delayMinutes = SnoozeOption.MIN_30.minutes
                 )
             )
         }
