@@ -13,5 +13,6 @@ data class ReminderEntity(
     val additionalInfo: String,
     val isDone: Boolean = false,
     val isDeleted: Boolean = false,
-    val deletedAt: Long? = null
+    val deletedAt: Long? = null,
+    val isSnoozed: Boolean = false
 )
