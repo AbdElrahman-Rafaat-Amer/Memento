@@ -2,6 +2,7 @@ package com.abdelrahman.raafat.memento.data.mapper
 
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.domain.model.Reminder
+import com.abdelrahman.raafat.memento.domain.model.toTriggerMillis
 import javax.inject.Inject
 
 class ReminderEntityMapper @Inject constructor() {
@@ -24,7 +25,8 @@ class ReminderEntityMapper @Inject constructor() {
             additionalInfo = reminder.additionalInfo,
             date = reminder.date,
             time = reminder.time,
-            isDone = reminder.isDone
+            isDone = reminder.isDone,
+            triggerAtMillis = reminder.toTriggerMillis()
         )
     }
 

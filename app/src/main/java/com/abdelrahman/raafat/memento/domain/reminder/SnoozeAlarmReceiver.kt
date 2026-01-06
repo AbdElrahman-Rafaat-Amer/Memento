@@ -34,11 +34,11 @@ class SnoozeAlarmReceiver : BroadcastReceiver() {
         notificationManager.cancel(reminderId.toInt())
 
         // Schedule new reminder
-        val newTime = System.currentTimeMillis() + (snoozeMinutes * 60 * 1000)
+        val newTriggerTime = System.currentTimeMillis() + (snoozeMinutes * 60 * 1000)
 
         scheduler.scheduleReminder(
             reminderId = reminderId,
-            triggerAtMillis = newTime,
+            triggerAtMillis = newTriggerTime,
             title = reminderName,
             additionalInfo = reminderDescription
         )
@@ -46,7 +46,7 @@ class SnoozeAlarmReceiver : BroadcastReceiver() {
         val pendingResult: PendingResult = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                repository.markAsSnoozed(reminderId)
+                repository.markAsSnoozed(reminderId, newTriggerTime)
             } catch (exception: Exception) {
                 Log.e(TAG, "Failed to mark as snoozed for reminder: $reminderId", exception)
             } finally {

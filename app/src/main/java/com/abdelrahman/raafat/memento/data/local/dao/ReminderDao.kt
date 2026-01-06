@@ -16,8 +16,8 @@ interface ReminderDao {
     @Update
     suspend fun updateReminder(reminder: ReminderEntity): Int
 
-    @Query("UPDATE ReminderEntity SET isSnoozed = :isSnoozed WHERE id = :id")
-    suspend fun updateSnoozeState(id: Long, isSnoozed: Boolean): Int
+    @Query("UPDATE ReminderEntity SET isSnoozed = :isSnoozed AND triggerAtMillis = :newTriggerTime WHERE id = :id")
+    suspend fun updateSnoozeState(id: Long, newTriggerTime: Long, isSnoozed: Boolean): Int
 
     @Delete
     suspend fun deleteReminder(reminder: ReminderEntity): Int
@@ -31,8 +31,20 @@ interface ReminderDao {
     @Query("SELECT * FROM ReminderEntity ORDER BY id ASC")
     fun getAllReminders(): Flow<List<ReminderEntity>>
 
-    @Query("SELECT * FROM ReminderEntity WHERE isDone = 0 AND isDeleted = 0 ORDER BY id ASC")
-    fun getDashboardReminders(): Flow<List<ReminderEntity>>
+    //    @Query("SELECT * FROM ReminderEntity WHERE isDone = 0 AND isDeleted = 0 ORDER BY id ASC")
+    @Query(
+        """
+        SELECT * FROM ReminderEntity
+        WHERE isDone = 0
+          AND isDeleted = 0
+          AND (
+                triggerAtMillis > :now
+                OR isSnoozed = 1
+              )
+        ORDER BY id ASC
+        """
+    )
+    fun getDashboardReminders(now: Long): Flow<List<ReminderEntity>>
 
     @Query("SELECT * FROM ReminderEntity Where isDone = 1 ORDER BY id ASC")
     fun getAllDoneReminders(): Flow<List<ReminderEntity>>

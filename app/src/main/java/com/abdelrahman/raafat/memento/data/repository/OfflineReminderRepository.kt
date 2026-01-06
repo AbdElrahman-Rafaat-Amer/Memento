@@ -117,7 +117,8 @@ class OfflineReminderRepository @Inject constructor(
     }
 
     override fun getDashboardReminders(): Flow<List<Reminder>> {
-        val entities = reminderDao.getDashboardReminders()
+        val entities =
+            reminderDao.getDashboardReminders(now = System.currentTimeMillis())
         return entities.map {
             entityMapper.toDomainList(it)
         }
@@ -130,9 +131,10 @@ class OfflineReminderRepository @Inject constructor(
         }
     }
 
-    override suspend fun markAsSnoozed(id: Long) {
+    override suspend fun markAsSnoozed(id: Long, newTriggerTime: Long) {
         val markAsSnoozedState = reminderDao.updateSnoozeState(
             id = id,
+            newTriggerTime = newTriggerTime,
             isSnoozed = true
         )
         Log.i("Abdooooo", "markAsSnoozed: markAsSnoozedState $markAsSnoozedState")
@@ -141,6 +143,7 @@ class OfflineReminderRepository @Inject constructor(
     override suspend fun clearSnooze(id: Long) {
         val clearSnoozeState = reminderDao.updateSnoozeState(
             id = id,
+            newTriggerTime = System.currentTimeMillis(), //TODO check this later
             isSnoozed = false
         )
         Log.i("Abdooooo", "clearSnoozeState: clearSnoozeState $clearSnoozeState")
