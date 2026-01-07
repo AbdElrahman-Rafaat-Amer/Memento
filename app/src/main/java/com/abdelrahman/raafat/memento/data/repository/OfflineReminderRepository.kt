@@ -1,6 +1,5 @@
 package com.abdelrahman.raafat.memento.data.repository
 
-import android.util.Log
 import com.abdelrahman.raafat.memento.data.local.dao.ReminderDao
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.data.mapper.ReminderEntityMapper
@@ -116,8 +115,24 @@ class OfflineReminderRepository @Inject constructor(
         }
     }
 
-    override fun getDashboardReminders(): Flow<List<Reminder>> {
-        val entities = reminderDao.getDashboardReminders()
+    override fun getUpcomingReminders(): Flow<List<Reminder>> {
+        val entities =
+            reminderDao.getUpcomingReminders(now = System.currentTimeMillis())
+        return entities.map {
+            entityMapper.toDomainList(it)
+        }
+    }
+    override fun getSnoozedReminders(): Flow<List<Reminder>> {
+        val entities =
+            reminderDao.getSnoozedReminders()
+        return entities.map {
+            entityMapper.toDomainList(it)
+        }
+    }
+
+    override fun getOverdueReminders(): Flow<List<Reminder>> {
+        val entities =
+            reminderDao.getOverdueReminders(now = System.currentTimeMillis())
         return entities.map {
             entityMapper.toDomainList(it)
         }
@@ -130,20 +145,15 @@ class OfflineReminderRepository @Inject constructor(
         }
     }
 
-    override suspend fun markAsSnoozed(id: Long) {
-        val markAsSnoozedState = reminderDao.updateSnoozeState(
+    override suspend fun markAsSnoozed(id: Long, newTriggerTime: Long) {
+        reminderDao.updateSnoozeState(
             id = id,
-            isSnoozed = true
+            newTriggerTime = newTriggerTime
         )
-        Log.i("Abdooooo", "markAsSnoozed: markAsSnoozedState $markAsSnoozedState")
     }
 
     override suspend fun clearSnooze(id: Long) {
-        val clearSnoozeState = reminderDao.updateSnoozeState(
-            id = id,
-            isSnoozed = false
-        )
-        Log.i("Abdooooo", "clearSnoozeState: clearSnoozeState $clearSnoozeState")
+        reminderDao.clearSnooze(id = id)
     }
 
     /**

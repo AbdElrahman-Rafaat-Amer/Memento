@@ -22,7 +22,7 @@ import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem.DashboardReminderUi
 
 @Composable
 fun ReminderRow(

@@ -17,6 +17,7 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -40,7 +41,8 @@ import com.abdelrahman.raafat.memento.ui.core.components.EmptyScreen
 import com.abdelrahman.raafat.memento.ui.core.components.ErrorScreen
 import com.abdelrahman.raafat.memento.ui.dashboard.components.ReminderRow
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardEvent
-import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem.DashboardReminderUi
 import kotlinx.coroutines.launch
 
 @SuppressLint("LocalContextGetResourceValueCall")
@@ -153,21 +155,31 @@ fun DashboardScreen(
                     else -> {
                         LazyColumn {
                             items(
-                                items = reminderUiState.reminders,
-                                key = { reminder -> reminder.id }
-                            ) { reminder ->
-                                ReminderRow(
-                                    item = reminder,
-                                    onDoneClicked = { reminderUi ->
-                                        dashboardViewModel.markReminderAsDone(reminderUi)
-                                    },
-                                    onEditClicked = { reminderUi ->
-                                        onUpdateClicked(reminderUi)
-                                    },
-                                    onDeleteClicked = { reminder ->
-                                        dashboardViewModel.deleteReminder(reminder)
+                                items = reminderUiState.reminders
+                            ) { item ->
+                                when (item) {
+                                    is DashboardListItem.Section -> {
+                                        Text(
+                                            text = stringResource(item.titleResId),
+                                            style = AppTextStyles.textStyle24SPBold
+                                        )
                                     }
-                                )
+
+                                    is DashboardReminderUi -> {
+                                        ReminderRow(
+                                            item = item,
+                                            onDoneClicked = { reminderUi ->
+                                                dashboardViewModel.markReminderAsDone(reminderUi)
+                                            },
+                                            onEditClicked = { reminderUi ->
+                                                onUpdateClicked(reminderUi)
+                                            },
+                                            onDeleteClicked = { reminder ->
+                                                dashboardViewModel.deleteReminder(reminder)
+                                            }
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
