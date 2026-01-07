@@ -1,6 +1,5 @@
 package com.abdelrahman.raafat.memento.data.repository
 
-import android.util.Log
 import com.abdelrahman.raafat.memento.data.local.dao.ReminderDao
 import com.abdelrahman.raafat.memento.data.local.entity.ReminderEntity
 import com.abdelrahman.raafat.memento.data.mapper.ReminderEntityMapper
@@ -132,21 +131,14 @@ class OfflineReminderRepository @Inject constructor(
     }
 
     override suspend fun markAsSnoozed(id: Long, newTriggerTime: Long) {
-        val markAsSnoozedState = reminderDao.updateSnoozeState(
+        reminderDao.updateSnoozeState(
             id = id,
-            newTriggerTime = newTriggerTime,
-            isSnoozed = true
+            newTriggerTime = newTriggerTime
         )
-        Log.i("Abdooooo", "markAsSnoozed: markAsSnoozedState $markAsSnoozedState")
     }
 
     override suspend fun clearSnooze(id: Long) {
-        val clearSnoozeState = reminderDao.updateSnoozeState(
-            id = id,
-            newTriggerTime = System.currentTimeMillis(), //TODO check this later
-            isSnoozed = false
-        )
-        Log.i("Abdooooo", "clearSnoozeState: clearSnoozeState $clearSnoozeState")
+        reminderDao.clearSnooze(id = id)
     }
 
     /**
