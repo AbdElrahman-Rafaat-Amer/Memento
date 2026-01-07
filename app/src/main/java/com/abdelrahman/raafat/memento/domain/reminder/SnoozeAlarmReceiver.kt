@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class SnoozeAlarmReceiver : BroadcastReceiver() {
 
@@ -34,7 +33,7 @@ class SnoozeAlarmReceiver : BroadcastReceiver() {
         notificationManager.cancel(reminderId.toInt())
 
         // Schedule new reminder
-        val newTriggerTime = System.currentTimeMillis() + (snoozeMinutes * 60 * 1000)
+        val newTriggerTime = System.currentTimeMillis() + (snoozeMinutes * 60_000L)
 
         scheduler.scheduleReminder(
             reminderId = reminderId,

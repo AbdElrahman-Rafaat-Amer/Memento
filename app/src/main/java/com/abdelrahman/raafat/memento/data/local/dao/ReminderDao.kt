@@ -39,14 +39,36 @@ interface ReminderDao {
         SELECT * FROM ReminderEntity
         WHERE isDone = 0
           AND isDeleted = 0
-          AND (
-                triggerAtMillis > :now
-                OR isSnoozed = 1
-              )
-        ORDER BY id ASC
-        """
+          AND isSnoozed = 0
+          AND triggerAtMillis >= :now
+        ORDER BY triggerAtMillis ASC
+    """
     )
-    fun getDashboardReminders(now: Long): Flow<List<ReminderEntity>>
+    fun getUpcomingReminders(now: Long): Flow<List<ReminderEntity>>
+
+    @Query(
+        """
+        SELECT * FROM ReminderEntity
+        WHERE isDone = 0
+          AND isDeleted = 0
+          AND isSnoozed = 1
+        ORDER BY triggerAtMillis ASC
+    """
+    )
+    fun getSnoozedReminders(): Flow<List<ReminderEntity>>
+
+
+    @Query(
+        """
+        SELECT * FROM ReminderEntity
+        WHERE isDone = 0
+          AND isDeleted = 0
+          AND isSnoozed = 0
+          AND triggerAtMillis < :now
+        ORDER BY triggerAtMillis ASC
+    """
+    )
+    fun getOverdueReminders(now: Long): Flow<List<ReminderEntity>>
 
     @Query("SELECT * FROM ReminderEntity Where isDone = 1 ORDER BY id ASC")
     fun getAllDoneReminders(): Flow<List<ReminderEntity>>

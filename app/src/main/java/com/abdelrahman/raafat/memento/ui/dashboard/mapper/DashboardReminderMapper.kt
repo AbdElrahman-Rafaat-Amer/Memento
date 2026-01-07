@@ -1,7 +1,7 @@
 package com.abdelrahman.raafat.memento.ui.dashboard.mapper
 
 import com.abdelrahman.raafat.memento.domain.model.Reminder
-import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem.DashboardReminderUi
 import com.abdelrahman.raafat.memento.utils.MemoDateTimeFormatter
 import javax.inject.Inject
 

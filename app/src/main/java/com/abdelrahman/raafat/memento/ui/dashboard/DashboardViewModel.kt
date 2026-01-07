@@ -8,7 +8,7 @@ import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
 import com.abdelrahman.raafat.memento.domain.result.ReminderScheduleResult
 import com.abdelrahman.raafat.memento.ui.dashboard.mapper.DashboardReminderMapper
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardEvent
-import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,10 +44,30 @@ class DashboardViewModel @Inject constructor(
     private fun loadReminders() {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
-            reminderRepository.getDashboardReminders()
-                .map { entities ->
-                    entities.map { dashboardMapper.toUiModel(it) }
+
+            combine(
+                reminderRepository.getUpcomingReminders(),
+                reminderRepository.getSnoozedReminders(),
+                reminderRepository.getOverdueReminders()
+            ) { upcoming, snoozed, overdue ->
+                buildList {
+                    if (upcoming.isNotEmpty()) {
+                        add(DashboardListItem.Section(R.string.upcoming))
+                        addAll(upcoming.map { dashboardMapper.toUiModel(it) })
+                    }
+
+                    if (snoozed.isNotEmpty()) {
+                        add(DashboardListItem.Section(R.string.snoozed))
+                        addAll(snoozed.map { dashboardMapper.toUiModel(it) })
+                    }
+
+                    if (overdue.isNotEmpty()) {
+                        add(DashboardListItem.Section(R.string.overdue))
+                        addAll(overdue.map { dashboardMapper.toUiModel(it) })
+                    }
+
                 }
+            }
                 .catch { exception ->
                     Log.e(TAG, "loadReminders: ${exception.message}", exception)
                     _dashboardUiState.value = DashboardUiState(
@@ -67,7 +88,7 @@ class DashboardViewModel @Inject constructor(
         loadReminders()
     }
 
-    fun markReminderAsDone(dashboardReminderUi: DashboardReminderUi) {
+    fun markReminderAsDone(dashboardReminderUi: DashboardListItem.DashboardReminderUi) {
         viewModelScope.launch {
             val updatedReminder = dashboardReminderUi.copy(isDone = true)
             val reminder = dashboardMapper.toDomain(updatedReminder)
@@ -97,7 +118,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    fun undoMarkingAsDone(dashboardReminderUi: DashboardReminderUi) {
+    fun undoMarkingAsDone(dashboardReminderUi: DashboardListItem.DashboardReminderUi) {
         viewModelScope.launch {
             val updatedReminder = dashboardReminderUi.copy(isDone = true)
             val reminder = dashboardMapper.toDomain(updatedReminder)
@@ -125,7 +146,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    fun deleteReminder(dashboardReminderUi: DashboardReminderUi) {
+    fun deleteReminder(dashboardReminderUi: DashboardListItem.DashboardReminderUi) {
         val reminder = dashboardMapper.toDomain(dashboardReminderUi)
 
         viewModelScope.launch {

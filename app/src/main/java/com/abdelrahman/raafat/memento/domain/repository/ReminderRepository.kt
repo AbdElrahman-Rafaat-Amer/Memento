@@ -28,7 +28,11 @@ interface ReminderRepository {
 
     fun getAllReminders(): Flow<List<Reminder>>
 
-    fun getDashboardReminders(): Flow<List<Reminder>>
+    fun getOverdueReminders(): Flow<List<Reminder>>
+
+    fun getSnoozedReminders(): Flow<List<Reminder>>
+
+    fun getUpcomingReminders(): Flow<List<Reminder>>
 
     fun getAllDoneReminders(): Flow<List<Reminder>>
 

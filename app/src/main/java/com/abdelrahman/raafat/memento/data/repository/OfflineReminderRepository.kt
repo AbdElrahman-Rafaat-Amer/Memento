@@ -115,9 +115,24 @@ class OfflineReminderRepository @Inject constructor(
         }
     }
 
-    override fun getDashboardReminders(): Flow<List<Reminder>> {
+    override fun getUpcomingReminders(): Flow<List<Reminder>> {
         val entities =
-            reminderDao.getDashboardReminders(now = System.currentTimeMillis())
+            reminderDao.getUpcomingReminders(now = System.currentTimeMillis())
+        return entities.map {
+            entityMapper.toDomainList(it)
+        }
+    }
+    override fun getSnoozedReminders(): Flow<List<Reminder>> {
+        val entities =
+            reminderDao.getSnoozedReminders()
+        return entities.map {
+            entityMapper.toDomainList(it)
+        }
+    }
+
+    override fun getOverdueReminders(): Flow<List<Reminder>> {
+        val entities =
+            reminderDao.getOverdueReminders(now = System.currentTimeMillis())
         return entities.map {
             entityMapper.toDomainList(it)
         }
