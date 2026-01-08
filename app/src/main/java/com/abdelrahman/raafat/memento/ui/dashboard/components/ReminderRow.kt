@@ -27,13 +27,14 @@ import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem.Dashb
 @Composable
 fun ReminderRow(
     item: DashboardReminderUi,
+    modifier: Modifier= Modifier,
     onDoneClicked: (DashboardReminderUi) -> Unit = {},
     onEditClicked: (DashboardReminderUi) -> Unit = {},
     onDeleteClicked: (DashboardReminderUi) -> Unit = {}
 ) {
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,

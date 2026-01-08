@@ -21,10 +21,11 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 @Composable
 fun ErrorScreen(
     error: String,
+    modifier: Modifier = Modifier,
     onRetry: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Center,

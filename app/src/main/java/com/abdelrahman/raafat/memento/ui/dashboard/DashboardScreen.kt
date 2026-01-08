@@ -6,7 +6,9 @@ import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -119,9 +121,7 @@ fun DashboardScreen(
         }
     ) { padding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomEnd
         ) {
             Column(
@@ -134,9 +134,11 @@ fun DashboardScreen(
                     isTitleCentered = false
                 )
 
+
+
                 when {
                     reminderUiState.isLoading -> {
-                        LoadingScreen()
+                        LoadingScreen(modifier = Modifier.padding(horizontal = 16.dp))
                     }
 
                     reminderUiState.error != null -> {
@@ -149,7 +151,7 @@ fun DashboardScreen(
                     }
 
                     reminderUiState.reminders.isEmpty() -> {
-                        EmptyScreen()
+                        EmptyScreen(modifier = Modifier.padding(horizontal = 16.dp))
                     }
 
                     else -> {
@@ -159,15 +161,20 @@ fun DashboardScreen(
                             ) { item ->
                                 when (item) {
                                     is DashboardListItem.Section -> {
+                                        Spacer(Modifier.height(16.dp))
                                         Text(
                                             text = stringResource(item.titleResId),
-                                            style = AppTextStyles.textStyle24SPBold
+                                            style = AppTextStyles.textStyle24SPBold.copy(
+                                                color = MaterialTheme.colorScheme.onSurface
+                                            ),
+                                            modifier = Modifier.padding(horizontal = 16.dp)
                                         )
                                     }
 
                                     is DashboardReminderUi -> {
                                         ReminderRow(
                                             item = item,
+                                            modifier = Modifier.padding(horizontal = 20.dp),
                                             onDoneClicked = { reminderUi ->
                                                 dashboardViewModel.markReminderAsDone(reminderUi)
                                             },

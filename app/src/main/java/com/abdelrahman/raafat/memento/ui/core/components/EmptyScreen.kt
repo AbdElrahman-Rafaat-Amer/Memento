@@ -16,9 +16,11 @@ import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
-fun EmptyScreen() {
+fun EmptyScreen(
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
