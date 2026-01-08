@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.ksp)
+    alias(libs.plugins.ktlint)
 }
 
 android {
