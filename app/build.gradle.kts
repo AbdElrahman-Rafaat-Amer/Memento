@@ -1,4 +1,6 @@
+import org.gradle.internal.extensions.stdlib.capitalized
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -8,6 +10,11 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint)
 }
+
+val keystoreProperties =
+    Properties().apply {
+        load(rootProject.file("./keystore.properties").inputStream())
+    }
 
 android {
     namespace = "com.abdelrahman.raafat.memento"
@@ -20,32 +27,95 @@ android {
         minSdk = 28
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
+            storePassword = keystoreProperties.getProperty("storePassword")
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
+        }
+
+        debug {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            isDebuggable = true
+            applicationIdSuffix = ".debug"
+            resValue("string", "app_name", "Memo-Debug")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlin {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_17
         }
     }
+
     buildFeatures {
         compose = true
     }
+
+    applicationVariants.all {
+        outputs.all {
+            val outputFileName = getOutputFileName(buildType.name.capitalized())
+            val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
+            output.outputFileName = "$outputFileName.apk"
+        }
+    }
+}
+
+tasks.configureEach {
+    if (name.startsWith("bundle")) {
+        doLast {
+            val buildType = name.removePrefix("bundle").capitalized()
+            val outputFileName = getOutputFileName(buildType.capitalized())
+
+            // Find the generated AAB file
+            val bundleDir =
+                layout.buildDirectory
+                    .dir("outputs/bundle/${buildType.lowercase()}")
+                    .get()
+                    .asFile
+
+            bundleDir.listFiles()?.forEach { file ->
+                if (file.extension == "aab") {
+                    val newName = "$outputFileName.aab"
+                    val newFile = File(file.parentFile, newName)
+                    file.renameTo(newFile)
+                }
+            }
+        }
+    }
+}
+
+fun getOutputFileName(buildType: String): String {
+    val appName = "Memento"
+    val versionName = android.defaultConfig.versionName
+    val versionCode = android.defaultConfig.versionCode
+    val outputFileName = "${appName}_${buildType}_$versionName($versionCode)"
+    return outputFileName
 }
 
 dependencies {
