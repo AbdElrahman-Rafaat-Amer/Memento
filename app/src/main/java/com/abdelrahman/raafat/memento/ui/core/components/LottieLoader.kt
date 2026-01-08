@@ -15,7 +15,7 @@ import kotlinx.coroutines.delay
 fun LottieLoader(
     modifier: Modifier,
     @RawRes lottieAnimation: Int,
-    iterations : Int = 1,
+    iterations: Int = 1,
     onFinished: () -> Unit = {}
 ) {
     val composition by rememberLottieComposition(

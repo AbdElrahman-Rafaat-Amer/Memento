@@ -35,9 +35,10 @@ class MainActivity : ComponentActivity() {
             MementoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MementoApp(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(innerPadding)
                     )
                 }
             }
@@ -45,10 +46,11 @@ class MainActivity : ComponentActivity() {
     }
 
     fun openAppSettings(context: Context) {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-            data = Uri.fromParts("package", context.packageName, null)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
+        val intent =
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.fromParts("package", context.packageName, null)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
         context.startActivity(intent)
     }
 }

@@ -35,7 +35,7 @@ fun MemoFabButton(
                 painter = painterResource(iconResID),
                 contentDescription = contentDescription,
                 modifier = iconModifier,
-                tint = iconTintColor,
+                tint = iconTintColor
             )
         }
     )

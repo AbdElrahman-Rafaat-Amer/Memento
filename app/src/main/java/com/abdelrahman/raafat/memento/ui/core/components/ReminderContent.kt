@@ -10,13 +10,13 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.abdelrahman.raafat.memento.R
+import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
+import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.remindereditor.components.DatePickerField
 import com.abdelrahman.raafat.memento.ui.remindereditor.components.TimePickerField
 import com.abdelrahman.raafat.memento.ui.remindereditor.model.ReminderEditorUiState
 import com.abdelrahman.raafat.memento.ui.remindereditor.model.isValid
-import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
-import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
-import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -30,14 +30,12 @@ fun ReminderContent(
     onAdditionalInfoChanged: (String) -> Unit,
     onSaveButtonClicked: () -> Unit
 ) {
-
     val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-
         MemoOutlinedTextField(
             value = reminderItem.title,
             textStyle = AppTextStyles.textStyle16SPNormal,
@@ -89,12 +87,13 @@ fun ReminderContent(
 private fun ReminderContentPreview() {
     MementoTheme {
         ReminderContent(
-            reminderItem = ReminderEditorUiState(
-                title = "Test Reminder",
-                date = LocalDate.ofEpochDay(2000),
-                time = LocalTime.ofSecondOfDay(4000),
-                additionalInfo = "This is test reminder",
-            ),
+            reminderItem =
+                ReminderEditorUiState(
+                    title = "Test Reminder",
+                    date = LocalDate.ofEpochDay(2000),
+                    time = LocalTime.ofSecondOfDay(4000),
+                    additionalInfo = "This is test reminder"
+                ),
             buttonText = "Save",
             onTitleChanged = {},
             onDateChanged = {},

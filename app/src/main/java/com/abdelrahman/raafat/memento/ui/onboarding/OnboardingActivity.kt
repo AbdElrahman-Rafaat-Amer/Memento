@@ -20,8 +20,9 @@ class OnboardingActivity : ComponentActivity() {
             MementoTheme {
                 Scaffold { paddingValues ->
                     OnboardingScreen(
-                        modifier = Modifier
-                            .padding(paddingValues),
+                        modifier =
+                            Modifier
+                                .padding(paddingValues),
                         onFinished = {
                             startActivity(Intent(this, MainActivity::class.java))
                             finish()
@@ -31,5 +32,4 @@ class OnboardingActivity : ComponentActivity() {
             }
         }
     }
-
 }

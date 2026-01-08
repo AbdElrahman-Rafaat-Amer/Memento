@@ -38,12 +38,12 @@ import kotlinx.coroutines.launch
 fun OnboardingScreen(
     onFinished: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: OnboardingViewModel = hiltViewModel(),
+    viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.wrapContentHeight(),
+        modifier = modifier.wrapContentHeight()
     ) {
         val onboardingList = viewModel.getOnboardingItems()
         val next = stringResource(R.string.next)
@@ -59,7 +59,6 @@ fun OnboardingScreen(
                     onboardingList.size
                 }
             )
-
 
         val coroutineScope = rememberCoroutineScope()
 
@@ -103,8 +102,9 @@ fun OnboardingScreen(
                 onFinished.invoke()
             } else {
                 coroutineScope.launch {
-                    val nextPageIndex = (pagerState.currentPage + 1)
-                        .coerceAtMost(onboardingList.size - 1)
+                    val nextPageIndex =
+                        (pagerState.currentPage + 1)
+                            .coerceAtMost(onboardingList.size - 1)
                     pagerState.animateScrollToPage(nextPageIndex)
                 }
             }
@@ -136,9 +136,10 @@ fun OnboardingScreen(
 private fun OnboardingScreenPreview() {
     MementoTheme {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
         ) {
             OnboardingScreen(onFinished = {})
         }

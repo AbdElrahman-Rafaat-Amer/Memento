@@ -13,21 +13,22 @@ fun NotificationPermissionDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit
 ) {
-    val (title, message, confirmText) = when (type) {
-        NotificationPermissionDialogType.TEMPORARY_DENIED ->
-            Triple(
-                stringResource(R.string.notification_permission_title),
-                stringResource(R.string.notification_permission_message),
-                stringResource(R.string.try_again)
-            )
+    val (title, message, confirmText) =
+        when (type) {
+            NotificationPermissionDialogType.TEMPORARY_DENIED ->
+                Triple(
+                    stringResource(R.string.notification_permission_title),
+                    stringResource(R.string.notification_permission_message),
+                    stringResource(R.string.try_again)
+                )
 
-        NotificationPermissionDialogType.PERMANENT_DENIED ->
-            Triple(
-                stringResource(R.string.enable_notifications),
-                stringResource(R.string.notification_disabled_message),
-                stringResource(R.string.open_settings)
-            )
-    }
+            NotificationPermissionDialogType.PERMANENT_DENIED ->
+                Triple(
+                    stringResource(R.string.enable_notifications),
+                    stringResource(R.string.notification_disabled_message),
+                    stringResource(R.string.open_settings)
+                )
+        }
 
     AlertDialog(
         onDismissRequest = onDismiss,

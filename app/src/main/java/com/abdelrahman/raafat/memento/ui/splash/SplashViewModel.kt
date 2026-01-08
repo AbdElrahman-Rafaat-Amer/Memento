@@ -11,17 +11,18 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
-    onboardingPreferences: OnboardingPreferences
-) : ViewModel() {
-
-    val startDestination = onboardingPreferences.showOnboarding
-        .map { show ->
-            if (show) Destination.Onboarding else Destination.Main
-        }
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5_000),
-            Destination.Onboarding
-        )
-}
+class SplashViewModel
+    @Inject
+    constructor(
+        onboardingPreferences: OnboardingPreferences
+    ) : ViewModel() {
+        val startDestination =
+            onboardingPreferences.showOnboarding
+                .map { show ->
+                    if (show) Destination.Onboarding else Destination.Main
+                }.stateIn(
+                    viewModelScope,
+                    SharingStarted.WhileSubscribed(5_000),
+                    Destination.Onboarding
+                )
+    }

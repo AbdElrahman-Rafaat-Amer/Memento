@@ -22,20 +22,21 @@ import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardReminderUi
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem.DashboardReminderUi
 
 @Composable
 fun ReminderRow(
     item: DashboardReminderUi,
+    modifier: Modifier = Modifier,
     onDoneClicked: (DashboardReminderUi) -> Unit = {},
     onEditClicked: (DashboardReminderUi) -> Unit = {},
     onDeleteClicked: (DashboardReminderUi) -> Unit = {}
 ) {
-
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -45,25 +46,28 @@ fun ReminderRow(
         ) {
             Text(
                 text = item.title,
-                style = AppTextStyles.textStyle20SPSemiBold.copy(
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                style =
+                    AppTextStyles.textStyle20SPSemiBold.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
             )
 
             if (item.additionalInfo.isNotBlank()) {
                 Text(
                     text = item.additionalInfo,
-                    style = AppTextStyles.textStyle16SPNormal.copy(
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    style =
+                        AppTextStyles.textStyle16SPNormal.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                 )
             }
 
             Text(
                 text = item.dateTime,
-                style = AppTextStyles.textStyle12SPNormal.copy(
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                style =
+                    AppTextStyles.textStyle12SPNormal.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
             )
         }
 
@@ -110,25 +114,25 @@ fun ReminderRow(
     }
 }
 
-
 @ThemesPreviews
 @Composable
 private fun ReminderItemPreview() {
     MementoTheme {
         Box(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .background(MaterialTheme.colorScheme.background)
         ) {
             ReminderRow(
-                item = DashboardReminderUi(
-                    id = 1,
-                    title = "title",
-                    dateTime = "time",
-                    additionalInfo = "additionalInfo",
-                    isDone = true
-                )
+                item =
+                    DashboardReminderUi(
+                        id = 1,
+                        title = "title",
+                        dateTime = "time",
+                        additionalInfo = "additionalInfo",
+                        isDone = true
+                    )
             )
         }
-
     }
 }

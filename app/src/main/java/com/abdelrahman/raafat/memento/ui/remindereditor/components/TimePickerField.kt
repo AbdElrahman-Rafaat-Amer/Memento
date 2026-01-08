@@ -56,17 +56,19 @@ fun TimePickerField(
         readOnly = true,
         label = { Text(stringResource(R.string.time)) },
         placeholder = { Text(stringResource(R.string.select_time)) },
-        interactionSource = remember { MutableInteractionSource() }
-            .also { interactionSource ->
-                LaunchedEffect(interactionSource) {
-                    interactionSource.interactions.collect {
-                        if (it is PressInteraction.Press) {
-                            show = true
+        interactionSource =
+            remember { MutableInteractionSource() }
+                .also { interactionSource ->
+                    LaunchedEffect(interactionSource) {
+                        interactionSource.interactions.collect {
+                            if (it is PressInteraction.Press) {
+                                show = true
+                            }
                         }
                     }
-                }
-            },
-        modifier = Modifier
-            .fillMaxWidth()
+                },
+        modifier =
+            Modifier
+                .fillMaxWidth()
     )
 }

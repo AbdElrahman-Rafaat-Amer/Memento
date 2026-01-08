@@ -36,7 +36,6 @@ fun AnimatedSplashScreen(
     onFinished: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     var visible by remember { mutableStateOf(false) }
     val durationMillis = 600
     val delayMillis = 400
@@ -51,26 +50,29 @@ fun AnimatedSplashScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LottieLoader(
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .fillMaxHeight(0.6f),
+            modifier =
+                Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.6f),
             lottieAnimation = R.raw.memento_splash,
             onFinished = onFinished
         )
 
         AnimatedVisibility(
             visible = visible,
-            enter = slideInHorizontally(
-                initialOffsetX = { -it },
-                animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis)
-            ) + fadeIn(animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis))
+            enter =
+                slideInHorizontally(
+                    initialOffsetX = { -it },
+                    animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis)
+                ) + fadeIn(animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis))
         ) {
             Text(
                 text = stringResource(R.string.splash_title),
-                style = AppTextStyles.textStyle24SPBold.copy(
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                style =
+                    AppTextStyles.textStyle24SPBold.copy(
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
             )
         }
 
@@ -78,17 +80,19 @@ fun AnimatedSplashScreen(
 
         AnimatedVisibility(
             visible = visible,
-            enter = slideInHorizontally(
-                initialOffsetX = { it },
-                animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis)
-            ) + fadeIn(animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis))
+            enter =
+                slideInHorizontally(
+                    initialOffsetX = { it },
+                    animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis)
+                ) + fadeIn(animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis))
         ) {
             Text(
                 text = stringResource(R.string.splash_subtitle),
-                style = AppTextStyles.textStyle16SPNormal.copy(
-                    textAlign = TextAlign.Center,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                style =
+                    AppTextStyles.textStyle16SPNormal.copy(
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
             )
         }
     }
