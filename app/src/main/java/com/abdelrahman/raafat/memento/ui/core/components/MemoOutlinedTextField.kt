@@ -38,15 +38,16 @@ fun MemoOutlinedTextField(
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     onValueChange: (String) -> Unit,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = modifier
-            .fillMaxWidth()
-            .border(1.dp, Color.Transparent, RoundedCornerShape(160.dp))
-            .clickable(enabled = isClickable) { onClick.invoke() },
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .border(1.dp, Color.Transparent, RoundedCornerShape(160.dp))
+                .clickable(enabled = isClickable) { onClick.invoke() },
         enabled = isEnabled,
         textStyle = textStyle,
         label = label,
@@ -64,11 +65,12 @@ private fun MemoOutlinedTextFieldPreview() {
     MementoTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(20.dp),
-            modifier = Modifier
-                .padding(10.dp)
-                .background(
-                    MaterialTheme.colorScheme.background
-                )
+            modifier =
+                Modifier
+                    .padding(10.dp)
+                    .background(
+                        MaterialTheme.colorScheme.background
+                    )
         ) {
             MemoOutlinedTextField(
                 value = stringResource(R.string.write_something),

@@ -32,7 +32,6 @@ annotation class ThemesPreviews
 )
 annotation class LanguagesPreviews
 
-
 // Themes
 @ThemesPreviews
 @PreviewDynamicColors

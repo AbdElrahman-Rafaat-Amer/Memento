@@ -14,7 +14,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object NotificationModule {
-
     @Provides
     @Singleton
     fun provideNotificationManager(
@@ -26,6 +25,5 @@ object NotificationModule {
     fun provideReminderScheduler(
         @ApplicationContext context: Context,
         alarmManager: AlarmManager
-    ): ReminderNotificationScheduler =
-        ReminderNotificationScheduler(context = context, alarmManager = alarmManager)
+    ): ReminderNotificationScheduler = ReminderNotificationScheduler(context = context, alarmManager = alarmManager)
 }

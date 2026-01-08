@@ -16,24 +16,23 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.airbnb.lottie.compose.LottieConstants
 
 @Composable
-fun LoadingScreen(
-    modifier: Modifier = Modifier
-) {
-
+fun LoadingScreen(modifier: Modifier = Modifier) {
     val windowInfo = LocalWindowInfo.current
-    val screenHeight = with(LocalDensity.current) {
-        windowInfo.containerSize.height.toDp()
-    }
+    val screenHeight =
+        with(LocalDensity.current) {
+            windowInfo.containerSize.height.toDp()
+        }
 
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         LottieLoader(
-            modifier = Modifier
-                .height(
-                    height = screenHeight * 0.3f
-                ),
+            modifier =
+                Modifier
+                    .height(
+                        height = screenHeight * 0.3f
+                    ),
             lottieAnimation = R.raw.loader,
             iterations = LottieConstants.IterateForever
         )
@@ -45,13 +44,13 @@ fun LoadingScreen(
 private fun LoadingScreenPreview() {
     MementoTheme {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center
         ) {
             LoadingScreen()
         }
-
     }
 }

@@ -18,8 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
 fun MemoPrimaryButton(
@@ -33,7 +33,7 @@ fun MemoPrimaryButton(
     val buttonColors =
         if (isTextButton) {
             ButtonDefaults.textButtonColors(
-                contentColor = MaterialTheme.colorScheme.onSurface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             )
         } else {
             ButtonDefaults.buttonColors(
@@ -96,11 +96,12 @@ private fun MemoPrimaryButtonPreview() {
     MementoTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(20.dp),
-            modifier = Modifier
-                .padding(10.dp)
-                .background(
-                    MaterialTheme.colorScheme.background
-                )
+            modifier =
+                Modifier
+                    .padding(10.dp)
+                    .background(
+                        MaterialTheme.colorScheme.background
+                    )
         ) {
             MemoPrimaryButton(
                 text = "Next",

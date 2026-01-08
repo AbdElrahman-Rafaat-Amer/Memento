@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename")
+
 package com.abdelrahman.raafat.memento.ui.core.theme
 
 import androidx.compose.material3.Typography
@@ -31,13 +33,13 @@ object AppTextStyles {
     val textStyle20SPSemiBold =
         defaultTextStyle.copy(
             fontSize = 20.sp,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.SemiBold
         )
 
     val textStyle24SPBold =
         defaultTextStyle.copy(
             fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Bold
         )
 
     val textStyle28SPMedium =

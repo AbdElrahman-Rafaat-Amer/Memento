@@ -19,7 +19,11 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var repository: ReminderRepository
-    override fun onReceive(context: Context, intent: Intent) {
+
+    override fun onReceive(
+        context: Context,
+        intent: Intent
+    ) {
         val reminderId = intent.getLongExtra(ID_EXTRA, INVALID_REMINDER_ID)
         val reminderName = intent.getStringExtra(NAME_EXTRA) ?: "Reminder"
         val reminderDescription =

@@ -42,23 +42,22 @@ fun MemoTobBar(
     borderColor: Color = MaterialTheme.colorScheme.outlineVariant,
     borderWidth: Dp = 1.dp,
     isTitleCentered: Boolean = true,
-    onBackButtonClicked: () -> Unit = {},
+    onBackButtonClicked: () -> Unit = {}
 ) {
-
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .drawBehind {
-                drawLine(
-                    color = borderColor,
-                    start = Offset(0f, size.height),
-                    end = Offset(size.width, size.height),
-                    strokeWidth = borderWidth.toPx()
-                )
-            }
-            .padding(horizontal = 12.dp, vertical = 15.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .drawBehind {
+                    drawLine(
+                        color = borderColor,
+                        start = Offset(0f, size.height),
+                        end = Offset(size.width, size.height),
+                        strokeWidth = borderWidth.toPx()
+                    )
+                }.padding(horizontal = 12.dp, vertical = 15.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         iconVector?.let {
             Image(
@@ -72,11 +71,12 @@ fun MemoTobBar(
         Text(
             text = title,
             style = textStyle.copy(color = textColor),
-            modifier = if (isTitleCentered) {
-                Modifier.weight(1f)
-            } else {
-                Modifier
-            },
+            modifier =
+                if (isTitleCentered) {
+                    Modifier.weight(1f)
+                } else {
+                    Modifier
+                }
         )
     }
 }
@@ -86,10 +86,11 @@ fun MemoTobBar(
 private fun MemoTobBarPreview() {
     MementoTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top)
         ) {
             MemoTobBar(
                 title = stringResource(R.string.new_reminder)

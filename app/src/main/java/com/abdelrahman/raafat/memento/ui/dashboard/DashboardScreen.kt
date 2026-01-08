@@ -33,14 +33,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.abdelrahman.raafat.memento.R
+import com.abdelrahman.raafat.memento.ui.core.components.EmptyScreen
+import com.abdelrahman.raafat.memento.ui.core.components.ErrorScreen
 import com.abdelrahman.raafat.memento.ui.core.components.LoadingScreen
 import com.abdelrahman.raafat.memento.ui.core.components.MemoFabButton
 import com.abdelrahman.raafat.memento.ui.core.components.MemoTobBar
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
-import com.abdelrahman.raafat.memento.ui.core.components.EmptyScreen
-import com.abdelrahman.raafat.memento.ui.core.components.ErrorScreen
 import com.abdelrahman.raafat.memento.ui.dashboard.components.ReminderRow
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardEvent
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem
@@ -65,11 +65,12 @@ fun DashboardScreen(
             when (event) {
                 is DashboardEvent.ShowMarkAsDoneSuccess -> {
                     scope.launch {
-                        val snackbarResult = snackbarHostState.showSnackbar(
-                            message = context.getString(event.messageResId),
-                            actionLabel = context.getString(R.string.undo),
-                            duration = SnackbarDuration.Short
-                        )
+                        val snackbarResult =
+                            snackbarHostState.showSnackbar(
+                                message = context.getString(event.messageResId),
+                                actionLabel = context.getString(R.string.undo),
+                                duration = SnackbarDuration.Short
+                            )
                         if (snackbarResult == SnackbarResult.ActionPerformed) {
                             dashboardViewModel.undoMarkingAsDone(dashboardReminderUi = event.reminder)
                         }
@@ -86,17 +87,18 @@ fun DashboardScreen(
 
                 DashboardEvent.ShowExactAlarmPermissionRequired -> {
                     scope.launch {
-                        snackbarHostState.showSnackbar(
-                            message = context.getString(R.string.exact_alarm_permission_required),
-                            actionLabel = context.getString(R.string.open_settings),
-                            duration = SnackbarDuration.Long
-                        ).also { result ->
-                            if (result == SnackbarResult.ActionPerformed) {
-                                context.startActivity(
-                                    Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-                                )
+                        snackbarHostState
+                            .showSnackbar(
+                                message = context.getString(R.string.exact_alarm_permission_required),
+                                actionLabel = context.getString(R.string.open_settings),
+                                duration = SnackbarDuration.Long
+                            ).also { result ->
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    context.startActivity(
+                                        Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                                    )
+                                }
                             }
-                        }
                     }
                 }
 
@@ -134,8 +136,6 @@ fun DashboardScreen(
                     isTitleCentered = false
                 )
 
-
-
                 when {
                     reminderUiState.isLoading -> {
                         LoadingScreen(modifier = Modifier.padding(horizontal = 16.dp))
@@ -164,9 +164,10 @@ fun DashboardScreen(
                                         Spacer(Modifier.height(16.dp))
                                         Text(
                                             text = stringResource(item.titleResId),
-                                            style = AppTextStyles.textStyle24SPBold.copy(
-                                                color = MaterialTheme.colorScheme.onSurface
-                                            ),
+                                            style =
+                                                AppTextStyles.textStyle24SPBold.copy(
+                                                    color = MaterialTheme.colorScheme.onSurface
+                                                ),
                                             modifier = Modifier.padding(horizontal = 16.dp)
                                         )
                                     }
@@ -209,9 +210,10 @@ fun DashboardScreen(
 private fun DashboardScreenPreview() {
     MementoTheme {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
         ) {
             DashboardScreen(
                 onAddClicked = {},

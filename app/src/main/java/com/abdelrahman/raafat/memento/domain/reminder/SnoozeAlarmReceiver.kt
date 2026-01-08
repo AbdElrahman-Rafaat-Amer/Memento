@@ -14,14 +14,16 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SnoozeAlarmReceiver : BroadcastReceiver() {
-
     @Inject
     lateinit var scheduler: ReminderNotificationScheduler
 
     @Inject
     lateinit var repository: ReminderRepository
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(
+        context: Context,
+        intent: Intent
+    ) {
         val reminderId = intent.getLongExtra(ID_EXTRA, -1L)
         val reminderName = intent.getStringExtra(NAME_EXTRA) ?: ""
         val reminderDescription = intent.getStringExtra(DESCRIPTION_EXTRA) ?: ""
@@ -52,7 +54,6 @@ class SnoozeAlarmReceiver : BroadcastReceiver() {
                 pendingResult.finish()
             }
         }
-
     }
 
     companion object {

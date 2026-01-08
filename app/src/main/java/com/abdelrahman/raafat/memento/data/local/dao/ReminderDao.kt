@@ -17,7 +17,10 @@ interface ReminderDao {
     suspend fun updateReminder(reminder: ReminderEntity): Int
 
     @Query("UPDATE ReminderEntity SET triggerAtMillis = :newTriggerTime WHERE id = :id")
-    suspend fun updateSnoozeState(id: Long, newTriggerTime: Long): Int
+    suspend fun updateSnoozeState(
+        id: Long,
+        newTriggerTime: Long
+    ): Int
 
     @Query("UPDATE ReminderEntity SET isSnoozed = 0 WHERE id = :id")
     suspend fun clearSnooze(id: Long): Int
@@ -56,7 +59,6 @@ interface ReminderDao {
     """
     )
     fun getSnoozedReminders(): Flow<List<ReminderEntity>>
-
 
     @Query(
         """

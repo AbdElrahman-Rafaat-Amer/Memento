@@ -9,9 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-abstract class RepositoryModule{
+abstract class RepositoryModule {
     @Binds
-    abstract fun provideReminderRepository(
-        implementation: OfflineReminderRepository
-    ) : ReminderRepository
+    abstract fun provideReminderRepository(implementation: OfflineReminderRepository): ReminderRepository
 }

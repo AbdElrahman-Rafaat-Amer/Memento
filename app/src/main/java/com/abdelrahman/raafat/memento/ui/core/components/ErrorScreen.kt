@@ -25,17 +25,19 @@ fun ErrorScreen(
     onRetry: () -> Unit = {}
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = error,
-            style = AppTextStyles.textStyle28SPMedium.copy(
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            style =
+                AppTextStyles.textStyle28SPMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
         )
 
         Spacer(Modifier.height((32.dp)))
@@ -47,10 +49,9 @@ fun ErrorScreen(
     }
 }
 
-
 @ThemesPreviews
 @Composable
-private fun ErrorScreenPreview(){
+private fun ErrorScreenPreview() {
     MementoTheme {
         ErrorScreen(error = "error")
     }
