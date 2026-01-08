@@ -19,9 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
+import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
 fun MemoCustomIndicator(
@@ -61,7 +61,6 @@ fun MemoCustomIndicator(
         )
     }
 }
-
 
 @ThemesPreviews
 @Composable

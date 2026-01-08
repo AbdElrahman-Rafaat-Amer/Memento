@@ -78,9 +78,8 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.androidx.material3)
-    implementation (libs.compose.material.icons)
+    implementation(libs.compose.material.icons)
 
-    //Navigation
+    // Navigation
     implementation(libs.androidx.navigation.compose)
-
 }

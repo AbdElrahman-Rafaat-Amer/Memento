@@ -11,51 +11,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles.MEMTypography
 
+private val LightColorScheme =
+    lightColorScheme(
+        primary = LightPrimary,
+        onPrimary = LightOnPrimary,
+        primaryContainer = LightPrimaryContainer,
+        onPrimaryContainer = LightOnPrimaryContainer,
+        secondary = LightSecondary,
+        onSecondary = LightOnSecondary,
+        background = LightBackground,
+        onBackground = LightOnBackground,
+        surface = LightSurface,
+        onSurface = LightTextPrimary,
+        onSurfaceVariant = LightTextSecondary,
+        outlineVariant = LightOutlineVariant,
+        error = LightError,
+        onError = LightOnError
+    )
 
-private val LightColorScheme = lightColorScheme(
-    primary = LightPrimary,
-    onPrimary = LightOnPrimary,
-    primaryContainer = LightPrimaryContainer,
-    onPrimaryContainer = LightOnPrimaryContainer,
-
-    secondary = LightSecondary,
-    onSecondary = LightOnSecondary,
-
-    background = LightBackground,
-    onBackground = LightOnBackground,
-
-    surface = LightSurface,
-    onSurface = LightTextPrimary,
-    onSurfaceVariant = LightTextSecondary,
-
-    outlineVariant = LightOutlineVariant,
-
-    error = LightError,
-    onError = LightOnError
-)
-
-private val DarkColorScheme = darkColorScheme(
-    primary = DarkPrimary,
-    onPrimary = DarkOnPrimary,
-    primaryContainer = DarkPrimaryContainer,
-    onPrimaryContainer = DarkOnPrimaryContainer,
-
-    secondary = DarkSecondary,
-    onSecondary = DarkOnSecondary,
-
-    background = DarkBackground,
-    onBackground = DarkOnBackground,
-
-    surface = DarkSurface,
-    onSurface = DarkTextPrimary,
-    onSurfaceVariant = DarkTextSecondary,
-
-    outlineVariant = DarkOutlineVariant,
-
-    error = DarkError,
-    onError = DarkOnError
-)
-
+private val DarkColorScheme =
+    darkColorScheme(
+        primary = DarkPrimary,
+        onPrimary = DarkOnPrimary,
+        primaryContainer = DarkPrimaryContainer,
+        onPrimaryContainer = DarkOnPrimaryContainer,
+        secondary = DarkSecondary,
+        onSecondary = DarkOnSecondary,
+        background = DarkBackground,
+        onBackground = DarkOnBackground,
+        surface = DarkSurface,
+        onSurface = DarkTextPrimary,
+        onSurfaceVariant = DarkTextSecondary,
+        outlineVariant = DarkOutlineVariant,
+        error = DarkError,
+        onError = DarkOnError
+    )
 
 @Composable
 fun MementoTheme(
@@ -64,15 +54,16 @@ fun MementoTheme(
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    val colorScheme =
+        when {
+            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val context = LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+            darkTheme -> DarkColorScheme
+            else -> LightColorScheme
+        }
 
     MaterialTheme(
         colorScheme = colorScheme,

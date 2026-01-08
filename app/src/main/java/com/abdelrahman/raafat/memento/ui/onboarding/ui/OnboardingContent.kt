@@ -30,13 +30,11 @@ fun OnboardingContent(
     onboardingItem: OnboardingItem,
     modifier: Modifier = Modifier
 ) {
-
     Column(
         modifier = modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-
         Image(
             painter = painterResource(onboardingItem.imageResId),
             contentDescription = null,
@@ -47,9 +45,10 @@ fun OnboardingContent(
 
         Text(
             text = stringResource(onboardingItem.titleResId),
-            style = AppTextStyles.textStyle24SPBold.copy(
-                lineHeight = TextUnit.Unspecified,
-            ),
+            style =
+                AppTextStyles.textStyle24SPBold.copy(
+                    lineHeight = TextUnit.Unspecified
+                ),
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
@@ -58,9 +57,10 @@ fun OnboardingContent(
 
         Text(
             text = stringResource(onboardingItem.subtitleResId),
-            style = AppTextStyles.textStyle16SPNormal.copy(
-                lineHeight = 22.sp,
-            ),
+            style =
+                AppTextStyles.textStyle16SPNormal.copy(
+                    lineHeight = 22.sp
+                ),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
@@ -78,9 +78,10 @@ private fun OnboardingContentPreview() {
                     subtitleResId = R.string.onboard_subtitle_4,
                     imageResId = R.drawable.ic_onboard_4
                 ),
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
         )
     }
 }

@@ -8,7 +8,8 @@ import java.time.ZonedDateTime
 fun Reminder.toTriggerMillis(): Long {
     val date = LocalDate.ofEpochDay(date)
     val time = LocalTime.ofSecondOfDay(time)
-    return ZonedDateTime.of(date, time, ZoneId.systemDefault())
+    return ZonedDateTime
+        .of(date, time, ZoneId.systemDefault())
         .toInstant()
         .toEpochMilli()
 }
