@@ -38,7 +38,7 @@ jobs:
       - name: Extract AAB name
         run: |
           AAB_FILE_PATH=$(ls app/build/outputs/bundle/release/*.aab | head -n 1)
-          AAB_GRADLE_NAME=$(basename "AAB_FILE_PATH" .aab)
+          AAB_GRADLE_NAME=$(basename "$AAB_FILE_PATH" .aab)
           echo "AAB_NAME=$AAB_GRADLE_NAME" >> $GITHUB_ENV
 
       - name: Upload AAB as artifact
