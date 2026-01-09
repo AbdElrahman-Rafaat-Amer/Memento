@@ -11,9 +11,14 @@ plugins {
     alias(libs.plugins.ktlint)
 }
 
+var canSignWithKeystore = false
 val keystoreProperties =
     Properties().apply {
-        load(rootProject.file("./keystore.properties").inputStream())
+        val keystorePropertiesFile = rootProject.file("./keystore.properties")
+        canSignWithKeystore = keystorePropertiesFile.exists()
+        if (canSignWithKeystore) {
+            load(rootProject.file("./keystore.properties").inputStream())
+        }
     }
 
 android {
@@ -34,10 +39,10 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
-            storePassword = keystoreProperties.getProperty("storePassword")
-            keyAlias = keystoreProperties.getProperty("keyAlias")
-            keyPassword = keystoreProperties.getProperty("keyPassword")
+            storeFile = getStoreFile()
+            storePassword = getProperty("KEYSTORE_PASSWORD")
+            keyAlias = getProperty("KEY_ALIAS")
+            keyPassword = getProperty("KEY_PASSWORD")
         }
     }
 
@@ -85,6 +90,20 @@ android {
         }
     }
 }
+
+fun getStoreFile(): File =
+    if (canSignWithKeystore) {
+        rootProject.file(keystoreProperties.getProperty("KEYSTORE_FILE_PATH"))
+    } else {
+        file(System.getenv("KEYSTORE_FILE_PATH"))
+    }
+
+fun getProperty(propertyKey: String): String =
+    if (canSignWithKeystore) {
+        keystoreProperties.getProperty(propertyKey)
+    } else {
+        System.getenv(propertyKey)
+    }
 
 tasks.configureEach {
     if (name.startsWith("bundle")) {
