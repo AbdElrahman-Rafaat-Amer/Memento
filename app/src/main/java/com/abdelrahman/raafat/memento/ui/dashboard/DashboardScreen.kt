@@ -158,7 +158,10 @@ fun DashboardScreen(
                     }
 
                     reminderUiState.reminders.isEmpty() -> {
-                        EmptyScreen(modifier = Modifier.padding(horizontal = 16.dp))
+                        EmptyScreen(
+                            message = stringResource(R.string.no_reminders),
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
                     }
 
                     else -> {

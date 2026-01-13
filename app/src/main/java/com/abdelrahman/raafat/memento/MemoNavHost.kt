@@ -59,9 +59,7 @@ fun MemoNavHost(
         // History Screen
         composable(History.ROUTE) {
             HistoryScreen(
-                onReminderClick = { reminderId ->
-                    // TODO navigate to ReminderDetailsScreen or ReminderEditorScreen
-                }
+                onBack = { navController.navigateUp() }
             )
         }
     }
