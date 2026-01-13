@@ -206,4 +206,11 @@ class OfflineReminderRepository
             } catch (exception: Exception) {
                 ReminderScheduleResult.UnknownError(exception.message)
             }
+
+        override fun getHistoryReminders(): Flow<List<Reminder>> {
+            val entities = reminderDao.getHistoryReminders()
+            return entities.map {
+                entityMapper.toDomainList(it)
+            }
+        }
     }

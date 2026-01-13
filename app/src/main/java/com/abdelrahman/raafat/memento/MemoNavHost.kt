@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.abdelrahman.raafat.memento.ui.dashboard.DashboardScreen
+import com.abdelrahman.raafat.memento.ui.history.HistoryScreen
 import com.abdelrahman.raafat.memento.ui.remindereditor.AddReminderScreen
 
 @Composable
@@ -28,6 +29,9 @@ fun MemoNavHost(
                 },
                 onUpdateClicked = {
                     navController.navigate(ReminderEditorDestination.createRoute(it.id))
+                },
+                onHistoryClicked = {
+                    navController.navigate(History.ROUTE)
                 }
             )
         }
@@ -48,6 +52,13 @@ fun MemoNavHost(
                 )
         ) {
             AddReminderScreen(
+                onBack = { navController.navigateUp() }
+            )
+        }
+
+        // History Screen
+        composable(History.ROUTE) {
+            HistoryScreen(
                 onBack = { navController.navigateUp() }
             )
         }
