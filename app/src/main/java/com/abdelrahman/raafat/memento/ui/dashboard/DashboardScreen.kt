@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -47,12 +50,14 @@ import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem.DashboardReminderUi
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
 fun DashboardScreen(
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
     onAddClicked: () -> Unit,
-    onUpdateClicked: (DashboardReminderUi) -> Unit
+    onUpdateClicked: (DashboardReminderUi) -> Unit,
+    onHistoryClicked: () -> Unit
 ) {
     val reminderUiState by dashboardViewModel.dashboardUiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -133,7 +138,9 @@ fun DashboardScreen(
                     title = stringResource(R.string.app_name),
                     textStyle = AppTextStyles.textStyle28SPMedium,
                     iconVector = null,
-                    isTitleCentered = false
+                    titleModifier = Modifier.weight(1f),
+                    endIcon = Icons.Default.Settings,
+                    endIconAction = { onHistoryClicked() }
                 )
 
                 when {
@@ -217,7 +224,8 @@ private fun DashboardScreenPreview() {
         ) {
             DashboardScreen(
                 onAddClicked = {},
-                onUpdateClicked = {}
+                onUpdateClicked = {},
+                onHistoryClicked = {}
             )
         }
     }
