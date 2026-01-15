@@ -5,13 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
 import com.abdelrahman.raafat.memento.ui.dashboard.mapper.DashboardReminderMapper
+import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.collections.map
 
 @HiltViewModel
 class HistoryViewModel
@@ -29,11 +31,22 @@ class HistoryViewModel
 
         private fun loadHistory() {
             viewModelScope.launch {
-                repository
-                    .getHistoryReminders()
-                    .map { entities ->
-                        entities.map { dashboardMapper.toUiModel(it) }
-                    }.catch { exception ->
+                combine(
+                repository.getAllDoneReminders(),
+                    repository.getDeletedReminders()
+                ) { done, deleted ->
+                    buildList {
+                        if (done.isNotEmpty()) {
+                            add(DashboardListItem.Section(R.string.done))
+                            addAll(done.map { dashboardMapper.toUiModel(it) })
+                        }
+
+                        if (deleted.isNotEmpty()) {
+                            add(DashboardListItem.Section(R.string.deleted))
+                            addAll(deleted.map { dashboardMapper.toUiModel(it) })
+                        }
+                    }
+                }.catch { exception ->
                         _historyUiState.value = HistoryUiState(isLoading = false, error = R.string.clear_app_data)
                     }.collect { items ->
                         _historyUiState.value = HistoryUiState(isLoading = false, reminders = items)
