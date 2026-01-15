@@ -32,7 +32,7 @@ class HistoryViewModel
         private fun loadHistory() {
             viewModelScope.launch {
                 combine(
-                repository.getAllDoneReminders(),
+                    repository.getAllDoneReminders(),
                     repository.getDeletedReminders()
                 ) { done, deleted ->
                     buildList {
@@ -47,10 +47,10 @@ class HistoryViewModel
                         }
                     }
                 }.catch { exception ->
-                        _historyUiState.value = HistoryUiState(isLoading = false, error = R.string.clear_app_data)
-                    }.collect { items ->
-                        _historyUiState.value = HistoryUiState(isLoading = false, reminders = items)
-                    }
+                    _historyUiState.value = HistoryUiState(isLoading = false, error = R.string.clear_app_data)
+                }.collect { items ->
+                    _historyUiState.value = HistoryUiState(isLoading = false, reminders = items)
+                }
             }
         }
     }
