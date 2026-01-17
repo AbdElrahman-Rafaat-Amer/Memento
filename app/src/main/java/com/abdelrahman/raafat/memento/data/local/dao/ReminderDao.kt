@@ -16,7 +16,15 @@ interface ReminderDao {
     @Update
     suspend fun updateReminder(reminder: ReminderEntity): Int
 
-    @Query("UPDATE ReminderEntity SET triggerAtMillis = :newTriggerTime WHERE id = :id")
+    @Query(
+        """
+        UPDATE ReminderEntity
+        SET
+            triggerAtMillis = :newTriggerTime,
+            isSnoozed = 1
+        WHERE id = :id
+    """
+    )
     suspend fun updateSnoozeState(
         id: Long,
         newTriggerTime: Long
