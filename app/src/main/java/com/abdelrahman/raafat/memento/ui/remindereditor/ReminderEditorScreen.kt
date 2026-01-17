@@ -103,7 +103,8 @@ fun AddReminderScreen(
         ) {
             MemoTobBar(
                 title = stringResource(editorViewModel.screenTitle),
-                onBackButtonClicked = onBack
+                onBackButtonClicked = onBack,
+                titleModifier = Modifier.weight(1f)
             )
 
             ReminderContent(

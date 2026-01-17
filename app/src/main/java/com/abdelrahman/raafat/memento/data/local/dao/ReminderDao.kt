@@ -82,4 +82,13 @@ interface ReminderDao {
 
     @Query("SELECT * FROM ReminderEntity Where isDone = 1 ORDER BY id ASC")
     fun getAllDoneReminders(): Flow<List<ReminderEntity>>
+
+    @Query(
+        """
+    SELECT * FROM ReminderEntity
+    WHERE isDeleted = 1
+    ORDER BY deletedAt DESC
+"""
+    )
+    fun getDeletedReminders(): Flow<List<ReminderEntity>>
 }

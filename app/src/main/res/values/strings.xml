@@ -65,5 +65,7 @@
     <string name="overdue">Overdue</string>
     <string name="snoozed">Snoozed</string>
     <string name="upcoming">Upcoming</string>
-
+    <string name="no_history">No History yet</string>
+    <string name="history">History</string>
+    <string name="deleted">Deleted</string>
 </resources>
