@@ -41,7 +41,7 @@ fun ReminderRow(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp, top = 8.dp, bottom = 8.dp)
+                .padding(vertical = 8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -59,19 +59,19 @@ fun ReminderRow(
             )
 
             Spacer(Modifier.width(8.dp))
+
             AnimatedVisibility(visible = item.isSnoozed) {
                 Text(
-                    text = stringResource(R.string.snoozed_message) + " " + item.snoozedTime,
+                    text = stringResource(R.string.snoozed_until, item.snoozedTime),
                     style =
                         AppTextStyles.textStyle14SPNormal.copy(
                             color = MaterialTheme.colorScheme.onSurface
-                        ),
-                    modifier = Modifier.padding(end = 12.dp)
+                        )
                 )
             }
         }
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(8.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),

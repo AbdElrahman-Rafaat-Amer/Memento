@@ -68,5 +68,5 @@
     <string name="no_history">No History yet</string>
     <string name="history">History</string>
     <string name="deleted">Deleted</string>
-    <string name="snoozed_message">Snoozing untill</string>
+    <string name="snoozed_until">Snoozed until %s</string>
 </resources>
