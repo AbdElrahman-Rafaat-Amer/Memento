@@ -35,6 +35,6 @@ class ReminderEditorMapper
                 additionalInfo = uiState.additionalInfo,
                 isDone = false,
                 isSnoozed = false,
-                snoozedTime = -1 // TODO check this later
+                snoozedTime = -1
             )
     }
