@@ -15,7 +15,9 @@ class ReminderEntityMapper
                 additionalInfo = entity.additionalInfo,
                 date = entity.date,
                 time = entity.time,
-                isDone = entity.isDone
+                isDone = entity.isDone,
+                isSnoozed = entity.isSnoozed,
+                snoozedTime = entity.triggerAtMillis
             )
 
         fun toEntity(reminder: Reminder): ReminderEntity =

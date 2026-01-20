@@ -6,5 +6,7 @@ data class Reminder(
     val additionalInfo: String,
     val date: Long,
     val time: Long,
-    val isDone: Boolean
+    val isDone: Boolean,
+    val isSnoozed: Boolean,
+    val snoozedTime: Long
 )
