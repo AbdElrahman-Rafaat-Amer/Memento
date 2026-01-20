@@ -31,7 +31,7 @@ class DashboardReminderMapper
                 time = time,
                 isDone = uiModel.isDone,
                 isSnoozed = uiModel.isSnoozed,
-                snoozedTime = uiModel.snoozedTime.toLong() // TODO check this later
+                snoozedTime = -1
             )
         }
     }
