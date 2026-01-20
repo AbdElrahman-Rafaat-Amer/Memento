@@ -25,6 +25,11 @@ object AppTextStyles {
             fontSize = 12.sp
         )
 
+    val textStyle14SPNormal =
+        defaultTextStyle.copy(
+            fontSize = 14.sp
+        )
+
     val textStyle16SPNormal =
         defaultTextStyle.copy(
             fontSize = 16.sp

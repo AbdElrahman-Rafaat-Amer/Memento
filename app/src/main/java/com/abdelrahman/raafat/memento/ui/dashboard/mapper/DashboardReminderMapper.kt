@@ -16,7 +16,9 @@ class DashboardReminderMapper
                 title = reminder.title,
                 additionalInfo = reminder.additionalInfo,
                 dateTime = dateTimeFormatter.format(reminder.date, reminder.time),
-                isDone = reminder.isDone
+                isDone = reminder.isDone,
+                isSnoozed = reminder.isSnoozed,
+                snoozedTime = dateTimeFormatter.format(reminder.snoozedTime)
             )
 
         fun toDomain(uiModel: DashboardReminderUi): Reminder {
@@ -27,7 +29,9 @@ class DashboardReminderMapper
                 additionalInfo = uiModel.additionalInfo,
                 date = date,
                 time = time,
-                isDone = uiModel.isDone
+                isDone = uiModel.isDone,
+                isSnoozed = uiModel.isSnoozed,
+                snoozedTime = -1
             )
         }
     }
