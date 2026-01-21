@@ -1,13 +1,17 @@
 package com.abdelrahman.raafat.memento.ui.dashboard.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,87 +32,116 @@ import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem.Dashb
 fun ReminderRow(
     item: DashboardReminderUi,
     modifier: Modifier = Modifier,
+    isActionVisible: Boolean = true,
     onDoneClicked: (DashboardReminderUi) -> Unit = {},
     onEditClicked: (DashboardReminderUi) -> Unit = {},
     onDeleteClicked: (DashboardReminderUi) -> Unit = {}
 ) {
-    Row(
+    Column(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+                .padding(vertical = 8.dp)
     ) {
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = item.title,
                 style =
                     AppTextStyles.textStyle20SPSemiBold.copy(
                         color = MaterialTheme.colorScheme.onSurface
-                    )
+                    ),
+                maxLines = 2,
+                modifier = Modifier.weight(1f)
             )
 
-            if (item.additionalInfo.isNotBlank()) {
+            Spacer(Modifier.width(8.dp))
+
+            AnimatedVisibility(visible = item.isSnoozed) {
                 Text(
-                    text = item.additionalInfo,
+                    text = stringResource(R.string.snoozed_until, item.snoozedTime),
                     style =
-                        AppTextStyles.textStyle16SPNormal.copy(
+                        AppTextStyles.textStyle14SPNormal.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                )
+            }
+        }
+
+        Spacer(Modifier.height(8.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                if (item.additionalInfo.isNotBlank()) {
+                    Text(
+                        text = item.additionalInfo,
+                        style =
+                            AppTextStyles.textStyle16SPNormal.copy(
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                    )
+                }
+
+                Text(
+                    text = item.dateTime,
+                    style =
+                        AppTextStyles.textStyle12SPNormal.copy(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                 )
             }
 
-            Text(
-                text = item.dateTime,
-                style =
-                    AppTextStyles.textStyle12SPNormal.copy(
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-            )
-        }
+            if (isActionVisible) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(
+                        onClick = { onDoneClicked(item) },
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_check),
+                            contentDescription = stringResource(R.string.done),
+                            modifier = Modifier.size(24.dp),
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = { onDoneClicked(item) },
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_check),
-                    contentDescription = stringResource(R.string.done),
-                    modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            }
+                    IconButton(
+                        onClick = { onEditClicked(item) },
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_edit),
+                            contentDescription = stringResource(R.string.edit),
+                            modifier = Modifier.size(24.dp),
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
 
-            IconButton(
-                onClick = { onEditClicked(item) },
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_edit),
-                    contentDescription = stringResource(R.string.edit),
-                    modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
-            }
-
-            IconButton(
-                onClick = { onDeleteClicked(item) },
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_delete),
-                    contentDescription = stringResource(R.string.delete),
-                    modifier = Modifier.size(24.dp),
-                    tint = MaterialTheme.colorScheme.onSurface
-                )
+                    IconButton(
+                        onClick = { onDeleteClicked(item) },
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_delete),
+                            contentDescription = stringResource(R.string.delete),
+                            modifier = Modifier.size(24.dp),
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
             }
         }
     }
@@ -130,7 +163,9 @@ private fun ReminderItemPreview() {
                         title = "title",
                         dateTime = "time",
                         additionalInfo = "additionalInfo",
-                        isDone = true
+                        isDone = true,
+                        isSnoozed = true,
+                        snoozedTime = "Sun, 9:17 PM"
                     )
             )
         }

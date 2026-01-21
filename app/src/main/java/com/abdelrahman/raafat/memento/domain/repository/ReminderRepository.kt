@@ -42,4 +42,6 @@ interface ReminderRepository {
     )
 
     suspend fun clearSnooze(id: Long)
+
+    fun getDeletedReminders(): Flow<List<Reminder>>
 }

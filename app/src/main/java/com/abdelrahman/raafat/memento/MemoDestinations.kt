@@ -12,3 +12,7 @@ object ReminderEditorDestination {
 
     fun createRoute(reminderId: Long): String = "$ROUTE/$reminderId"
 }
+
+object History {
+    const val ROUTE = "history"
+}

@@ -12,6 +12,8 @@ sealed interface DashboardListItem {
         val title: String,
         val additionalInfo: String,
         val dateTime: String,
-        val isDone: Boolean
+        val isDone: Boolean,
+        val isSnoozed: Boolean,
+        val snoozedTime: String
     ) : DashboardListItem
 }

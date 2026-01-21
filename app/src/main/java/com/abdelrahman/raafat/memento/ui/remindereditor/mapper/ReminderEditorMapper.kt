@@ -33,6 +33,8 @@ class ReminderEditorMapper
                         "Time cannot be null"
                     }.toSecondOfDay().toLong(),
                 additionalInfo = uiState.additionalInfo,
-                isDone = false
+                isDone = false,
+                isSnoozed = false,
+                snoozedTime = -1
             )
     }
