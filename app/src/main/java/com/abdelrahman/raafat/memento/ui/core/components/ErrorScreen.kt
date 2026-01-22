@@ -21,20 +21,23 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 @Composable
 fun ErrorScreen(
     error: String,
+    modifier: Modifier = Modifier,
     onRetry: () -> Unit = {}
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = error,
-            style = AppTextStyles.textStyle28SPMedium.copy(
-                color = MaterialTheme.colorScheme.onSurface
-            )
+            style =
+                AppTextStyles.textStyle28SPMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
         )
 
         Spacer(Modifier.height((32.dp)))
@@ -46,10 +49,9 @@ fun ErrorScreen(
     }
 }
 
-
 @ThemesPreviews
 @Composable
-private fun ErrorScreenPreview(){
+private fun ErrorScreenPreview() {
     MementoTheme {
         ErrorScreen(error = "error")
     }

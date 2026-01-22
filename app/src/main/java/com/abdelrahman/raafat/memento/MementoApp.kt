@@ -7,7 +7,6 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class MementoApp : Application() {
-
     @Inject
     lateinit var notificationManager: MementoNotificationManager
 

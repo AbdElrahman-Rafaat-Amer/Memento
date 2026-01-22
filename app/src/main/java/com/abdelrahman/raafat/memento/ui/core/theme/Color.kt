@@ -14,7 +14,7 @@ val LightOnSecondary = Color(0xFF1A1A1A)
 val LightOutlineVariant = Color(0xFFCCCBCB)
 
 val LightBackground = Color(0xFFF7F7FA)
-val LightOnBackground =  Color.Black
+val LightOnBackground = Color.Black
 
 val LightSurface = Color(0xFFFFFFFF)
 val LightError = Color(0xFFE53935)

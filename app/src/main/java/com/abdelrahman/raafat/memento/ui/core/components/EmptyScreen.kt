@@ -16,28 +16,30 @@ import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
-fun EmptyScreen() {
+fun EmptyScreen(
+    message: String,
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(R.string.no_reminders),
-            style = AppTextStyles.textStyle28SPMedium.copy(
-                color = MaterialTheme.colorScheme.onSurface,
-                lineHeight = 40.sp,
-                textAlign = TextAlign.Center
-            )
+            text = message,
+            style =
+                AppTextStyles.textStyle28SPMedium.copy(
+                    color = MaterialTheme.colorScheme.onSurface,
+                    lineHeight = 40.sp,
+                    textAlign = TextAlign.Center
+                )
         )
     }
 }
 
-
-
 @ThemesPreviews
 @Composable
-fun EmptyScreenPreview(){
+fun EmptyScreenPreview() {
     MementoTheme {
-        EmptyScreen()
+        EmptyScreen(message = stringResource(R.string.no_reminders))
     }
 }

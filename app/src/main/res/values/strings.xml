@@ -62,5 +62,11 @@
     <string name="cancel">Cancel</string>
     <string name="exact_alarm_permission_required">Exact Alarm Permission Required</string>
     <string name="min">Minutes</string>
-
+    <string name="overdue">Overdue</string>
+    <string name="snoozed">Snoozed</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="no_history">No History yet</string>
+    <string name="history">History</string>
+    <string name="deleted">Deleted</string>
+    <string name="snoozed_until">Snoozed until %s</string>
 </resources>

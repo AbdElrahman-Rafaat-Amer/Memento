@@ -32,11 +32,12 @@ fun DatePickerField(
     date: LocalDate?,
     onDateSelected: (LocalDate) -> Unit
 ) {
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = DateRangeSelectableDates.todayUtcMillis,
-        initialDisplayedMonthMillis = DateRangeSelectableDates.todayUtcMillis,
-        selectableDates = DateRangeSelectableDates
-    )
+    val datePickerState =
+        rememberDatePickerState(
+            initialSelectedDateMillis = DateRangeSelectableDates.todayUtcMillis,
+            initialDisplayedMonthMillis = DateRangeSelectableDates.todayUtcMillis,
+            selectableDates = DateRangeSelectableDates
+        )
     var show by remember { mutableStateOf(false) }
     val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
 
@@ -49,13 +50,15 @@ fun DatePickerField(
                     onClick = {
                         datePickerState.selectedDateMillis?.let {
                             onDateSelected(
-                                Instant.ofEpochMilli(it)
+                                Instant
+                                    .ofEpochMilli(it)
                                     .atZone(ZoneId.systemDefault())
                                     .toLocalDate()
                             )
                         }
                         show = false
-                    }) {
+                    }
+                ) {
                     Text(stringResource(R.string.set))
                 }
             }
@@ -70,16 +73,17 @@ fun DatePickerField(
         readOnly = true,
         label = { Text(stringResource(R.string.date)) },
         placeholder = { Text(stringResource(R.string.select_date)) },
-        interactionSource = remember { MutableInteractionSource() }
-            .also { interactionSource ->
-                LaunchedEffect(interactionSource) {
-                    interactionSource.interactions.collect {
-                        if (it is PressInteraction.Press) {
-                            show = true
+        interactionSource =
+            remember { MutableInteractionSource() }
+                .also { interactionSource ->
+                    LaunchedEffect(interactionSource) {
+                        interactionSource.interactions.collect {
+                            if (it is PressInteraction.Press) {
+                                show = true
+                            }
                         }
                     }
-                }
-            },
+                },
         modifier = Modifier.fillMaxWidth()
     )
 }

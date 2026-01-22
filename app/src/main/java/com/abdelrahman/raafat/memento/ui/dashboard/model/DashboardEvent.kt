@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 sealed interface DashboardEvent {
     data class ShowMarkAsDoneSuccess(
         @StringRes val messageResId: Int,
-        val reminder: DashboardReminderUi
+        val reminder: DashboardListItem.DashboardReminderUi
     ) : DashboardEvent
 
     data class ShowDeleteSuccess(
@@ -14,6 +14,7 @@ sealed interface DashboardEvent {
 
     data object ShowExactAlarmPermissionRequired : DashboardEvent
 
-    data class ShowError(@StringRes val messageResId: Int) : DashboardEvent
-
+    data class ShowError(
+        @StringRes val messageResId: Int
+    ) : DashboardEvent
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,30 +36,33 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 fun MemoTobBar(
     title: String,
     modifier: Modifier = Modifier,
+    titleModifier: Modifier = Modifier,
     textStyle: TextStyle = AppTextStyles.textStyle20SPSemiBold.copy(textAlign = TextAlign.Center),
     iconVector: ImageVector? = Icons.AutoMirrored.Filled.ArrowBack,
     iconColor: Color? = MaterialTheme.colorScheme.onBackground,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
     borderColor: Color = MaterialTheme.colorScheme.outlineVariant,
     borderWidth: Dp = 1.dp,
-    isTitleCentered: Boolean = true,
+    endIcon: ImageVector? = null,
+    endIconContentDescription: String = "",
+    endIconTint: Color = MaterialTheme.colorScheme.primary,
     onBackButtonClicked: () -> Unit = {},
+    endIconAction: () -> Unit = {}
 ) {
-
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .drawBehind {
-                drawLine(
-                    color = borderColor,
-                    start = Offset(0f, size.height),
-                    end = Offset(size.width, size.height),
-                    strokeWidth = borderWidth.toPx()
-                )
-            }
-            .padding(horizontal = 12.dp, vertical = 15.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .drawBehind {
+                    drawLine(
+                        color = borderColor,
+                        start = Offset(0f, size.height),
+                        end = Offset(size.width, size.height),
+                        strokeWidth = borderWidth.toPx()
+                    )
+                }.padding(horizontal = 12.dp, vertical = 15.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         iconVector?.let {
             Image(
@@ -72,12 +76,17 @@ fun MemoTobBar(
         Text(
             text = title,
             style = textStyle.copy(color = textColor),
-            modifier = if (isTitleCentered) {
-                Modifier.weight(1f)
-            } else {
-                Modifier
-            },
+            modifier = titleModifier
         )
+
+        endIcon?.let {
+            Image(
+                imageVector = endIcon,
+                colorFilter = iconColor?.let { ColorFilter.tint(endIconTint) },
+                contentDescription = endIconContentDescription,
+                modifier = Modifier.clickable { endIconAction() }
+            )
+        }
     }
 }
 
@@ -86,20 +95,30 @@ fun MemoTobBar(
 private fun MemoTobBarPreview() {
     MementoTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Top)
         ) {
             MemoTobBar(
-                title = stringResource(R.string.new_reminder)
+                title = stringResource(R.string.new_reminder),
+                titleModifier = Modifier.weight(1f)
             )
 
             MemoTobBar(
                 title = stringResource(R.string.new_reminder),
                 textStyle = AppTextStyles.textStyle28SPMedium,
                 iconVector = null,
-                isTitleCentered = false
+                titleModifier = Modifier
+            )
+
+            MemoTobBar(
+                title = stringResource(R.string.new_reminder),
+                textStyle = AppTextStyles.textStyle28SPMedium,
+                iconVector = null,
+                titleModifier = Modifier.weight(1f),
+                endIcon = Icons.Default.Settings
             )
         }
     }

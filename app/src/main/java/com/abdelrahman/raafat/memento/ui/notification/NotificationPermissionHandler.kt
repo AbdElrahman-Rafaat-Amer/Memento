@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun NotificationPermissionHandler(
@@ -43,11 +42,12 @@ fun NotificationPermissionHandler(
                         Manifest.permission.POST_NOTIFICATIONS
                     )
 
-                dialogType = if (shouldShowRationale) {
-                    NotificationPermissionDialogType.TEMPORARY_DENIED
-                } else {
-                    NotificationPermissionDialogType.PERMANENT_DENIED
-                }
+                dialogType =
+                    if (shouldShowRationale) {
+                        NotificationPermissionDialogType.TEMPORARY_DENIED
+                    } else {
+                        NotificationPermissionDialogType.PERMANENT_DENIED
+                    }
             }
         }
 
@@ -80,4 +80,3 @@ fun NotificationPermissionHandler(
         )
     }
 }
-
