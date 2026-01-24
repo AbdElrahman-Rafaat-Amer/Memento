@@ -17,7 +17,8 @@ class ReminderEntityMapper
                 time = entity.time,
                 isDone = entity.isDone,
                 isSnoozed = entity.isSnoozed,
-                snoozedTime = entity.triggerAtMillis
+                snoozedTime = entity.triggerAtMillis,
+                recurrence = entity.recurrence
             )
 
         fun toEntity(reminder: Reminder): ReminderEntity =
@@ -28,7 +29,8 @@ class ReminderEntityMapper
                 date = reminder.date,
                 time = reminder.time,
                 isDone = reminder.isDone,
-                triggerAtMillis = reminder.toTriggerMillis()
+                triggerAtMillis = reminder.toTriggerMillis(),
+                recurrence = reminder.recurrence
             )
 
         fun toDomainList(entities: List<ReminderEntity>): List<Reminder> = entities.map(::toDomain)

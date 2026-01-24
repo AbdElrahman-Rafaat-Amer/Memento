@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abdelrahman.raafat.memento.R
 import com.abdelrahman.raafat.memento.ReminderEditorDestination
+import com.abdelrahman.raafat.memento.domain.model.Recurrence
 import com.abdelrahman.raafat.memento.domain.model.Reminder
 import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
 import com.abdelrahman.raafat.memento.domain.result.ReminderScheduleResult
@@ -98,6 +99,10 @@ class ReminderEditorViewModel
 
         fun onAdditionalInfo(additionalInfo: String) {
             _uiState.update { it.copy(additionalInfo = additionalInfo) }
+        }
+
+        fun onRecurrenceChanged(recurrence: Recurrence) {
+            _uiState.update { it.copy(recurrence = recurrence) }
         }
 
         fun saveReminder() {

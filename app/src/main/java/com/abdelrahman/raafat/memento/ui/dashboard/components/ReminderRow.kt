@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.abdelrahman.raafat.memento.R
+import com.abdelrahman.raafat.memento.domain.model.Recurrence
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
@@ -165,7 +166,8 @@ private fun ReminderItemPreview() {
                         additionalInfo = "additionalInfo",
                         isDone = true,
                         isSnoozed = true,
-                        snoozedTime = "Sun, 9:17 PM"
+                        snoozedTime = "Sun, 9:17 PM",
+                        recurrence = Recurrence.NONE
                     )
             )
         }

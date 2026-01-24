@@ -1,6 +1,7 @@
 package com.abdelrahman.raafat.memento.ui.dashboard.model
 
 import androidx.annotation.StringRes
+import com.abdelrahman.raafat.memento.domain.model.Recurrence
 
 sealed interface DashboardListItem {
     data class Section(
@@ -14,6 +15,7 @@ sealed interface DashboardListItem {
         val dateTime: String,
         val isDone: Boolean,
         val isSnoozed: Boolean,
-        val snoozedTime: String
+        val snoozedTime: String,
+        val recurrence: Recurrence
     ) : DashboardListItem
 }
