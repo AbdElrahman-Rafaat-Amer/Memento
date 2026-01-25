@@ -44,6 +44,29 @@ fun ReminderRow(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
     ) {
+        AnimatedVisibility(visible = item.recurrence != Recurrence.NONE) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_repeat),
+                    contentDescription = stringResource(R.string.done),
+                    modifier = Modifier.size(14.dp),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stringResource(item.recurrence.displayNameRes),
+                    style =
+                        AppTextStyles.textStyle12SPNormal.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                )
+            }
+        }
+
+        Spacer(Modifier.height(8.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -167,7 +190,7 @@ private fun ReminderItemPreview() {
                         isDone = true,
                         isSnoozed = true,
                         snoozedTime = "Sun, 9:17 PM",
-                        recurrence = Recurrence.NONE
+                        recurrence = Recurrence.DAILY
                     )
             )
         }
