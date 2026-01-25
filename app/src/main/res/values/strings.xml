@@ -69,4 +69,9 @@
     <string name="history">History</string>
     <string name="deleted">Deleted</string>
     <string name="snoozed_until">Snoozed until %s</string>
+    <string name="does_not_repeat">Does not repeat</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="repeat">Repeat</string>
 </resources>

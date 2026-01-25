@@ -30,6 +30,7 @@ fun MemoOutlinedTextField(
     modifier: Modifier = Modifier,
     textStyle: TextStyle,
     isEnabled: Boolean = true,
+    readOnly: Boolean = false,
     isClickable: Boolean = false,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -49,6 +50,7 @@ fun MemoOutlinedTextField(
                 .border(1.dp, Color.Transparent, RoundedCornerShape(160.dp))
                 .clickable(enabled = isClickable) { onClick.invoke() },
         enabled = isEnabled,
+        readOnly = readOnly,
         textStyle = textStyle,
         label = label,
         placeholder = placeholder,
@@ -76,8 +78,7 @@ private fun MemoOutlinedTextFieldPreview() {
                 value = stringResource(R.string.write_something),
                 textStyle = AppTextStyles.textStyle16SPNormal,
                 label = { Text(stringResource(R.string.additional_info)) },
-                onValueChange = { },
-                onClick = {}
+                onValueChange = { }
             )
         }
     }

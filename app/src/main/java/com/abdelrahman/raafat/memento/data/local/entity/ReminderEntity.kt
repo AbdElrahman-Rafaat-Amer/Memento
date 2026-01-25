@@ -2,6 +2,7 @@ package com.abdelrahman.raafat.memento.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.abdelrahman.raafat.memento.domain.model.Recurrence
 
 @Entity(tableName = "ReminderEntity")
 data class ReminderEntity(
@@ -16,5 +17,6 @@ data class ReminderEntity(
     val isDeleted: Boolean = false,
     val deletedAt: Long? = null,
     val isSnoozed: Boolean = false,
-    val triggerAtMillis: Long
+    val triggerAtMillis: Long,
+    val recurrence: Recurrence = Recurrence.NONE
 )

@@ -8,5 +8,6 @@ data class Reminder(
     val time: Long,
     val isDone: Boolean,
     val isSnoozed: Boolean,
-    val snoozedTime: Long
+    val snoozedTime: Long,
+    val recurrence: Recurrence
 )
