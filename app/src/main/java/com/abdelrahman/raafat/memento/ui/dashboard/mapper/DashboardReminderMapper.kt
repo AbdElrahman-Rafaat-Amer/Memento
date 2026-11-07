@@ -10,16 +10,15 @@ class DashboardReminderMapper
     constructor(
         private val dateTimeFormatter: MemoDateTimeFormatter
     ) {
-        fun toUiModel(reminder: Reminder): DashboardReminderUi =
-            DashboardReminderUi(
-                id = reminder.id,
-                title = reminder.title,
-                additionalInfo = reminder.additionalInfo,
-                dateTime = dateTimeFormatter.format(reminder.date, reminder.time),
-                isDone = reminder.isDone,
-                isSnoozed = reminder.isSnoozed,
-                snoozedTime = dateTimeFormatter.format(reminder.snoozedTime)
-            )
+        fun toUiModel(reminder: Reminder): DashboardReminderUi = DashboardReminderUi(
+            id = reminder.id,
+            title = reminder.title,
+            additionalInfo = reminder.additionalInfo,
+            dateTime = dateTimeFormatter.format(reminder.date, reminder.time),
+            isDone = reminder.isDone,
+            isSnoozed = reminder.isSnoozed,
+            snoozedTime = dateTimeFormatter.format(reminder.snoozedTime)
+        )
 
         fun toDomain(uiModel: DashboardReminderUi): Reminder {
             val (date, time) = dateTimeFormatter.parse(uiModel.dateTime)

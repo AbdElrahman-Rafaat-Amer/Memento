@@ -25,10 +25,7 @@ interface ReminderDao {
         WHERE id = :id
     """
     )
-    suspend fun updateSnoozeState(
-        id: Long,
-        newTriggerTime: Long
-    ): Int
+    suspend fun updateSnoozeState(id: Long, newTriggerTime: Long): Int
 
     @Query("UPDATE ReminderEntity SET isSnoozed = 0 WHERE id = :id")
     suspend fun clearSnooze(id: Long): Int

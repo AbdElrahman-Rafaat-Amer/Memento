@@ -28,10 +28,7 @@ import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem.DashboardReminderUi
 
 @Composable
-fun HistoryScreen(
-    viewModel: HistoryViewModel = hiltViewModel(),
-    onBack: () -> Unit
-) {
+fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel(), onBack: () -> Unit) {
     val uiState by viewModel.historyUiState.collectAsState()
 
     Column(

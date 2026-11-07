@@ -32,10 +32,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 
 @Composable
-fun AnimatedSplashScreen(
-    onFinished: () -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun AnimatedSplashScreen(onFinished: () -> Unit, modifier: Modifier = Modifier) {
     var visible by remember { mutableStateOf(false) }
     val durationMillis = 600
     val delayMillis = 400
@@ -63,8 +60,17 @@ fun AnimatedSplashScreen(
             enter =
                 slideInHorizontally(
                     initialOffsetX = { -it },
-                    animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis)
-                ) + fadeIn(animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis))
+                    animationSpec = tween(
+                        durationMillis = durationMillis,
+                        delayMillis = delayMillis
+                    )
+                ) +
+                    fadeIn(
+                        animationSpec = tween(
+                            durationMillis = durationMillis,
+                            delayMillis = delayMillis
+                        )
+                    )
         ) {
             Text(
                 text = stringResource(R.string.splash_title),
@@ -83,8 +89,17 @@ fun AnimatedSplashScreen(
             enter =
                 slideInHorizontally(
                     initialOffsetX = { it },
-                    animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis)
-                ) + fadeIn(animationSpec = tween(durationMillis = durationMillis, delayMillis = delayMillis))
+                    animationSpec = tween(
+                        durationMillis = durationMillis,
+                        delayMillis = delayMillis
+                    )
+                ) +
+                    fadeIn(
+                        animationSpec = tween(
+                            durationMillis = durationMillis,
+                            delayMillis = delayMillis
+                        )
+                    )
         ) {
             Text(
                 text = stringResource(R.string.splash_subtitle),

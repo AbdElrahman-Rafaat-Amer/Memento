@@ -13,21 +13,17 @@ class ReminderValidator
             title: String,
             date: LocalDate?,
             time: LocalTime?
-        ): ValidationResult =
-            when {
-                title.isBlank() -> ValidationResult.Error(R.string.title_required)
-                date == null -> ValidationResult.Error(R.string.date_required)
-                time == null -> ValidationResult.Error(R.string.time_required)
-                isDateTimeInPast(date, time) ->
-                    ValidationResult.Error(R.string.select_date_in_future)
+        ): ValidationResult = when {
+            title.isBlank() -> ValidationResult.Error(R.string.title_required)
+            date == null -> ValidationResult.Error(R.string.date_required)
+            time == null -> ValidationResult.Error(R.string.time_required)
+            isDateTimeInPast(date, time) ->
+                ValidationResult.Error(R.string.select_date_in_future)
 
-                else -> ValidationResult.Success
-            }
+            else -> ValidationResult.Success
+        }
 
-        private fun isDateTimeInPast(
-            date: LocalDate,
-            time: LocalTime
-        ): Boolean {
+        private fun isDateTimeInPast(date: LocalDate, time: LocalTime): Boolean {
             val selectedDateTime = LocalDateTime.of(date, time)
             return selectedDateTime.isBefore(LocalDateTime.now())
         }

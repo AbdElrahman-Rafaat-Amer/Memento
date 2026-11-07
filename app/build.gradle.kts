@@ -1,7 +1,7 @@
 import com.android.build.api.artifact.SingleArtifact
+import java.util.Properties
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -93,7 +93,8 @@ androidComponents {
         val copyApk =
             tasks.register<Sync>("copy${variantTaskName}RenamedApk") {
                 group = "build"
-                description = "Copies the $variantTaskName APK to outputs/renamed-apk with a custom name."
+                description =
+                    "Copies the $variantTaskName APK to outputs/renamed-apk with a custom name."
                 from(variant.artifacts.get(SingleArtifact.APK)) {
                     include("*.apk")
                 }
@@ -107,19 +108,17 @@ androidComponents {
     }
 }
 
-fun getStoreFile(): File =
-    if (canSignWithKeystore) {
-        rootProject.file(keystoreProperties.getProperty("KEYSTORE_FILE_PATH"))
-    } else {
-        file(System.getenv("KEYSTORE_FILE_PATH"))
-    }
+fun getStoreFile(): File = if (canSignWithKeystore) {
+    rootProject.file(keystoreProperties.getProperty("KEYSTORE_FILE_PATH"))
+} else {
+    file(System.getenv("KEYSTORE_FILE_PATH"))
+}
 
-fun getProperty(propertyKey: String): String =
-    if (canSignWithKeystore) {
-        keystoreProperties.getProperty(propertyKey)
-    } else {
-        System.getenv(propertyKey)
-    }
+fun getProperty(propertyKey: String): String = if (canSignWithKeystore) {
+    keystoreProperties.getProperty(propertyKey)
+} else {
+    System.getenv(propertyKey)
+}
 
 tasks.configureEach {
     if (name.startsWith("bundle")) {

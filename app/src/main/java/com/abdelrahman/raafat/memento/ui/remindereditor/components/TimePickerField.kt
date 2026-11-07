@@ -25,10 +25,7 @@ import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimePickerField(
-    time: LocalTime?,
-    onTimeSelected: (LocalTime) -> Unit
-) {
+fun TimePickerField(time: LocalTime?, onTimeSelected: (LocalTime) -> Unit) {
     val state = rememberTimePickerState()
     var show by remember { mutableStateOf(false) }
     val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)

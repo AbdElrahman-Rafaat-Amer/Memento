@@ -7,10 +7,10 @@ import android.util.Log
 import com.abdelrahman.raafat.memento.domain.notification.MementoNotificationManager
 import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ReminderAlarmReceiver : BroadcastReceiver() {
@@ -20,10 +20,7 @@ class ReminderAlarmReceiver : BroadcastReceiver() {
     @Inject
     lateinit var repository: ReminderRepository
 
-    override fun onReceive(
-        context: Context,
-        intent: Intent
-    ) {
+    override fun onReceive(context: Context, intent: Intent) {
         val reminderId = intent.getLongExtra(ID_EXTRA, INVALID_REMINDER_ID)
         val reminderName = intent.getStringExtra(NAME_EXTRA) ?: "Reminder"
         val reminderDescription =
