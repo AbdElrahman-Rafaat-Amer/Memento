@@ -10,9 +10,9 @@ import com.abdelrahman.raafat.memento.domain.model.toTriggerMillis
 import com.abdelrahman.raafat.memento.domain.reminder.ReminderNotificationScheduler
 import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
 import com.abdelrahman.raafat.memento.domain.result.ReminderScheduleResult
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 class OfflineReminderRepository
     @Inject
@@ -34,7 +34,9 @@ class OfflineReminderRepository
                     ReminderScheduleResult.DataBaseError("Failed to insert reminder")
                 }
             } catch (exception: Exception) {
-                return ReminderScheduleResult.DataBaseError("Failed to insert reminder ${exception.message}")
+                return ReminderScheduleResult.DataBaseError(
+                    "Failed to insert reminder ${exception.message}"
+                )
             }
         }
 
@@ -149,10 +151,7 @@ class OfflineReminderRepository
             }
         }
 
-        override suspend fun markAsSnoozed(
-            id: Long,
-            newTriggerTime: Long
-        ) {
+        override suspend fun markAsSnoozed(id: Long, newTriggerTime: Long) {
             reminderDao.updateSnoozeState(
                 id = id,
                 newTriggerTime = newTriggerTime
@@ -181,31 +180,32 @@ class OfflineReminderRepository
                     ReminderScheduleResult.DataBaseError("Failed to update reminder: $reminder")
                 }
             } catch (exception: Exception) {
-                return ReminderScheduleResult.DataBaseError("Failed to update reminder: ${exception.message}")
+                return ReminderScheduleResult.DataBaseError(
+                    "Failed to update reminder: ${exception.message}"
+                )
             }
         }
 
         /**
          * Schedules a reminder and wraps the result, handling potential exceptions.
          */
-        private fun trySchedulingReminder(reminder: Reminder): ReminderScheduleResult =
-            try {
-                scheduler.scheduleReminder(
-                    reminderId = reminder.id,
-                    triggerAtMillis = reminder.toTriggerMillis(),
-                    title = reminder.title,
-                    additionalInfo = reminder.additionalInfo
-                )
-                ReminderScheduleResult.Success
-            } catch (exception: PastTriggerException) {
-                ReminderScheduleResult.PastTrigger(exception.message)
-            } catch (exception: ExactAlarmPermissionException) {
-                ReminderScheduleResult.ExactAlarmPermissionMissing(exception.message)
-            } catch (exception: SecurityException) {
-                ReminderScheduleResult.UnknownError("A security error occurred: ${exception.message}")
-            } catch (exception: Exception) {
-                ReminderScheduleResult.UnknownError(exception.message)
-            }
+        private fun trySchedulingReminder(reminder: Reminder): ReminderScheduleResult = try {
+            scheduler.scheduleReminder(
+                reminderId = reminder.id,
+                triggerAtMillis = reminder.toTriggerMillis(),
+                title = reminder.title,
+                additionalInfo = reminder.additionalInfo
+            )
+            ReminderScheduleResult.Success
+        } catch (exception: PastTriggerException) {
+            ReminderScheduleResult.PastTrigger(exception.message)
+        } catch (exception: ExactAlarmPermissionException) {
+            ReminderScheduleResult.ExactAlarmPermissionMissing(exception.message)
+        } catch (exception: SecurityException) {
+            ReminderScheduleResult.UnknownError("A security error occurred: ${exception.message}")
+        } catch (exception: Exception) {
+            ReminderScheduleResult.UnknownError(exception.message)
+        }
 
         override fun getDeletedReminders(): Flow<List<Reminder>> {
             val entities = reminderDao.getDeletedReminders()

@@ -54,7 +54,9 @@ fun AddReminderScreen(
                     scope.launch {
                         snackbarHostState
                             .showSnackbar(
-                                message = context.getString(R.string.exact_alarm_permission_required),
+                                message = context.getString(
+                                    R.string.exact_alarm_permission_required
+                                ),
                                 actionLabel = context.getString(R.string.open_settings),
                                 duration = SnackbarDuration.Long
                             ).also { result ->

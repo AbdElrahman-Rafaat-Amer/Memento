@@ -19,10 +19,7 @@ import androidx.core.content.ContextCompat
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
-fun NotificationPermissionHandler(
-    onPermissionGranted: () -> Unit,
-    openAppSettings: () -> Unit
-) {
+fun NotificationPermissionHandler(onPermissionGranted: () -> Unit, openAppSettings: () -> Unit) {
     val context = LocalContext.current
     val activity = context as Activity
     var dialogType by remember {

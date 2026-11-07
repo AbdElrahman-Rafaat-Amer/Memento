@@ -7,13 +7,13 @@ import com.abdelrahman.raafat.memento.domain.repository.ReminderRepository
 import com.abdelrahman.raafat.memento.ui.dashboard.mapper.DashboardReminderMapper
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import kotlin.collections.map
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import kotlin.collections.map
 
 @HiltViewModel
 class HistoryViewModel
@@ -47,7 +47,8 @@ class HistoryViewModel
                         }
                     }
                 }.catch { exception ->
-                    _historyUiState.value = HistoryUiState(isLoading = false, error = R.string.clear_app_data)
+                    _historyUiState.value =
+                        HistoryUiState(isLoading = false, error = R.string.clear_app_data)
                 }.collect { items ->
                     _historyUiState.value = HistoryUiState(isLoading = false, reminders = items)
                 }

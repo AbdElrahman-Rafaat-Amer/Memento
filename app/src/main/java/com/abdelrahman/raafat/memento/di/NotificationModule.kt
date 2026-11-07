@@ -25,5 +25,6 @@ object NotificationModule {
     fun provideReminderScheduler(
         @ApplicationContext context: Context,
         alarmManager: AlarmManager
-    ): ReminderNotificationScheduler = ReminderNotificationScheduler(context = context, alarmManager = alarmManager)
+    ): ReminderNotificationScheduler =
+        ReminderNotificationScheduler(context = context, alarmManager = alarmManager)
 }

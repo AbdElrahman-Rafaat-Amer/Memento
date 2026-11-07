@@ -21,12 +21,11 @@ object DatabaseModule {
     @Singleton
     fun provideAppDatabase(
         @ApplicationContext context: Context
-    ): MementoDatabase =
-        Room
-            .databaseBuilder(
-                context = context,
-                klass = MementoDatabase::class.java,
-                name = "memento_database"
-            ).fallbackToDestructiveMigration(true)
-            .build()
+    ): MementoDatabase = Room
+        .databaseBuilder(
+            context = context,
+            klass = MementoDatabase::class.java,
+            name = "memento_database"
+        ).fallbackToDestructiveMigration(true)
+        .build()
 }

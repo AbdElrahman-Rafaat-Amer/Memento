@@ -11,6 +11,7 @@ import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardEvent
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardListItem
 import com.abdelrahman.raafat.memento.ui.dashboard.model.DashboardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel
@@ -90,7 +90,11 @@ class DashboardViewModel
 
         fun markReminderAsDone(dashboardReminderUi: DashboardListItem.DashboardReminderUi) {
             viewModelScope.launch {
-                val updatedReminder = dashboardReminderUi.copy(isDone = true, isSnoozed = false, snoozedTime = "")
+                val updatedReminder = dashboardReminderUi.copy(
+                    isDone = true,
+                    isSnoozed = false,
+                    snoozedTime = ""
+                )
                 val reminder = dashboardMapper.toDomain(updatedReminder)
 
                 val updateReminderResult = reminderRepository.markReminderAsDone(reminder)
@@ -122,7 +126,11 @@ class DashboardViewModel
 
         fun undoMarkingAsDone(dashboardReminderUi: DashboardListItem.DashboardReminderUi) {
             viewModelScope.launch {
-                val updatedReminder = dashboardReminderUi.copy(isDone = true, isSnoozed = false, snoozedTime = "")
+                val updatedReminder = dashboardReminderUi.copy(
+                    isDone = true,
+                    isSnoozed = false,
+                    snoozedTime = ""
+                )
                 val reminder = dashboardMapper.toDomain(updatedReminder)
 
                 val updateReminderResult = reminderRepository.markReminderAsNotDone(reminder)
@@ -157,7 +165,9 @@ class DashboardViewModel
                 val deleteReminderResult = reminderRepository.softDeleteReminder(reminder)
                 when (deleteReminderResult) {
                     is ReminderScheduleResult.Success -> {
-                        _uiEvent.emit(DashboardEvent.ShowDeleteSuccess(R.string.reminder_deleted_successfully))
+                        _uiEvent.emit(
+                            DashboardEvent.ShowDeleteSuccess(R.string.reminder_deleted_successfully)
+                        )
                     }
 
                     is ReminderScheduleResult.ExactAlarmPermissionMissing,

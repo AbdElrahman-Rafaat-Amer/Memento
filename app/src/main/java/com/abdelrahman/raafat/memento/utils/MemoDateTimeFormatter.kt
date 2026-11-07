@@ -24,10 +24,7 @@ class MemoDateTimeFormatter
                 Locale.getDefault()
             )
 
-        fun format(
-            date: Long,
-            time: Long
-        ): String {
+        fun format(date: Long, time: Long): String {
             val localDate = LocalDate.ofEpochDay(date)
             val localTime = LocalTime.ofSecondOfDay(time)
             val localDateTime = LocalDateTime.of(localDate, localTime)

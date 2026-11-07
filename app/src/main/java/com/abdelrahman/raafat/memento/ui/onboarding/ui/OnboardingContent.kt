@@ -26,10 +26,7 @@ import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
 import com.abdelrahman.raafat.memento.ui.onboarding.model.OnboardingItem
 
 @Composable
-fun OnboardingContent(
-    onboardingItem: OnboardingItem,
-    modifier: Modifier = Modifier
-) {
+fun OnboardingContent(onboardingItem: OnboardingItem, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

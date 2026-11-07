@@ -1,19 +1,45 @@
 root = true
 
-[*.{kt,kts}]
-# Android-specific settings
-indent_size = 4
-end_of_line = lf
+[*]
 charset = utf-8
+end_of_line = lf
+insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = space
-insert_final_newline = true
-max_line_length = 120
+indent_size = 4
 
-# Kotlin-specific
+[*.{yml,yaml,json,xml,toml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{kt,kts}]
+ktlint_code_style = ktlint_official
+max_line_length = 100
+
+# Naming
+ktlint_function_naming_ignore_when_annotated_with = Composable
+ktlint_property_naming_constant_naming = screaming_snake_case
+
+# Trailing commas (Kotlin official convention)
 ij_kotlin_allow_trailing_comma = false
 ij_kotlin_allow_trailing_comma_on_call_site = false
 
-# Enable Compose-specific rules
-ktlint_function_naming_ignore_when_annotated_with=Composable
+# Imports: no wildcards, even from the IDE
+ij_kotlin_imports_layout = *
+ij_kotlin_name_count_to_use_star_import = 2147483647
+ij_kotlin_name_count_to_use_star_import_for_members = 2147483647
 
+# Signature wrapping (defaults are very aggressive)
+ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than = 3
+ktlint_class_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than = 3
+ktlint_function_signature_body_expression_wrapping = default
+
+# Optional: disable rules many people find noisy
+ktlint_standard_multiline-expression-wrapping = disabled
+ktlint_standard_string-template-indent = disabled
+
+# Generated code
+[**/build/**/*.{kt,kts}]
+ktlint = disabled

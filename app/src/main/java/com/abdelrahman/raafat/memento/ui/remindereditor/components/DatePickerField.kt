@@ -28,10 +28,7 @@ import java.time.format.FormatStyle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerField(
-    date: LocalDate?,
-    onDateSelected: (LocalDate) -> Unit
-) {
+fun DatePickerField(date: LocalDate?, onDateSelected: (LocalDate) -> Unit) {
     val datePickerState =
         rememberDatePickerState(
             initialSelectedDateMillis = DateRangeSelectableDates.todayUtcMillis,
