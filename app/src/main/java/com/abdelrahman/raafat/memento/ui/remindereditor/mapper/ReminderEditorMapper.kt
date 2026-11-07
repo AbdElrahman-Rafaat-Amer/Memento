@@ -14,7 +14,8 @@ class ReminderEditorMapper
                 title = reminder.title,
                 date = LocalDate.ofEpochDay(reminder.date),
                 time = LocalTime.ofSecondOfDay(reminder.time),
-                additionalInfo = reminder.additionalInfo
+                additionalInfo = reminder.additionalInfo,
+                recurrence = reminder.recurrence
             )
 
         fun toDomain(
@@ -35,6 +36,7 @@ class ReminderEditorMapper
                 additionalInfo = uiState.additionalInfo,
                 isDone = false,
                 isSnoozed = false,
-                snoozedTime = -1
+                snoozedTime = -1,
+                recurrence = uiState.recurrence
             )
     }

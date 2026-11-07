@@ -10,9 +10,11 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.abdelrahman.raafat.memento.R
+import com.abdelrahman.raafat.memento.domain.model.Recurrence
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
+import com.abdelrahman.raafat.memento.ui.remindereditor.RepeatPicker
 import com.abdelrahman.raafat.memento.ui.remindereditor.components.DatePickerField
 import com.abdelrahman.raafat.memento.ui.remindereditor.components.TimePickerField
 import com.abdelrahman.raafat.memento.ui.remindereditor.model.ReminderEditorUiState
@@ -28,6 +30,7 @@ fun ReminderContent(
     onDateChanged: (LocalDate) -> Unit,
     onTimeChanged: (LocalTime) -> Unit,
     onAdditionalInfoChanged: (String) -> Unit,
+    onRecurrenceChanged: (Recurrence) -> Unit,
     onSaveButtonClicked: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
@@ -39,8 +42,8 @@ fun ReminderContent(
         MemoOutlinedTextField(
             value = reminderItem.title,
             textStyle = AppTextStyles.textStyle16SPNormal,
-            label = { Text(stringResource(R.string.title)) },
             placeholder = { Text(stringResource(R.string.enter_title)) },
+            label = { Text(stringResource(R.string.title)) },
             onValueChange = {
                 onTitleChanged(it)
             }
@@ -63,10 +66,17 @@ fun ReminderContent(
         MemoOutlinedTextField(
             value = reminderItem.additionalInfo,
             textStyle = AppTextStyles.textStyle16SPNormal,
-            label = { Text(stringResource(R.string.additional_info)) },
             placeholder = { Text(stringResource(R.string.write_something)) },
+            label = { Text(stringResource(R.string.additional_info)) },
             onValueChange = {
                 onAdditionalInfoChanged(it)
+            }
+        )
+
+        RepeatPicker(
+            selected = reminderItem.recurrence,
+            onSelected = {
+                onRecurrenceChanged(it)
             }
         )
 
@@ -92,13 +102,15 @@ private fun ReminderContentPreview() {
                     title = "Test Reminder",
                     date = LocalDate.ofEpochDay(2000),
                     time = LocalTime.ofSecondOfDay(4000),
-                    additionalInfo = "This is test reminder"
+                    additionalInfo = "This is test reminder",
+                    recurrence = Recurrence.NONE
                 ),
             buttonText = "Save",
             onTitleChanged = {},
             onDateChanged = {},
             onTimeChanged = {},
             onAdditionalInfoChanged = {},
+            onRecurrenceChanged = {},
             onSaveButtonClicked = { {} }
         )
     }

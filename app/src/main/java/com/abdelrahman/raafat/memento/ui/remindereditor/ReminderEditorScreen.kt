@@ -122,6 +122,9 @@ fun AddReminderScreen(
                 onAdditionalInfoChanged = { newInfo ->
                     editorViewModel.onAdditionalInfo(newInfo)
                 },
+                onRecurrenceChanged = { newRecurrence ->
+                    editorViewModel.onRecurrenceChanged(newRecurrence)
+                },
                 onSaveButtonClicked = {
                     editorViewModel.saveReminder()
                 }

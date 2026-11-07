@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.abdelrahman.raafat.memento.R
+import com.abdelrahman.raafat.memento.domain.model.Recurrence
 import com.abdelrahman.raafat.memento.ui.core.theme.AppTextStyles
 import com.abdelrahman.raafat.memento.ui.core.theme.MementoTheme
 import com.abdelrahman.raafat.memento.ui.core.theme.ThemesPreviews
@@ -43,6 +44,29 @@ fun ReminderRow(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
     ) {
+        AnimatedVisibility(visible = item.recurrence != Recurrence.NONE) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_repeat),
+                    contentDescription = stringResource(R.string.done),
+                    modifier = Modifier.size(14.dp),
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+                Text(
+                    text = stringResource(item.recurrence.displayNameRes),
+                    style =
+                        AppTextStyles.textStyle12SPNormal.copy(
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                )
+            }
+        }
+
+        Spacer(Modifier.height(8.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -165,7 +189,8 @@ private fun ReminderItemPreview() {
                         additionalInfo = "additionalInfo",
                         isDone = true,
                         isSnoozed = true,
-                        snoozedTime = "Sun, 9:17 PM"
+                        snoozedTime = "Sun, 9:17 PM",
+                        recurrence = Recurrence.DAILY
                     )
             )
         }
