@@ -79,6 +79,7 @@ android {
 
     buildFeatures {
         compose = true
+        resValues = true
     }
 
     applicationVariants.all {
