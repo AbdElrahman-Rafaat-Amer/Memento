@@ -8,14 +8,14 @@ It helps users stay organized through smart notifications, a clean design, and a
 
 # ✨ Features
 
-✔ Create reminders in seconds
-✔ Smart notifications delivered right on time
-✔ Beautiful Jetpack Compose UI
-✔ M3 color system + custom brand palette
-✔ Simple onboarding / intro screens
-✔ Light & clean modern design
-✔ Support for daily, one-time, and custom reminders (optional depending on your plans)
-✔ Optimized for performance and readability
+- ✔ Create reminders in seconds
+- ✔ Smart notifications delivered right on time
+- ✔ Beautiful Jetpack Compose UI
+- ✔ M3 color system + custom brand palette
+- ✔ Simple onboarding / intro screens
+- ✔ Light & clean modern design
+- ✔ Support for daily, one-time, and custom reminders (optional depending on your plans)
+- ✔ Optimized for performance and readability
 
 
 
