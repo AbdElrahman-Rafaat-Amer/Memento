@@ -1,10 +1,10 @@
+import com.android.build.api.artifact.SingleArtifact
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.ksp)
@@ -80,13 +80,27 @@ android {
 
     buildFeatures {
         compose = true
+        resValues = true
     }
+}
 
-    applicationVariants.all {
-        outputs.all {
-            val outputFileName = getOutputFileName(buildType.name.capitalized())
-            val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
-            output.outputFileName = "$outputFileName.apk"
+androidComponents {
+    onVariants { variant ->
+        val buildTypeName = (variant.buildType ?: variant.name).replaceFirstChar { it.uppercase() }
+        val variantTaskName = variant.name.replaceFirstChar { it.uppercase() }
+        val apkName = getOutputFileName(buildTypeName)
+
+        val copyApk =
+            tasks.register<Copy>("copy${variantTaskName}RenamedApk") {
+                from(variant.artifacts.get(SingleArtifact.APK)) {
+                    include("*.apk")
+                }
+                into(layout.buildDirectory.dir("outputs/renamed-apk/${variant.name}"))
+                rename { "$apkName.apk" }
+            }
+
+        tasks.matching { it.name == "assemble$variantTaskName" }.configureEach {
+            finalizedBy(copyApk)
         }
     }
 }
